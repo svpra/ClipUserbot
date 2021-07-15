@@ -28,7 +28,7 @@ if config == False:
 [pyrogram]
 api_id = 2860432
 api_hash = 2fde6ca0f8ae7bb58844457a239c7214
-app_version = 1.6.3
+app_version = 1.6.3.1
 device_model = Terminal | By a9fm userbot | CLIP USERBOT |
 """
         repo = str(rep)
@@ -88,14 +88,14 @@ with app:
 # Инфо
 @app.on_message(filters.command("info" , prefixes=".") & filters.me)
 async def info(client: Client, message: Message):
-    await message.edit("""<b>UserBot CLIP\nВерсия 1.6.3</b> """)
+    await message.edit("""<b>UserBot CLIP\nВерсия 1.6.3.1</b> """)
 
 # Помощь | Инфа про юзербота
 @app.on_message(filters.command("help" , prefixes=".") & filters.me)
 async def info(client: Client, message: Message):
     await message.edit("""<b>UserBot CLIP [@ArturDestroyerBot]</b>
 
-Версия 1.6.3
+Версия 1.6.3.1
 Создатель @artur_destroyer
 <code>
 КОММАНДЫ
