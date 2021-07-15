@@ -88,14 +88,14 @@ with app:
 # Инфо
 @app.on_message(filters.command("info" , prefixes=".") & filters.me)
 async def info(client: Client, message: Message):
-    await message.edit("""<b>UserBot CLIP\nВерсия 1.6.3.1</b> """)
+    await message.edit("""<b>UserBot CLIP\nВерсия 1.6.3 (Bug fix)</b> """)
 
 # Помощь | Инфа про юзербота
 @app.on_message(filters.command("help" , prefixes=".") & filters.me)
 async def info(client: Client, message: Message):
     await message.edit("""<b>UserBot CLIP [@ArturDestroyerBot]</b>
 
-Версия 1.6.3.1
+Версия 1.6.3 (Bug fix)
 Создатель @artur_destroyer
 <code>
 КОММАНДЫ
@@ -104,6 +104,7 @@ async def info(client: Client, message: Message):
 .help - Помощь | Информация | Проверка версии
 .ping - Проверка Пинга бота [Качество полключения]
 .restart - Перезагрузка [Ошибка, Баг в боте]
+.update - Обновить 
 
 Мало временни:
 .afk [Причина] - Ввойти в АФК [Не в сети]
