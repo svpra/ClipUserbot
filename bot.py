@@ -4,7 +4,7 @@ import pip
 
 # Проверка библиотек
 try:
-    import time, random, datetime, asyncio, sys, wikipedia, logging, aiohttp, covid, pyrogram, os, gtts
+    import time, random, datetime, asyncio, sys, wikipedia, logging, aiohttp, covid, pyrogram, os, wget
 except ModuleNotFoundError:
     print("Install Libary\n\n")
     pip.main(['install', 'tgcrypto'])
@@ -13,7 +13,7 @@ except ModuleNotFoundError:
     pip.main(['install', 'aiohttp'])
     pip.main(['install', 'wikipedia'])
     pip.main(['install', 'logging'])
-    pip.main(['install', 'gTTS'])
+    pip.main(['install', 'wget'])
     import os
     os.execl(sys.executable, sys.executable, *sys.argv)
     quit()
@@ -154,6 +154,15 @@ async def restart(client: Client, message: Message):
     os.execl(sys.executable, sys.executable, *sys.argv)
     quit()
 
+@app.on_message(filters.command("update" , prefixes=".") & filters.me)
+async def info(client: Client, message: Message):
+    await message.edit("<b>Обновление бота...</b>")
+    os.remove("bot.py")
+    url = 'https://raw.githubusercontent.com/A9FM/ClipUserbot/main/bot.py'  
+    wget.download(url, '')
+    os.execl(sys.executable, sys.executable, *sys.argv)
+    quit()
+    
 # Репутация
 @app.on_message(filters.text & filters.incoming & filters.regex('^\-$') & filters.reply)
 async def rep(client: Client, message: Message):
@@ -201,43 +210,6 @@ async def spam(client: Client, message: Message):
         for _ in range(count):
                 await app.send_message(message.chat.id, text)
                 await asyncio.sleep(0.2)
-
-# Войсы
-gtts_langs = gtts.lang.tts_langs()
-@app.on_message(filters.command("voice" , prefixes=".") & filters.me)
-async def voice(client: Client, message: Message):
-    if len(message.command) == 1:
-        await message.delete()
-        return
-
-    if message.command[-1] not in gtts_langs:
-        language = "en"
-        words_to_say = " ".join(message.command[1:])
-    else:
-        language = message.command[-1]
-        words_to_say = " ".join(message.command[1:-1])
-
-    speech = gtts.gTTS(words_to_say, lang=language)
-    speech.save("text_to_speech.oog")
-    try:
-        await app.send_voice(
-            chat_id=message.chat.id,
-            voice="text_to_speech.oog",
-            reply_to_message_id=helpers.reply_id(message),
-        )
-    except ChatSendMediaForbidden:
-        await message.edit_text(
-            "Voice Messages aren't allowed here.\nCopy sent to Saved Messages."
-        )
-        await app.send_voice(
-            chat_id="me", voice="text_to_speech.oog", caption=words_to_say
-        )
-        await asyncio.sleep(2)
-    try:
-        os.remove("text_to_speech.oog")
-    except FileNotFoundError:
-        pass
-    await message.delete()
 
 # Призыв всех
 @app.on_message(filters.command("tagall", prefixes=".") & filters.me)
