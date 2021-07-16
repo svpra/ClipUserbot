@@ -402,6 +402,7 @@ User link: {user_link}"""
 ID: <code>{id}</code>
 First Name: {first_name}
 User link: {user_link}"""
+    await message.reply(text, parse_mode="HTML")
 
 # Трунслэйт озвучка
 @app.on_message(filters.command("truns", prefixes=".") & filters.me)
