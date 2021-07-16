@@ -42,8 +42,6 @@ from time import sleep, perf_counter
 from pyrogram.handlers import MessageHandler
 from covid import Covid
 from aiohttp import ClientSession
-from google_trans_new import google_translator
-from googletrans import LANGUAGES
 import time, random, datetime, asyncio, sys, wikipedia, requests, googletrans
 
 # Пноверка файла репутации
