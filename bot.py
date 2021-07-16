@@ -200,7 +200,7 @@ async def rep(client: Client, message: Message):
 @app.on_message(filters.command('id', prefixes='.') & filters.me)
 async def spam(client: Client, message: Message):
     if message.reply_to_message is None:
-        await message.edit('<i>У меня недостаточно прав.</i>')(f"This chat's ID is: {message.chat.id}")
+        await message.edit(f"This chat's ID is: {message.chat.id}")
     else:
         id = f"Replied User's ID is: {message.reply_to_message.from_user.id}\n\nThis chat's ID is: {message.chat.id}"
         await message.edit(test)
@@ -377,7 +377,7 @@ async def unban(client: Client, message: Message):
 
 # Инфо
 @app.on_message(filters.command("info", prefixes=".") & filters.me & ~filters.private)
-async def info(client, message):
+async def unban(client: Client, message: Message):
     if message.reply_to_message:
         username = message.reply_to_message.from_user.username
         id = message.reply_to_message.from_user.id
@@ -402,7 +402,6 @@ User link: {user_link}"""
 ID: <code>{id}</code>
 First Name: {first_name}
 User link: {user_link}"""
-
 
 # Трунслэйт озвучка
 @app.on_message(filters.command("truns", prefixes=".") & filters.me)
