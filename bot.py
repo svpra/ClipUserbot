@@ -28,7 +28,7 @@ if config == False:
 [pyrogram]
 api_id = 2860432
 api_hash = 2fde6ca0f8ae7bb58844457a239c7214
-app_version = 1.6.3.1
+app_version = 1.6.3.3
 device_model = Terminal | By a9fm userbot | CLIP USERBOT |
 """
         repo = str(rep)
@@ -200,9 +200,9 @@ async def rep(client: Client, message: Message):
 @app.on_message(filters.command('id', prefixes='.') & filters.me)
 async def spam(client: Client, message: Message):
     if message.reply_to_message is None:
-        await message.edit(f"This chat's ID is: {message.chat.id}")
+        await message.edit(f"Твой айди: {message.chat.id}")
     else:
-        id = f"Replied User's ID is: {message.reply_to_message.from_user.id}\n\nThis chat's ID is: {message.chat.id}"
+        id = f"Твой айди: {message.reply_to_message.from_user.id}\n\nАйди группы: {message.chat.id}"
         await message.edit(test)
 
 # спам
@@ -391,18 +391,18 @@ async def unban(client: Client, message: Message):
     if username:
         username = f"@{username}"
         text = f"""
-<b>User info</b>:
-ID: <code>{id}</code>
-First Name: {first_name}
-Username: {username}
-User link: {user_link}"""
+<b>Информация</b>:
+Айди: <code>{id}</code>
+Имя: {first_name}
+Юзернейм: {username}
+Ссылка: {user_link}"""
     else:
         text = f"""
-<b>User info</b>:
-ID: <code>{id}</code>
-First Name: {first_name}
-User link: {user_link}"""
-    await message.reply(text, parse_mode="HTML")
+<b>Информация</b>:
+Айди: <code>{id}</code>
+Имя: {first_name}
+Ссылка: {user_link}"""
+    await message.edit(text, parse_mode="HTML")
 
 # Трунслэйт озвучка
 @app.on_message(filters.command("truns", prefixes=".") & filters.me)
