@@ -85,17 +85,12 @@ import logging
 with app:
          app.join_chat('ArturDestroyerBot') # Прошу, не убирайте эту строку
 
-# Инфо
-@app.on_message(filters.command("info" , prefixes=".") & filters.me)
-async def info(client: Client, message: Message):
-    await message.edit("""<b>UserBot CLIP\nВерсия 1.6.3 (Bug fix)</b> """)
-
 # Помощь | Инфа про юзербота
 @app.on_message(filters.command("help" , prefixes=".") & filters.me)
 async def info(client: Client, message: Message):
     await message.edit("""<b>UserBot CLIP [@ArturDestroyerBot]</b>
 
-Версия 1.6.3 (Bug fix)
+Версия 1.6.3.2
 Создатель @artur_destroyer
 <code>
 КОММАНДЫ
@@ -104,7 +99,7 @@ async def info(client: Client, message: Message):
 .help - Помощь | Информация | Проверка версии
 .ping - Проверка Пинга бота [Качество полключения]
 .restart - Перезагрузка [Ошибка, Баг в боте]
-.update - Обновить 
+.update - Обновить
 
 Мало временни:
 .afk [Причина] - Ввойти в АФК [Не в сети]
@@ -134,6 +129,8 @@ async def info(client: Client, message: Message):
 .short [Ссылка] - сократитель ссылок
 .tageall - Призыв всех участников
 .truns - Смешная озвучка текста на английском
+.id - Айди
+.info - Информация
 
 Администрация:
 .ban - Бан
@@ -159,11 +156,12 @@ async def restart(client: Client, message: Message):
 async def info(client: Client, message: Message):
     await message.edit("<b>Обновление бота...</b>")
     os.remove("bot.py")
-    url = 'https://raw.githubusercontent.com/A9FM/ClipUserbot/main/bot.py'  
+    url = 'https://raw.githubusercontent.com/A9FM/ClipUserbot/main/bot.py'
     wget.download(url, '')
+    await message.edit("<b>Бот обновлён...</b>")
     os.execl(sys.executable, sys.executable, *sys.argv)
     quit()
-    
+
 # Репутация
 @app.on_message(filters.text & filters.incoming & filters.regex('^\-$') & filters.reply)
 async def rep(client: Client, message: Message):
@@ -197,6 +195,15 @@ async def rep(client: Client, message: Message):
             f.close()
             text = "❤️ Вы повысили мою репутацию ❤️\n🔝 Репутация " + str(repo) + " 🔝"
             await message.reply_text(text)
+
+# Айди
+@app.on_message(filters.command('id', prefixes='.') & filters.me)
+async def spam(client: Client, message: Message):
+    if message.reply_to_message is None:
+        await message.edit('<i>У меня недостаточно прав.</i>')(f"This chat's ID is: {message.chat.id}")
+    else:
+        id = f"Replied User's ID is: {message.reply_to_message.from_user.id}\n\nThis chat's ID is: {message.chat.id}"
+        await message.edit(test)
 
 # спам
 @app.on_message(filters.command('spam', prefixes='.') & filters.me)
@@ -240,7 +247,7 @@ async def tagall(client, message):
             limit = 1
             string = ""
             await asyncio.sleep(2)
-            
+
 # Удалить смс
 @app.on_message(filters.command("del" , prefixes=".") & filters.me)
 async def del_msg(client: Client, message: Message):
@@ -337,11 +344,11 @@ async def mute(client: Client, message: Message):
             await message.edit('<i>А где реплай?</i>')
             return
         reply = message.reply_to_message
-        await app.restrict_chat_member(message.chat.id, reply.from_user.id, ChatPermissions(can_send_messages=False)) 
+        await app.restrict_chat_member(message.chat.id, reply.from_user.id, ChatPermissions(can_send_messages=False))
         await message.edit(f'<b><a href="tg://user?id={reply.from_user.id}">{reply.from_user.first_name}</a> замучен!</b>')
     except:
         await message.edit('<i>У меня недостаточно прав.</i>')
-        
+
 # Размут
 @app.on_message(filters.command("unmute", prefixes=".") & filters.me & ~filters.private)
 async def unmute(client: Client, message: Message):
@@ -350,7 +357,7 @@ async def unmute(client: Client, message: Message):
             await message.edit('<i>А где реплай?</i>')
             return
         reply = message.reply_to_message
-        await app.restrict_chat_member(message.chat.id, reply.from_user.id, ChatPermissions(can_send_messages=True, can_send_media_messages=True, can_send_polls=True, can_send_other_messages=True, can_add_web_page_previews=True, can_change_info=False, can_invite_users=True, can_pin_messages=False)) 
+        await app.restrict_chat_member(message.chat.id, reply.from_user.id, ChatPermissions(can_send_messages=True, can_send_media_messages=True, can_send_polls=True, can_send_other_messages=True, can_add_web_page_previews=True, can_change_info=False, can_invite_users=True, can_pin_messages=False))
         await message.edit(f'<b><a href="tg://user?id={reply.from_user.id}">{reply.from_user.first_name}</a> размучен!</b>')
     except:
         await message.edit('<i>У меня недостаточно прав.</i>')
@@ -363,10 +370,39 @@ async def unban(client: Client, message: Message):
             await message.edit('<i>А где реплай?</i>')
             return
         reply = message.reply_to_message
-        await app.restrict_chat_member(message.chat.id, reply.from_user.id, ChatPermissions(can_send_messages=True, can_send_media_messages=True, can_send_polls=True, can_send_other_messages=True, can_add_web_page_previews=True, can_change_info=False, can_invite_users=True, can_pin_messages=False)) 
+        await app.restrict_chat_member(message.chat.id, reply.from_user.id, ChatPermissions(can_send_messages=True, can_send_media_messages=True, can_send_polls=True, can_send_other_messages=True, can_add_web_page_previews=True, can_change_info=False, can_invite_users=True, can_pin_messages=False))
         await message.edit(f'<b><a href="tg://user?id={reply.from_user.id}">{reply.from_user.first_name}</a> разбанен!</b>')
     except:
         await message.edit('<i>У меня недостаточно прав.</i>')
+
+# Инфо
+@app.on_message(filters.command("info", prefixes=".") & filters.me & ~filters.private)
+async def info(client, message):
+    if message.reply_to_message:
+        username = message.reply_to_message.from_user.username
+        id = message.reply_to_message.from_user.id
+        first_name = message.reply_to_message.from_user.first_name
+        user_link = message.reply_to_message.from_user.mention
+    else:
+        username = message.from_user.username
+        id = message.from_user.id
+        first_name = message.from_user.first_name
+        user_link = message.from_user.mention
+    if username:
+        username = f"@{username}"
+        text = f"""
+<b>User info</b>:
+ID: <code>{id}</code>
+First Name: {first_name}
+Username: {username}
+User link: {user_link}"""
+    else:
+        text = f"""
+<b>User info</b>:
+ID: <code>{id}</code>
+First Name: {first_name}
+User link: {user_link}"""
+
 
 # Трунслэйт озвучка
 @app.on_message(filters.command("truns", prefixes=".") & filters.me)
@@ -399,13 +435,13 @@ async def ping(client: Client, message: Message):
     ping = ping2 * 1000
 
     if 0 <= ping <= 199:
-        await message.edit(f'<b>🏓 Понг\n📶</b> {round(ping)} мс\n🟢 Качество соединение: Стабильное 🟢')
+        await message.edit(f'<b>🏓 Понг\n📶</b> {round(ping)} мс\n🟢Качество соединение: Стабильное🟢')
     if 199 <= ping <= 400:
-        await message.edit(f'<b>🏓 Понг\n📶</b> {round(ping)} мс\n🟠 Качество соединения: Хорошее 🟠')
+        await message.edit(f'<b>🏓 Понг\n📶</b> {round(ping)} мс\n🟠Качество соединения: Хорошее🟠')
     if 400 <= ping <= 600:
-        await message.edit(f'<b>🏓 Понг\n📶</b> {round(ping)} мс\n🔴 Качество соединения: Не стабильное 🔴')
+        await message.edit(f'<b>🏓 Понг\n📶</b> {round(ping)} мс\n🔴Качество соединения: Не стабильное🔴')
     if 600 <= ping:
-        await message.edit(f'<b>🏓 Понг\n📶</b> {round(ping)} мс\n⚠ Качество соединения: Перепады связи ⚠')
+        await message.edit(f'<b>🏓 Понг\n📶</b> {round(ping)} мс\n⚠Качество соединения: Перепады связи⚠')
 
 # Covid
 @app.on_message(filters.command("covid", prefixes=".") & filters.me)
@@ -640,16 +676,16 @@ async def drugs(client: Client, message: Message):
     result += random.randint(1, 4)
 
     if result == 1:
-        text = "😳 Вас успешно откачали, пожалуйста, больше не принимайте запрещённые препараты 😳🔥"
+        text = "🔥😳 Вас успешно откачали, пожалуйста, больше не принимайте запрещённые препараты 😳🔥"
         await message.edit(str(text))
     if result == 2:
-        text = "Вы пожилой наркоман, вас не берёт одна доза, вам необходимо больше, попробуйте  ещё раз оформить вкид"
+        text = "🥴Вы пожилой наркоман, вас не берёт одна доза, вам необходимо больше, попробуйте  ещё раз оформить вкид🥴"
         await message.edit(str(text))
     if result == 3:
-        text = "Сегодня не ваш день, вы хоть и пожилой, но приняли слишком много. Окончательная причина смерти - передоз"
+        text = "😖Сегодня не ваш день, вы хоть и пожилой, но приняли слишком много. Окончательная причина смерти - передоз😖"
         await message.edit(str(text))
     if result == 4:
-        text = "Вы оформили вкид, Вам понравилось)"
+        text = "😌Вы оформили вкид, Вам понравилось)😌"
         await message.edit(str(text))
 
 # Оскорбление мамки
@@ -661,7 +697,7 @@ async def mum(client: Client, message: Message):
     perc = 0
     while(perc < 100):
         try:
-            text = "🔍 Ищем твою мамку на Авито... " + str(perc) + "%"
+            text = "🔍 Ищем твою мамашу на Авито... " + str(perc) + "%"
             await message.edit(str(text))
             perc += random.randint(1, 3)
             sleep(0.75)
@@ -674,7 +710,7 @@ async def mum(client: Client, message: Message):
     perc = 0
     while(perc < 100):
         try:
-            text = "🔍 Поиск твоей мамаши в дурке... " + str(perc) + "%"
+            text = "🔍 Поиск твоей мамаши на свалке... " + str(perc) + "%"
             await message.edit(str(text))
             perc += random.randint(1, 5)
             sleep(0.75)
