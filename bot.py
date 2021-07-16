@@ -6,7 +6,7 @@ import pip
 try:
     import time, random, datetime, asyncio, sys, wikipedia, logging, aiohttp, covid, pyrogram, os, wget
 except ModuleNotFoundError:
-    print("Install Libary\n\n")
+    print("Установка дополнений...\n")
     pip.main(['install', 'tgcrypto'])
     pip.main(['install', 'pyrogram'])
     pip.main(['install', 'covid'])
@@ -42,7 +42,9 @@ from time import sleep, perf_counter
 from pyrogram.handlers import MessageHandler
 from covid import Covid
 from aiohttp import ClientSession
-import time, random, datetime, asyncio, sys, wikipedia, requests
+from google_trans_new import google_translator
+from googletrans import LANGUAGES
+import time, random, datetime, asyncio, sys, wikipedia, requests, googletrans
 
 # Пноверка файла репутации
 rep = os.path.exists('rep.txt')
@@ -90,7 +92,7 @@ with app:
 async def info(client: Client, message: Message):
     await message.edit("""<b>UserBot CLIP [@ArturDestroyerBot]</b>
 
-Версия 1.6.3.2
+Версия 1.6.3.3
 Создатель @artur_destroyer
 <code>
 КОММАНДЫ
@@ -203,7 +205,7 @@ async def spam(client: Client, message: Message):
         await message.edit(f"Твой айди: {message.chat.id}")
     else:
         id = f"Твой айди: {message.reply_to_message.from_user.id}\n\nАйди группы: {message.chat.id}"
-        await message.edit(test)
+        await message.edit(id)
 
 # спам
 @app.on_message(filters.command('spam', prefixes='.') & filters.me)
