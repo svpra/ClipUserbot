@@ -42,7 +42,7 @@ from time import sleep, perf_counter
 from pyrogram.handlers import MessageHandler
 from covid import Covid
 from aiohttp import ClientSession
-import time, random, datetime, asyncio, sys, wikipedia, requests, googletrans
+import time, random, datetime, asyncio, sys, wikipedia, requests
 
 # Пноверка файла репутации
 rep = os.path.exists('rep.txt')
