@@ -4,7 +4,7 @@ import pip
 
 # Проверка библиотек
 try:
-    import time, random, datetime, asyncio, sys, wikipedia, logging, aiohttp, covid, pyrogram, os, wget
+    import time, random, datetime, asyncio, sys, wikipedia, logging, aiohttp, covid, pyrogram, os, wget, requests, bs4
 except ModuleNotFoundError:
     print("Установка дополнений...\n")
     pip.main(['install', 'tgcrypto'])
@@ -14,26 +14,23 @@ except ModuleNotFoundError:
     pip.main(['install', 'wikipedia'])
     pip.main(['install', 'logging'])
     pip.main(['install', 'wget'])
+    pip.main(['install', 'requests'])
+    pip.main(['install', 'bs4'])
     import os
     os.execl(sys.executable, sys.executable, *sys.argv)
     quit()
 
 # Проверка конфига
-config = os.path.exists('config.ini')
-if config == True:
-    print("work...")
-if config == False:
-    with open("config.ini", "w+") as f:
-        rep = """
-[pyrogram]
+with open("config.ini", "w+") as f:
+    rep = """[pyrogram]
 api_id = 2860432
 api_hash = 2fde6ca0f8ae7bb58844457a239c7214
-app_version = 1.6.3.3
+app_version = 1.6.3.4
 device_model = Terminal | By a9fm userbot | CLIP USERBOT |
 """
-        repo = str(rep)
-        f.write(repo)
-        f.close()
+    repo = str(rep)
+    f.write(repo)
+    f.close()
 
 from pyrogram import Client, filters
 from pyrogram.errors import FloodWait, ChatSendMediaForbidden
@@ -42,6 +39,8 @@ from time import sleep, perf_counter
 from pyrogram.handlers import MessageHandler
 from covid import Covid
 from aiohttp import ClientSession
+import requests
+from bs4 import BeautifulSoup
 import time, random, datetime, asyncio, sys, wikipedia, requests
 
 # Пноверка файла репутации
@@ -90,7 +89,7 @@ with app:
 async def info(client: Client, message: Message):
     await message.edit("""<b>UserBot CLIP [@ArturDestroyerBot]</b>
 
-Версия 1.6.3.3
+Версия 1.6.3.4
 Создатель @artur_destroyer
 <code>
 КОММАНДЫ
@@ -131,6 +130,8 @@ async def info(client: Client, message: Message):
 .truns - Смешная озвучка текста на английском
 .id - Айди
 .info - Информация
+.usd - Курс Доллара
+.eur - Курс Евро
 
 Администрация:
 .ban - Бан
@@ -139,6 +140,7 @@ async def info(client: Client, message: Message):
 .mute - Мут
 .unmute - Размут
 .kickall - Удаление всех с группы
+.leave - Выйти с чата
 
 [Репутация, для повышения попросите 2 человека написать вам в ответ сообщение "+"]
 </code>
@@ -377,7 +379,7 @@ async def unban(client: Client, message: Message):
 
 # Инфо
 @app.on_message(filters.command("info", prefixes=".") & filters.me & ~filters.private)
-async def unban(client: Client, message: Message):
+async def info(client: Client, message: Message):
     if message.reply_to_message:
         username = message.reply_to_message.from_user.username
         id = message.reply_to_message.from_user.id
@@ -465,7 +467,7 @@ async def covid_local(client: Client, message: Message):
     except ValueError:
         await message.edit(f'<code>There is no region called "{region}"</code>')
 
-# Сократитель линков
+# Сократитель ссылок
 linkToken = '6c2ac1846a1c1A2d5f88A3E5fbf0e14fcf96d7d0'
 async def link_short(link: str):
     async with ClientSession(
@@ -570,6 +572,7 @@ def get_pic(city):
             pic.write(block)
         return file_name
 
+# Погода
 @app.on_message(filters.command("weather", prefixes=".") & filters.me)
 async def weather(client: Client, message: Message):
     city = message.command[1]
@@ -578,6 +581,13 @@ async def weather(client: Client, message: Message):
     await message.edit(f"```City: {r.text}```")
     await client.send_document(chat_id=message.chat.id, document=get_pic(city), reply_to_message_id=message.message_id)
     os.remove(f'{city}.png')
+
+# Выйти с группы
+@app.on_message(filters.command("leave", prefixes=".") & filters.me)
+async def leave(client: Client, message: Message):
+    m = await message.edit('<code>Всем пока... {}</code>')
+    await asyncio.sleep(3)
+    await client.leave_chat(chat_id=message.chat.id)
 
 # Команда взлома пентагона
 @app.on_message(filters.command("hack", prefixes=".") & filters.me)
@@ -822,6 +832,38 @@ async def hide(client: Client, message: Message):
     sleep(1.25)
     await message.delete()
 
+# Курс валют
+DOLLAR = 'https://www.google.com/search?sxsrf=ALeKk01NWm6viYijAo3HXYOEQUyDEDtFEw%3A1584716087546&source=hp&ei=N9l0XtDXHs716QTcuaXoAg&q=%D0%B4%D0%BE%D0%BB%D0%BB%D0%B0%D1%80+%D0%BA+%D1%80%D1%83%D0%B1%D0%BB%D1%8E&oq=%D0%B4%D0%BE%D0%BB%D0%BB%D0%B0%D1%80+&gs_l=psy-ab.3.0.35i39i70i258j0i131l4j0j0i131l4.3044.4178..5294...1.0..0.83.544.7......0....1..gws-wiz.......35i39.5QL6Ev1Kfk4'
+EUR = 'https://www.google.com/search?q=%D0%BA%D1%83%D1%80%D1%81+%D0%B5%D0%B2%D1%80%D0%BE&oq=%D0%BA%D1%83%D1%80%D1%81+%D0%B5&aqs=chrome.1.69i57j0i433l5j0i395i433l2j0i131i395i433.3879j1j7&sourceid=chrome&ie=UTF-8'
+
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36'}
+
+@app.on_message(filters.command("usd", prefixes=".") & filters.me)
+async def usd(client: Client, message: Message):
+    try:
+        await message.edit('<code>Собираем данные...</code>')
+        full_page = requests.get(DOLLAR, headers=headers, timeout=1)
+        soup = BeautifulSoup(full_page.content, 'html.parser')
+        rub = soup.findAll(
+            "span", {"class": "DFlfde", "class": "SwHCTb", "data-precision": 2})
+        await message.edit(f'<b>1 Доллар равен </b><code>{rub}</code><b> Рублям</b>')
+    except:
+        await message.edit('<code>Ошибка</code>')
+
+@app.on_message(filters.command("eur", prefixes=".") & filters.me)
+async def eur(client: Client, message: Message):
+    try:
+        await message.edit('<code>Собираем данные...</code>')
+        full_page = requests.get(EUR, headers=headers, timeout=1)
+        soup = BeautifulSoup(full_page.content, 'html.parser')
+        rub = soup.findAll(
+            "span", {"class": "DFlfde", "class": "SwHCTb", "data-precision": 2})
+        await message.edit(f'<b>1 Евро равен </b><code>{rub}</code><b> Рублям</b>')
+    except:
+        await message.edit('<code>Ошибка</code>')
+
+# Плагин разраба
 @app.on_message(filters.command("a9fm", prefixes=".") & filters.me)
 async def stap(client: Client, message: Message):
     perc = 0
