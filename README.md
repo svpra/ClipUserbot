@@ -36,3 +36,40 @@ cd ClipUserbot && termux-wake-lock && python bot.py
 ### Запуск
 
 Заходим в нашу папку и запускаем файл windows.bat
+
+---
+
+## Для Linux
+
+### Установка
+Открываем терминал, и устанавливаем Python и также Git
+```
+apt-get install python3 && apt-get install git
+```
+
+Теперь мы клонируем репозиторий коммандой
+```
+git clone https://github.com/A9FM/ClipUserbot.git
+```
+
+Переходим в директерию с юзерботом
+```
+cd ClipUserbot
+```
+
+И запускаем файл через Python
+```
+python3 bot.py
+```
+
+Готово)
+
+### Запуск
+
+Запускаем терминал и пишем такие комманды
+```
+cd ClipUserbot && python3 bot.py
+```
+
+---
+
