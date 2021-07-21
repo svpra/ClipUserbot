@@ -3,7 +3,7 @@
 ---
 
 
-## Для Termux
+## Для Termux (Android)
 
 Установка
 ```
@@ -14,3 +14,13 @@
 ```
 cd ClipUserbot && termux-wake-lock && python bot.py
 ```
+
+---
+
+## Для Windows
+
+Установка
+
+Для установки скачиваем с оффициального сайта Python самой новой версии (текущая 3.9.6)
+https://www.python.org/downloads/
+
