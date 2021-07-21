@@ -25,5 +25,6 @@ cd ClipUserbot && termux-wake-lock && python bot.py
 
 Теперь запускаем установщик, и обьязательно ставим галочку на пункт
 - [x] ADD PYTHON 3.9 to PATH
+
 И ожидаем...
 
