@@ -1,3 +1,7 @@
+<p align="center"><a href="https://t.me/arturdestroyerbot"><img src="https://github.com/A9FM/filesUB/blob/main/logo.png" width="500"></a></p> 
+<h1 align="center"><b>CLIP USERBOT</b></h1>
+
+
 # ClipUserbot
 
 ---
