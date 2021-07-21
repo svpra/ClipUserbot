@@ -1,7 +1,17 @@
 <p align="center"><a href="https://t.me/arturdestroyerbot"><img src="https://github.com/A9FM/filesUB/blob/main/logo.png" width="500"></a></p> 
 
+---
+
 ## Помощь 🚑
 <a href="https://t.me/arturdestroyerbot"><img src="https://img.shields.io/badge/Join-Telegram%20Channel-red.svg?logo=Telegram"></a>
+
+---
+
+## Создатель
+* [Telegram](https://t.me/arturdestroyerbot)
+* [Github](https://github.com/A9FM)
+
+---
 
 ## Для Termux (Android)
 
