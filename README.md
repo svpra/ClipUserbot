@@ -5,12 +5,12 @@
 
 ## Для Termux (Android)
 
-Установка
+### Установка
 ```
  apt-get update -y ; apt-get install python -y ; apt-get install git -y ; git clone https://github.com/A9FM/ClipUserbot ; cd ClipUserbot ; python3 bot.py
 ```
 
-При запуске
+### При запуске
 ```
 cd ClipUserbot && termux-wake-lock && python bot.py
 ```
@@ -19,7 +19,7 @@ cd ClipUserbot && termux-wake-lock && python bot.py
 
 ## Для Windows
 
-Установка
+### Установка
 
 Для установки скачиваем с оффициального сайта [Python](https://www.python.org/downloads/) самой новой версии (текущая 3.9.6)
 
@@ -28,3 +28,11 @@ cd ClipUserbot && termux-wake-lock && python bot.py
 
 И ожидаем...
 
+Теперь скачиваем ЮзерБота По этой [Ссылке](https://github.com/A9FM/ClipUserbot/archive/refs/heads/main.zip)
+Разархивируем файлы, и запускаем файл windows.bat
+
+Всё)
+
+### Запуск
+
+Заходим в нашу папку и запускаем файл windows.bat
