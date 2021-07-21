@@ -21,10 +21,9 @@ cd ClipUserbot && termux-wake-lock && python bot.py
 
 Установка
 
-Для установки скачиваем с оффициального сайта Python самой новой версии (текущая 3.9.6)
-https://www.python.org/downloads/
+Для установки скачиваем с оффициального сайта [Python](https://www.python.org/downloads/) самой новой версии (текущая 3.9.6)
 
 Теперь запускаем установщик, и обьязательно ставим галочку на пункт
-[x] ADD PYTHON 3.9 to PATH
+- [x] ADD PYTHON 3.9 to PATH
 И ожидаем...
 
