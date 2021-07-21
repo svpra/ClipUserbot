@@ -12,6 +12,5 @@
 
 При запуске
 ```
-cd ClipUserbot
-python bot.py
+cd ClipUserbot && termux-wake-lock && python bot.py
 ```
