@@ -73,3 +73,10 @@ cd ClipUserbot && python3 bot.py
 
 ---
 
+## Для Mac OS
+### Не актуально
+
+---
+
+## Для iSH (IPhone)
+### Не актуально
