@@ -1,11 +1,7 @@
 <p align="center"><a href="https://t.me/arturdestroyerbot"><img src="https://github.com/A9FM/filesUB/blob/main/logo.png" width="500"></a></p> 
 
----
-
 ## Помощь 🚑
 <a href="https://t.me/arturdestroyerbot"><img src="https://img.shields.io/badge/Join-Telegram%20Channel-red.svg?logo=Telegram"></a>
-
----
 
 ## Создатель
 * [Telegram](https://t.me/arturdestroyerbot)
@@ -84,8 +80,6 @@ cd ClipUserbot && python3 bot.py
 ---
 
 ## Для Mac OS | iSH
-### Не актуально
+### Не Работает
 
----
-
-# [Лайт Версия](https://github.com/zvam1/UserbotCLIPLite)
+# [LITE Версия](https://github.com/zvam1/UserbotCLIPLite)
