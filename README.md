@@ -2,6 +2,7 @@
 
 ## Помощь 🚑
 <a href="https://t.me/arturdestroyerbot"><img src="https://github.com/A9FM/filesUB/blob/main/channel.png"></a>
+<a href="https://t.me/ClipUserbot"><img src="https://github.com/A9FM/filesUB/blob/main/chat.png"></a>
 
 ## Создатель
 * [Telegram](https://t.me/arturdestroyerbot)
