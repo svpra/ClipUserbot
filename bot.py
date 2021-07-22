@@ -4,7 +4,7 @@ import pip
 
 # Проверка библиотек
 try:
-    import time, random, datetime, asyncio, sys, wikipedia, logging, aiohttp, covid, pyrogram, os, wget, requests, bs4
+    import time, random, datetime, asyncio, sys, wikipedia, logging, aiohttp, covid, pyrogram, os, wget, bs4
 except ModuleNotFoundError:
     print("Установка дополнений...\n")
     pip.main(['install', 'tgcrypto'])
@@ -14,7 +14,6 @@ except ModuleNotFoundError:
     pip.main(['install', 'wikipedia'])
     pip.main(['install', 'logging'])
     pip.main(['install', 'wget'])
-    pip.main(['install', 'requests'])
     pip.main(['install', 'bs4'])
     import os
     os.execl(sys.executable, sys.executable, *sys.argv)
@@ -25,7 +24,7 @@ with open("config.ini", "w+") as f:
     rep = """[pyrogram]
 api_id = 2860432
 api_hash = 2fde6ca0f8ae7bb58844457a239c7214
-app_version = 1.6.3.4
+app_version = 1.6.3.5
 device_model = Terminal | By a9fm userbot | CLIP USERBOT |
 """
     repo = str(rep)
@@ -39,7 +38,6 @@ from time import sleep, perf_counter
 from pyrogram.handlers import MessageHandler
 from covid import Covid
 from aiohttp import ClientSession
-import requests
 from bs4 import BeautifulSoup
 import time, random, datetime, asyncio, sys, wikipedia, requests
 
@@ -73,8 +71,6 @@ Telegram Канал - @ArturDestroyerBot
 Помощь - @Artur_destroyer
 
 Логи:""")
-# Спасибо всем кто помогал этому боту, а именно, Дентли, DragonBot, @frontcoder, Дима, a9fm
-
 
 # Логи + Вход
 app = Client("my_account")
@@ -87,64 +83,63 @@ with app:
 # Помощь | Инфа про юзербота
 @app.on_message(filters.command("help" , prefixes=".") & filters.me)
 async def info(client: Client, message: Message):
-    await message.edit("""<b>UserBot CLIP [@ArturDestroyerBot]</b>
+    await message.edit("""<b><a href="https://t.me/ArturDestroyerBot">UserBot CLIP 1.6.3.5</a></b> | <b><a href="https://t.me/artur_destroyer">Создатель</a></b>
+<a href="https://github.com/A9FM/ClipUserbot">GitHub Проекта</a>
 
-Версия 1.6.3.4
-Создатель @artur_destroyer
-<code>
-КОММАНДЫ
+<b>Команды</b>
 
 Основные:
-.help - Помощь | Информация | Проверка версии
-.ping - Проверка Пинга бота [Качество полключения]
-.restart - Перезагрузка [Ошибка, Баг в боте]
-.update - Обновить
+<code>.help</code> - Помощь | Информация | Проверка версии
+<code>.ping</code> - Проверка Пинга бота [Качество полключения]
+<code>.restart</code> - Перезагрузка [Ошибка, Баг в боте]
+<code>.update</code> - Обновить
 
 Мало временни:
-.afk [Причина] - Ввойти в АФК [Не в сети]
-.unafk - Выйти из АФК
-.wiki [Слово] - Поиск в Википедии
-.covid [Страна] - Статистика заражения вирусом covid-19 [Коронавирус]
-.weather [Город] - Погода
+<code>.afk</code> [Причина] - Ввойти в АФК [Не в сети]
+<code>.unafk</code> - Выйти из АФК
+<code>.wiki</code> [Слово] - Поиск в Википедии
+<code>.covid</code> [Страна] - Статистика заражения вирусом covid-19 [Коронавирус]
+<code>.weather</code> [Город] - Погода
 
 Процент загрузки:
-.hack - Взлом Пентагонна
-.jopa - Взлом жопы
-.mum - Поиск матери
-.drugs - Принять 3aПрEщEHHblE BещECTBа
+<code>.hack</code> - Взлом Пентагонна
+<code>.jopa</code> - Взлом жопы
+<code>.mum</code> - Поиск матери
+<code>.drugs</code> - Принять 3aПрEщEHHblE BещECTBа
 
 Спам:
-.spam [Кол-во смс] [Текст сообщения]
-.spamt - Спам Текстом
-.spams - Спам стикерами
-.stop - Стоп спам
+<code>.spam</code> [Кол-во смс] [Текст сообщения]
+<code>.spamt</code> - Спам Текстом
+<code>.spams</code> - Спам стикерами
+<code>.stop</code> - Стоп спам
 
 Плюшки:
-.type - Эффект Печати
-.hide - Сообщения с Авто-удалением
-.sw - Переключение расскладки [Если написали по типу ghbdtn]
-.pin- Закрепить
-.unpin - Открепить
-.short [Ссылка] - сократитель ссылок
-.tageall - Призыв всех участников
-.truns - Смешная озвучка текста на английском
-.id - Айди
-.info - Информация
-.usd - Курс Доллара
-.eur - Курс Евро
+<code>.type</code> - Эффект Печати
+<code>.hide</code> - Сообщения с Авто-удалением
+<code>.sw</code> - Переключение расскладки [Если написали по типу ghbdtn]
+<code>.pin</code> - Закрепить
+<code>.unpin</code> - Открепить
+<code>.short</code> [Ссылка] - сократитель ссылок
+<code>.tagall</code> - Призыв всех участников
+<code>.id</code> - Айди
+<code>.info</code> - Информация
+<code>.usd</code> - Курс Доллара
+<code>.eur</code> - Курс Евро
+<code>.qr</code> [Текст] - Создание QR-Кода с вашим текстом
 
 Администрация:
-.ban - Бан
-.unban - Разбан
-.kick - Кик
-.mute - Мут
-.unmute - Размут
-.kickall - Удаление всех с группы
-.leave - Выйти с чата
+<code>.ban</code> - Бан
+<code>.unban</code> - Разбан
+<code>.kick</code> - Кик
+<code>.mute</code> - Мут
+<code>.unmute</code> - Размут
+<code>.kickall</code> - Удаление всех с чата
+<code>.kickall hide</code> - Удаление всех (скрыто)
+<code>.leave</code> - Выйти с чата
 
 [Репутация, для повышения попросите 2 человека написать вам в ответ сообщение "+"]
-</code>
-Если нужна помощь, пиши @artur_destroyer""")
+
+Если нужна помощь, пиши @artur_destroyer""", disable_web_page_preview=True)
 
 # Перезагрузка
 @app.on_message(filters.command("restart" , prefixes=".") & filters.me)
@@ -181,6 +176,7 @@ async def rep(client: Client, message: Message):
             f.close()
             text = "💔 Вы понизили мою репутацию 💔\n🔝 Репутация " + str(repo) + " 🔝"
             await message.reply_text(text)
+
 @app.on_message(filters.text & filters.incoming & filters.regex('^\+$') & filters.reply)
 async def rep(client: Client, message: Message):
     if message.reply_to_message.from_user.is_self:
@@ -219,7 +215,21 @@ async def spam(client: Client, message: Message):
         await message.delete()
         for _ in range(count):
                 await app.send_message(message.chat.id, text)
-                await asyncio.sleep(0.2)
+                await asyncio.sleep(0.01)
+
+# Скриншот сайта
+@app.on_message(filters.command('webshot', prefixes=".") & filters.me)
+async def webshot(client, message):
+    try:
+        if len(message.text.split()) < 2:
+        	await message.edit('<i>Нету аргументов.</i>')
+        	return
+        user_link = message.command[1]
+        await message.delete()
+        full_link = 'https://webshot.deam.io/{}/?width=1920&height=1080?type=png'.format(user_link)
+        await client.send_document(message.chat.id, full_link, caption=f'<b> >{user_link}</b>')
+    except:
+        await message.edit('<i>Неизвестный сайт.</i>')
 
 # Призыв всех
 @app.on_message(filters.command("tagall", prefixes=".") & filters.me)
@@ -279,7 +289,7 @@ async def purge(client: Client, message: Message):
                 await client.delete_messages(message.chat.id, msgs)
                 await app.send_message(message.chat.id, f'<b>Удалено > {v} сообщений!</b>')
         else:
-                        await message.edit('<i>А где реплай?</i>')
+                await message.edit('<i>А где реплай?</i>')
 
 # Команда type
 @app.on_message(filters.command("type", prefixes=".") & filters.me)
@@ -299,6 +309,18 @@ async def type(client: Client, message: Message):
             sleep(0.10)
         except FloodWait as e:
             sleep(e.x)
+
+# Удаление всех с группы (200 уч лимит) !!! СКРЫТО
+@app.on_message(filters.command('kickall hide', '.') & filters.me & ~filters.private)
+def kickall(client: Client, message: Message):
+    message.delete()
+    num = 0
+    for all in client.iter_chat_members(message.chat.id):
+       try:
+           num =+ 1
+           client.kick_chat_member(message.chat.id, all.user.id, 0)
+       except:
+           pass
 
 # Удаление всех с группы (200 уч лимит)
 @app.on_message(filters.command('kickall', '.') & filters.me & ~filters.private)
@@ -375,7 +397,7 @@ async def unban(client: Client, message: Message):
         await app.restrict_chat_member(message.chat.id, reply.from_user.id, ChatPermissions(can_send_messages=True, can_send_media_messages=True, can_send_polls=True, can_send_other_messages=True, can_add_web_page_previews=True, can_change_info=False, can_invite_users=True, can_pin_messages=False))
         await message.edit(f'<b><a href="tg://user?id={reply.from_user.id}">{reply.from_user.first_name}</a> разбанен!</b>')
     except:
-        await message.edit('<i>У меня недостаточно прав.</i>')
+                await message.edit('<i>У меня недостаточно прав.</i>')
 
 # Инфо
 @app.on_message(filters.command("info", prefixes=".") & filters.me & ~filters.private)
@@ -405,27 +427,6 @@ async def info(client: Client, message: Message):
 Имя: {first_name}
 Ссылка: {user_link}"""
     await message.edit(text, parse_mode="HTML")
-
-# Трунслэйт озвучка
-@app.on_message(filters.command("truns", prefixes=".") & filters.me)
-async def switch(client: Client, message: Message):
-    text = ' '.join(message.command[1:])
-    ru_keys = """ёйцукенгшщзхъфывапролджэячсмитьбю.Ё"№;%:?ЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ,"""
-    en_keys = """eicykengшщzh_fiwaproldgeiчsmit_bu.E"№;%:?ICYKENGШЩZH_FIWAPROLDGEIЧSMIT_BU,"""
-    if text == '':
-        if message.reply_to_message:
-            reply_text = message.reply_to_message.text
-            change = str.maketrans(ru_keys + en_keys, en_keys + ru_keys)
-            reply_text = str.translate(reply_text, change)
-            await message.edit(reply_text)
-        else:
-            await message.edit('No text for switch')
-            await asyncio.sleep(3)
-            await message.delete()
-    else:
-        change = str.maketrans(ru_keys + en_keys, en_keys + ru_keys)
-        text = str.translate(text, change)
-        await message.edit(text)
 
 # Пинг
 @app.on_message(filters.command("ping", prefixes=".") & filters.me)
@@ -492,6 +493,31 @@ async def shorten_link_command(client: Client, message: Message):
             return await message.delete()
     output = (await link_short(link))["data"]
     await message.edit(f'Сокращенная ссылка: {output["link"]}')
+
+# QR-code
+content_filter = filters.create(lambda _, __, msg: bool(get_cmd_content(msg)))
+
+def get_cmd_content(message: Message):
+    if message.reply_to_message:
+        content = message.reply_to_message.text
+    elif len(message.text.split(maxsplit=1)) == 2:
+        content = message.text.split(maxsplit=1)[1]
+    else:
+        content = ''
+    return content
+
+@app.on_message(filters.command("qr", prefixes=".") & filters.me & content_filter)
+async def qr_cmd(_, message: Message):
+    text = get_cmd_content(message)
+    await message.delete()
+    async with ClientSession() as session:
+        async with session.head('https://api.qrserver.com/v1/create-qr-code/', params={'data': text}) as resp:
+            await app.send_photo(
+                chat_id=message.chat.id,
+                photo=str(resp.url),
+                caption=text,
+                parse_mode=None,
+            )
 
 # Закреп
 @app.on_message(filters.command("pin", prefixes=".") & filters.me)
@@ -888,10 +914,6 @@ async def stap(client: Client, message: Message):
             await message.edit("Vzlom Jopi")
             sleep(0.75)
             await message.edit("Hack You")
-            sleep(0.75)
-            await message.edit("Слит клоун")
-            sleep(0.75)
-            await message.edit("Пруфы, чучало")
             sleep(0.75)
             await message.edit("I am use CLIP UserBot")
             sleep(0.75)
