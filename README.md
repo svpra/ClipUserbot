@@ -83,3 +83,5 @@ cd ClipUserbot && python3 bot.py
 ### Не Работает
 
 # [LITE Версия](https://github.com/zvam1/UserbotCLIPLite)
+
+## [© ClipUserbot](https://github.com/A9FM/filesUB/blob/main/README.md) 
