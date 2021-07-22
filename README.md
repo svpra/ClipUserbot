@@ -83,10 +83,9 @@ cd ClipUserbot && python3 bot.py
 
 ---
 
-## Для Mac OS
+## Для Mac OS | iSH
 ### Не актуально
 
 ---
 
-## Для iSH (IPhone)
-### Не актуально
+# [Лайт Версия](https://github.com/zvam1/UserbotCLIPLite)
