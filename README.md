@@ -1,7 +1,7 @@
 <p align="center"><a href="https://t.me/arturdestroyerbot"><img src="https://github.com/A9FM/filesUB/blob/main/logo.png" width="500"></a></p> 
 
 ## Помощь 🚑
-<a href="https://t.me/arturdestroyerbot"><img src="https://github.com/A9FM/filesUB/blob/main/channel.png"> width="500"</a>
+<a href="https://t.me/arturdestroyerbot"><img src="https://github.com/A9FM/filesUB/blob/main/channel.png"></a>
 
 ## Создатель
 * [Telegram](https://t.me/arturdestroyerbot)
