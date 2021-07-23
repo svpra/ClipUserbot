@@ -209,10 +209,9 @@ async def spam(client: Client, message: Message):
         await message.edit(id)
 
 # Время
-now = datetime.datetime.now()
-
 @app.on_message(filters.command('time', prefixes='.') & filters.me)
 async def spam(client: Client, message: Message):
+    now = datetime.datetime.now()
     timnow = now.strftime("%d-%m-%Y %H:%M")
     timenow = "Текущая дата : " + timnow
     await message.edit(timenow)
