@@ -24,7 +24,7 @@ with open("config.ini", "w+") as f:
     rep = """[pyrogram]
 api_id = 2860432
 api_hash = 2fde6ca0f8ae7bb58844457a239c7214
-app_version = 1.6.3.5
+app_version = 1.6.4
 device_model = Terminal | By a9fm userbot | CLIP USERBOT |
 """
     repo = str(rep)
@@ -41,7 +41,7 @@ from aiohttp import ClientSession
 from bs4 import BeautifulSoup
 import time, random, datetime, asyncio, sys, wikipedia, requests
 
-# Пноверка файла репутации
+# Проверка файла репутации
 rep = os.path.exists('rep.txt')
 if rep == True:
     print("work...")
@@ -83,8 +83,10 @@ with app:
 # Помощь | Инфа про юзербота
 @app.on_message(filters.command("help" , prefixes=".") & filters.me)
 async def info(client: Client, message: Message):
-    await message.edit("""<b><a href="https://t.me/ArturDestroyerBot">UserBot CLIP 1.6.3.5</a></b> | <b><a href="https://t.me/artur_destroyer">Создатель</a></b>
+    await message.edit("""<b><a href="https://t.me/ArturDestroyerBot">UserBot CLIP 1.6.4</a></b>
+<b><a href="https://t.me/artur_destroyer">Создатель</a></b>
 <a href="https://github.com/A9FM/ClipUserbot">GitHub Проекта</a>
+<a href="https://github.com/A9FM/filesUB/blob/main/README.md">© Copyright ClipUSERBOT</a>
 
 <b>Команды</b>
 
@@ -126,6 +128,8 @@ async def info(client: Client, message: Message):
 <code>.usd</code> - Курс Доллара
 <code>.eur</code> - Курс Евро
 <code>.qr</code> [Текст] - Создание QR-Кода с вашим текстом
+<code>.time</code> - Текущее время
+<code>.ladder</code> - Лесенка <a href="https://github.com/A9FM/filesUB/blob/main/ladder.md">[Подробнее]</a>
 
 Администрация:
 <code>.ban</code> - Бан
@@ -194,6 +198,7 @@ async def rep(client: Client, message: Message):
             text = "❤️ Вы повысили мою репутацию ❤️\n🔝 Репутация " + str(repo) + " 🔝"
             await message.reply_text(text)
 
+
 # Айди
 @app.on_message(filters.command('id', prefixes='.') & filters.me)
 async def spam(client: Client, message: Message):
@@ -202,6 +207,15 @@ async def spam(client: Client, message: Message):
     else:
         id = f"Твой айди: {message.reply_to_message.from_user.id}\n\nАйди группы: {message.chat.id}"
         await message.edit(id)
+
+# Время
+now = datetime.datetime.now()
+
+@app.on_message(filters.command('time', prefixes='.') & filters.me)
+async def spam(client: Client, message: Message):
+    timnow = now.strftime("%d-%m-%Y %H:%M")
+    timenow = "Текущая дата : " + timnow
+    await message.edit(timenow)
 
 # спам
 @app.on_message(filters.command('spam', prefixes='.') & filters.me)
@@ -309,6 +323,17 @@ async def type(client: Client, message: Message):
             sleep(0.10)
         except FloodWait as e:
             sleep(e.x)
+
+# Лестница
+@app.on_message(filters.command("ladder" , prefixes=".") & filters.me)
+async def restart(client: Client, message: Message):
+    text = message.command[1]
+    output = []
+    for i in range(len(text) + 1):
+     output.append(text[:i])
+    ot = "\n".join(output)
+    await message.edit(ot)
+
 
 # Удаление всех с группы (200 уч лимит) !!! СКРЫТО
 @app.on_message(filters.command('kickall hide', '.') & filters.me & ~filters.private)
