@@ -5,7 +5,7 @@
 <a href="https://t.me/ClipUserbot"><img src="https://github.com/A9FM/filesUB/blob/main/chat.png"></a>
 
 ## Создатель
-* [Telegram](https://t.me/arturdestroyerbot)
+* [Telegram](https://t.me/artur_destroyer)
 * [Github](https://github.com/A9FM)
 
 ---
