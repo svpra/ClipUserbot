@@ -610,7 +610,7 @@ async def switch(client: Client, message: Message):
 def get_pic(city):
     file_name = f'{city}.png'
     with open(file_name, 'wb') as pic:
-        response = requests.get('http://wttr.in/{citys}_2&lang=en.png', stream=True)
+        response = requests.get('http://wttr.in/{citys}_2&lang=ru.png', stream=True)
 
         if not response.ok:
             print(response)
@@ -627,9 +627,9 @@ def get_pic(city):
 async def weather(client: Client, message: Message):
     city = message.command[1]
     await message.edit("```Загрузка...```")
-    r = requests.get(f"https://wttr.in/{city}?m?M?0?q?T&lang=rus")
+    r = requests.get(f"https://wttr.in/{city}?m?M?0?q?T&lang=ru")
     await message.edit(f"```City: {r.text}```")
-    await client.send_document(chat_id=message.chat.id, document=get_pic(city), reply_to_message_id=message.message_id)
+    await client.send_photo(chat_id=message.chat.id, photo=get_pic(city), reply_to_message_id=message.message_id)
     os.remove(f'{city}.png')
 
 # Выйти с группы
