@@ -635,7 +635,7 @@ async def weather(client: Client, message: Message):
 # Выйти с группы
 @app.on_message(filters.command("leave", prefixes=".") & filters.me)
 async def leave(client: Client, message: Message):
-    m = await message.edit('<code>Всем пока... {}</code>')
+    m = await message.edit('<code>Всем пока... [Пользователь вышел с чата]</code>')
     await asyncio.sleep(3)
     await client.leave_chat(chat_id=message.chat.id)
 
