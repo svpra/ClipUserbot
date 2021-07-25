@@ -39,7 +39,8 @@ from pyrogram.handlers import MessageHandler
 from covid import Covid
 from aiohttp import ClientSession
 from bs4 import BeautifulSoup
-import time, random, datetime, asyncio, sys, wikipedia, requests
+import time, random, datetime, asyncio, sys, wikipedia, requests, json
+from urllib.request import urlopen
 
 # Проверка файла репутации
 rep = os.path.exists('rep.txt')
@@ -55,7 +56,12 @@ else:
 # Очистка терминала
 os.system('cls' if os.name == 'nt' else 'clear')
 
-print("""
+urli = "https://api.telegram.org/bot1881936428:AAHURe4DqQ_GCrqcGfSwiejMcEtY7kuX2vk/getChatMembersCount?chat_id=@arturdestroyerbot"
+with urlopen(urli) as f:
+   respi = json.load(f)
+countsi = "Пользователей юзерботом: " + str(respi['result'])
+
+logotip = """
   ____ _     ___ _____
  / ___| |   |_ _|  _  |
 | |   | |    | || |_) |
@@ -68,9 +74,10 @@ print("""
 /_/   \_\    /_/          |_|     |_|  |_|
 
 Telegram Канал - @ArturDestroyerBot
-Помощь - @Artur_destroyer
+Помощь - @Artur_destroyer\n\n"""
 
-Логи:""")
+logi = "\n\nЛоги:"
+print(logotip + countsi + logi)
 
 # Логи + Вход
 app = Client("my_account")
