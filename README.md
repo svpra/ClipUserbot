@@ -87,6 +87,6 @@ cd ClipUserbot && python3 bot.py
 * [Albert](https://t.me/nalinor)
 * [Nikita](https://t.me/nikitazakharov535)
 
-# [LITE Версия](https://github.com/zvam1/UserbotCLIPLite)
+# [LITE Версия](https://github.com/A9FM/ClipUserbotLite)
 
 ## [© ClipUserbot](https://github.com/A9FM/filesUB/blob/main/README.md) 
