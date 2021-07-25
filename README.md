@@ -80,8 +80,12 @@ cd ClipUserbot && python3 bot.py
 
 ---
 
-## Для Mac OS | iSH
-### Не Работает
+## Благодарность [Частично взял код]
+* [Dragon-Userbot](https://github.com/Dragon-Userbot/Dragon-Userbot)
+* [Nana-Userbot](https://github.com/legenhand/Nana-Bot)
+* [DENTLY](https://t.me/Dently)
+* [Albert](https://t.me/nalinor)
+* [Nikita](https://t.me/nikitazakharov535)
 
 # [LITE Версия](https://github.com/zvam1/UserbotCLIPLite)
 
