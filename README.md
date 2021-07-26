@@ -80,13 +80,10 @@ cd ClipUserbot && python3 bot.py
 
 ---
 
-## Благодарность [Частично взял код]
+## Благодарность
 * [Dragon-Userbot](https://github.com/Dragon-Userbot/Dragon-Userbot)
 * [Nana-Userbot](https://github.com/legenhand/Nana-Bot)
 * [DENTLY](https://t.me/Dently)
-* [Albert](https://t.me/nalinor)
-* [Nikita](https://t.me/nikitazakharov535)
-
-# [LITE Версия](https://github.com/A9FM/ClipUserbotLite)
+* [kali](https://t.me/kali228linux)
 
 ## [© ClipUserbot](https://github.com/A9FM/filesUB/blob/main/README.md) 
