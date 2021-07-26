@@ -142,6 +142,8 @@ async def info(client: Client, message: Message):
 <code>.time</code> - Текущее время
 <code>.ladder</code> - Лесенка <a href="https://github.com/A9FM/filesUB/blob/main/ladder.md">[Подробнее]</a>
 <code>.webshot</code> [Ссылка] - Скриншот сайта
+<code>.m</code> [Название музыки] - Отправка музыки через интернет
+<code>.voice</code> [Текст] - Текст в речь
 
 Администрация:
 <code>.ban</code> - Бан
