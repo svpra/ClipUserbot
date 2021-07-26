@@ -4,7 +4,7 @@ import pip
 
 # Проверка библиотек
 try:
-    import time, random, datetime, asyncio, sys, wikipedia, logging, aiohttp, covid, pyrogram, os, wget, bs4
+    import time, random, datetime, asyncio, sys, wikipedia, logging, aiohttp, covid, pyrogram, os, wget, bs4, requests, gtts
 except ModuleNotFoundError:
     print("Установка дополнений...\n")
     pip.main(['install', 'tgcrypto'])
@@ -15,6 +15,8 @@ except ModuleNotFoundError:
     pip.main(['install', 'logging'])
     pip.main(['install', 'wget'])
     pip.main(['install', 'bs4'])
+    pip.main(['install', 'requests'])
+    pip.main(['install', 'gtts'])
     import os
     os.execl(sys.executable, sys.executable, *sys.argv)
     quit()
@@ -24,7 +26,7 @@ with open("config.ini", "w+") as f:
     rep = """[pyrogram]
 api_id = 2860432
 api_hash = 2fde6ca0f8ae7bb58844457a239c7214
-app_version = 1.6.4.1
+app_version = 1.6.5
 device_model = Terminal | By a9fm userbot | CLIP USERBOT |
 """
     repo = str(rep)
@@ -41,6 +43,8 @@ from aiohttp import ClientSession
 from bs4 import BeautifulSoup
 import time, random, datetime, asyncio, sys, wikipedia, requests, json
 from urllib.request import urlopen
+import requests
+from gtts import gTTS
 
 # Проверка файла репутации
 rep = os.path.exists('rep.txt')
@@ -90,7 +94,7 @@ with app:
 # Помощь | Инфа про юзербота
 @app.on_message(filters.command("help" , prefixes=".") & filters.me)
 async def info(client: Client, message: Message):
-    await message.edit("""<b><a href="https://t.me/ArturDestroyerBot">UserBot CLIP 1.6.4.1</a></b>
+    await message.edit("""<b><a href="https://t.me/ArturDestroyerBot">UserBot CLIP 1.6.5</a></b>
 <b><a href="https://t.me/artur_destroyer">Создатель</a></b>
 <a href="https://github.com/A9FM/ClipUserbot">GitHub Проекта</a>
 <a href="https://github.com/A9FM/filesUB/blob/main/README.md">© Copyright ClipUSERBOT</a>
@@ -376,7 +380,7 @@ async def ban(client: Client, message: Message):
         await app.kick_chat_member(message.chat.id, reply.from_user.id)
         await message.edit(f'<b><a href="tg://user?id={reply.from_user.id}">{reply.from_user.first_name}</a> забанен!</b>')
     except:
-        await message.edit('<i>У меня недостаточно прав.</i>')
+        await message.edit('<i>У меня недостаточно прав. (Возможно пользователь уже забанен)</i>')
 
 # Кик
 @app.on_message(filters.command("kick", prefixes=".") & filters.me & ~filters.private)
@@ -390,7 +394,7 @@ async def kick(client: Client, message: Message):
         await app.unban_chat_member(message.chat.id, reply.from_user.id)
         await message.edit(f'<b><a href="tg://user?id={reply.from_user.id}">{reply.from_user.first_name}</a> кикнут!</b>')
     except:
-        await message.edit('<i>У меня недостаточно прав.</i>')
+        await message.edit('<i>У меня недостаточно прав. (Возможно пользователь уже кикнут)</i>')
 
 # Мут
 @app.on_message(filters.command("mute", prefixes=".") & filters.me & ~filters.private)
@@ -403,7 +407,7 @@ async def mute(client: Client, message: Message):
         await app.restrict_chat_member(message.chat.id, reply.from_user.id, ChatPermissions(can_send_messages=False))
         await message.edit(f'<b><a href="tg://user?id={reply.from_user.id}">{reply.from_user.first_name}</a> замучен!</b>')
     except:
-        await message.edit('<i>У меня недостаточно прав.</i>')
+        await message.edit('<i>У меня недостаточно прав. (Возможно пользователь уже замучен)</i>')
 
 # Размут
 @app.on_message(filters.command("unmute", prefixes=".") & filters.me & ~filters.private)
@@ -416,7 +420,7 @@ async def unmute(client: Client, message: Message):
         await app.restrict_chat_member(message.chat.id, reply.from_user.id, ChatPermissions(can_send_messages=True, can_send_media_messages=True, can_send_polls=True, can_send_other_messages=True, can_add_web_page_previews=True, can_change_info=False, can_invite_users=True, can_pin_messages=False))
         await message.edit(f'<b><a href="tg://user?id={reply.from_user.id}">{reply.from_user.first_name}</a> размучен!</b>')
     except:
-        await message.edit('<i>У меня недостаточно прав.</i>')
+        await message.edit('<i>У меня недостаточно прав. (Возможно пользователь уже размучен)</i>')
 
 # Разбан
 @app.on_message(filters.command("unban", prefixes=".") & filters.me & ~filters.private)
@@ -429,7 +433,7 @@ async def unban(client: Client, message: Message):
         await app.restrict_chat_member(message.chat.id, reply.from_user.id, ChatPermissions(can_send_messages=True, can_send_media_messages=True, can_send_polls=True, can_send_other_messages=True, can_add_web_page_previews=True, can_change_info=False, can_invite_users=True, can_pin_messages=False))
         await message.edit(f'<b><a href="tg://user?id={reply.from_user.id}">{reply.from_user.first_name}</a> разбанен!</b>')
     except:
-                await message.edit('<i>У меня недостаточно прав.</i>')
+                await message.edit('<i>У меня недостаточно прав. (Возможно пользователь уже разбанен)</i>')
 
 # Инфо
 @app.on_message(filters.command("info", prefixes=".") & filters.me & ~filters.private)
@@ -447,17 +451,17 @@ async def info(client: Client, message: Message):
     if username:
         username = f"@{username}"
         text = f"""
-<b>Информация</b>:
-Айди: <code>{id}</code>
-Имя: {first_name}
-Юзернейм: {username}
-Ссылка: {user_link}"""
+╭ <b>Информация</b>:
+┃ Айди: <code>{id}</code>
+┃ Имя: {first_name}
+┃ Юзернейм: {username}
+╰ Ссылка: {user_link}"""
     else:
         text = f"""
-<b>Информация</b>:
-Айди: <code>{id}</code>
-Имя: {first_name}
-Ссылка: {user_link}"""
+╭ <b>Информация</b>:
+┃ Айди: <code>{id}</code>
+┃ Имя: {first_name}
+╰ Ссылка: {user_link}"""
     await message.edit(text, parse_mode="HTML")
 
 # Пинг
@@ -569,6 +573,7 @@ async def pin(client: Client, message: Message):
         await message.edit('<code>Открепленно! </code>')
     except:
         await message.edit('<b>Сделайте реплай сообщению</b>')
+
 # Википедия
 @app.on_message(filters.command("wiki", prefixes=".") & filters.me)
 async def wiki(client: Client, message: Message):
@@ -593,6 +598,7 @@ async def wiki(client: Client, message: Message):
 <code>{user_request}</code>
 <b>Result:</b>
 <code>{exc}</code>''')
+
 # Переклюяение раскладки
 @app.on_message(filters.command("sw", prefixes=".") & filters.me)
 async def switch(client: Client, message: Message):
@@ -799,37 +805,6 @@ async def mum(client: Client, message: Message):
     text = "✅ Мамка найдена... Она в канаве"
     await message.edit(str(text))
 
-# СПАМ
-@app.on_message (filters.command("spamt" , prefixes=".") & filters.me)
-async def spamt(client: Client, message: Message):
-    global spam
-    spam = 0
-    while(spam < 1000000):
-        try:
-            await message.reply_text("Спам!!!")
-            spam += 1
-        except FloodWait as e:
-            sleep(e.x)
-
-@app.on_message(filters.command("spams", prefixes=".") & filters.me)
-async def spams(client: Client, message: Message):
-    global spam
-    spam = 0
-    while(spam < 1000000):
-        try:
-            await message.reply_text("😡")
-            spam += 1
-        except FloodWait as e:
-            sleep(e.x)
-
-# Стоп спам
-@app.on_message (filters.command("stop" , prefixes=".") & filters.me)
-async def stam(client: Client, message: Message):
-        global spam
-        spam = 0
-        await message.reply_text("Стоп спам...")
-        spam += 1000000
-
 # AFK
 async def afk_handler(client: Client, message: Message):
     try:
@@ -921,37 +896,99 @@ async def eur(client: Client, message: Message):
     except:
         await message.edit('<code>Ошибка</code>')
 
-# Плагин разраба
-@app.on_message(filters.command("a9fm", prefixes=".") & filters.me)
-async def stap(client: Client, message: Message):
-    perc = 0
-    while(perc < 25):
+# Авточтение
+the_regex = r"^r\/([^\s\/])+"
+
+f = filters.chat([])
+
+@app.on_message(f)
+async def auto_read(_, message: Message):
+    await app.read_history(message.chat.id)
+    message.continue_propagation()
+
+@app.on_message(filters.command("autoread", ".") & filters.me)
+async def add_to_auto_read(_, message: Message):
+    if message.chat.id in f:
+        f.remove(message.chat.id)
+        await message.edit("Autoscroll deactivated")
+    else:
+        f.add(message.chat.id)
+        await message.edit("Autoscroll activated")
+
+# Поиск музыки
+@app.on_message(filters.command("m", ".") & filters.me)
+async def send_music(_, message: Message):
+    try:
+        cmd = message.command
+
+        song_name = ""
+        if len(cmd) > 1:
+            song_name = " ".join(cmd[1:])
+        elif message.reply_to_message and len(cmd) == 1:
+            song_name = (
+                message.reply_to_message.text or message.reply_to_message.caption
+            )
+        elif not message.reply_to_message and len(cmd) == 1:
+            await message.edit("give me a song name")
+            await asyncio.sleep(2)
+            await message.delete()
+            return
+
+        song_results = await app.get_inline_bot_results("deezermusicbot", song_name)
+
         try:
-            await message.edit("ArturDestroyer")
-            sleep(0.75)
-            await message.edit("Hacker")
-            sleep(0.75)
-            await message.edit("A9FM")
-            sleep(0.75)
-            await message.edit("Anonymous")
-            sleep(0.75)
-            await message.edit("Python developer")
-            sleep(0.75)
-            await message.edit("Destroyer")
-            sleep(0.75)
-            await message.edit("Rox Tigers Top")
-            sleep(0.75)
-            await message.edit("Create UserBot_Clip")
-            sleep(0.75)
-            await message.edit("Vzlom Jopi")
-            sleep(0.75)
-            await message.edit("Hack You")
-            sleep(0.75)
-            await message.edit("I am use CLIP UserBot")
-            sleep(0.75)
-            perc += 1
-        except FloodWait as e:
-            sleep(e.x)
-    await message.edit("@artur_destroyer")
+            # send to Saved Messages because hide_via doesn't work sometimes
+            saved = await app.send_inline_bot_result(
+                chat_id="me",
+                query_id=song_results.query_id,
+                result_id=song_results.results[0].id,
+                hide_via=True,
+            )
+
+            # forward as a new message from Saved Messages
+            saved = await app.get_messages("me", int(saved.updates[1].message.id))
+            reply_to = (
+                message.reply_to_message.message_id
+                if message.reply_to_message
+                else None
+            )
+            await app.send_audio(
+                chat_id=message.chat.id,
+                audio=str(saved.audio.file_id),
+                reply_to_message_id=reply_to,
+            )
+
+            # delete the message from Saved Messages
+            await app.delete_messages("me", saved.message_id)
+        except TimeoutError:
+            await message.edit("That didn't work out")
+            await asyncio.sleep(2)
+        await message.delete()
+    except Exception as e:
+        print(e)
+        await message.edit("`Музыка не найденна`")
+        await asyncio.sleep(2)
+        await message.delete()
+
+# Текст в речь
+lang_code = os.environ.get('lang_code', "ru")
+
+@app.on_message(filters.command("voice", ".") & filters.me)
+async def voice(client, message):
+	if len(message.text.split()) == 1:
+		await message.edit(bantuan)
+		return
+	cust_lang = None
+	await message.delete()
+	await client.send_chat_action(message.chat.id, "record_audio")
+	text = message.text.split(None, 1)[1]
+	tts = gTTS(text, lang=lang_code)
+	tts.save('voice.mp3')
+	if message.reply_to_message:
+		await client.send_voice(message.chat.id, voice="voice.mp3", reply_to_message_id=message.reply_to_message.message_id)
+	else:
+		await client.send_voice(message.chat.id, voice="voice.mp3")
+	await client.send_chat_action(message.chat.id, action="cancel")
+	os.remove("voice.mp3")
 
 app.run()
