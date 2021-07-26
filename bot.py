@@ -24,7 +24,7 @@ with open("config.ini", "w+") as f:
     rep = """[pyrogram]
 api_id = 2860432
 api_hash = 2fde6ca0f8ae7bb58844457a239c7214
-app_version = 1.6.4
+app_version = 1.6.4.1
 device_model = Terminal | By a9fm userbot | CLIP USERBOT |
 """
     repo = str(rep)
@@ -90,7 +90,7 @@ with app:
 # Помощь | Инфа про юзербота
 @app.on_message(filters.command("help" , prefixes=".") & filters.me)
 async def info(client: Client, message: Message):
-    await message.edit("""<b><a href="https://t.me/ArturDestroyerBot">UserBot CLIP 1.6.4</a></b>
+    await message.edit("""<b><a href="https://t.me/ArturDestroyerBot">UserBot CLIP 1.6.4.1</a></b>
 <b><a href="https://t.me/artur_destroyer">Создатель</a></b>
 <a href="https://github.com/A9FM/ClipUserbot">GitHub Проекта</a>
 <a href="https://github.com/A9FM/filesUB/blob/main/README.md">© Copyright ClipUSERBOT</a>
@@ -137,6 +137,7 @@ async def info(client: Client, message: Message):
 <code>.qr</code> [Текст] - Создание QR-Кода с вашим текстом
 <code>.time</code> - Текущее время
 <code>.ladder</code> - Лесенка <a href="https://github.com/A9FM/filesUB/blob/main/ladder.md">[Подробнее]</a>
+<code>.webshot</code> [Ссылка] - Скриншот сайта
 
 Администрация:
 <code>.ban</code> - Бан
@@ -247,7 +248,7 @@ async def webshot(client, message):
         user_link = message.command[1]
         await message.delete()
         full_link = 'https://webshot.deam.io/{}/?width=1920&height=1080?type=png'.format(user_link)
-        await client.send_document(message.chat.id, full_link, caption=f'<b> >{user_link}</b>')
+        await client.send_photo(message.chat.id, full_link, caption=f'<b> Ссылка > {user_link}</b>')
     except:
         await message.edit('<i>Неизвестный сайт.</i>')
 
