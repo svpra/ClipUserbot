@@ -61,7 +61,7 @@ else:
 # Очистка терминала
 os.system('cls' if os.name == 'nt' else 'clear')
 
-urli = "https://api.telegram.org/bot1881936428:AAHURe4DqQ_GCrqcGfSwiejMcEtY7kuX2vk/getChatMembersCount?chat_id=@arturdestroyerbot"
+urli = "https://api.telegram.org/bot1894431955:AAH0RahDVmuoJosac8JaBcvmGKZTl1A21qQ/getChatMembersCount?chat_id=@arturdestroyerbot"
 with urlopen(urli) as f:
    respi = json.load(f)
 countsi = "Пользователей юзерботом: " + str(respi['result'])
