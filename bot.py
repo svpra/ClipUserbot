@@ -61,11 +61,6 @@ else:
 # Очистка терминала
 os.system('cls' if os.name == 'nt' else 'clear')
 
-urli = "https://api.telegram.org/bot1894431955:AAH0RahDVmuoJosac8JaBcvmGKZTl1A21qQ/getChatMembersCount?chat_id=@arturdestroyerbot"
-with urlopen(urli) as f:
-   respi = json.load(f)
-countsi = "Пользователей юзерботом: " + str(respi['result'])
-
 logotip = """\033[31m
   ____ _     ___ _____
  / ___| |   |_ _|  _  |
@@ -83,7 +78,7 @@ Telegram Канал - @ArturDestroyerBot
 Помощь - @Artur_destroyer\n\nВерсия 1.7\n\n"""
 
 logi = "\n\n\033[33mЛоги:"
-print(logotip + countsi + logi)
+print(logotip + logi)
 
 # Логи + Вход
 app = Client("my_account")
