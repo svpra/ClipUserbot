@@ -80,7 +80,7 @@ logotip = """\033[31m
 
 \033[34m
 Telegram Канал - @ArturDestroyerBot
-Помощь - @Artur_destroyer\n\n"""
+Помощь - @Artur_destroyer\n\nВерсия 1.7\n\n"""
 
 logi = "\n\n\033[33mЛоги:"
 print(logotip + countsi + logi)
@@ -122,12 +122,6 @@ async def info(client: Client, message: Message):
 <code>.mum</code> - Поиск матери
 <code>.drugs</code> - Принять 3aПрEщEHHblE BещECTBа
 
-Спам:
-<code>.spam</code> [Кол-во смс] [Текст сообщения]
-<code>.spamt</code> - Спам Текстом
-<code>.spams</code> - Спам стикерами
-<code>.stop</code> - Стоп спам
-
 Плюшки:
 <code>.type</code> - Эффект Печати
 <code>.hide</code> - Сообщения с Авто-удалением
@@ -145,6 +139,7 @@ async def info(client: Client, message: Message):
 <code>.ladder</code> - Лесенка <a href="https://github.com/A9FM/filesUB/blob/main/ladder.md">[Подробнее]</a>
 <code>.webshot</code> [Ссылка] - Скриншот сайта
 <code>.autoread</code> - Авто-чтение (нет уведомлений с этого чата)
+<code>.spam</code> [Кол-во смс] [Текст сообщения] - Спам
 
 Администрация:
 <code>.ban</code> - Бан
