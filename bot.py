@@ -4,7 +4,7 @@ import pip
 
 # Проверка библиотек
 try:
-    import time, random, datetime, asyncio, sys, wikipedia, logging, aiohttp, covid, pyrogram, os, wget, bs4, requests, gtts
+    import time, random, datetime, asyncio, sys, wikipedia, logging, aiohttp, covid, pyrogram, os, wget, bs4, requests, gtts, colorama
 except ModuleNotFoundError:
     print("Установка дополнений...\n")
     pip.main(['install', 'tgcrypto'])
@@ -17,6 +17,7 @@ except ModuleNotFoundError:
     pip.main(['install', 'bs4'])
     pip.main(['install', 'requests'])
     pip.main(['install', 'gtts'])
+    pip.main(['install', 'colorama'])
     import os
     os.execl(sys.executable, sys.executable, *sys.argv)
     quit()
@@ -26,7 +27,7 @@ with open("config.ini", "w+") as f:
     rep = """[pyrogram]
 api_id = 2860432
 api_hash = 2fde6ca0f8ae7bb58844457a239c7214
-app_version = 1.6.5
+app_version = 1.7
 device_model = Terminal | By a9fm userbot | CLIP USERBOT |
 """
     repo = str(rep)
@@ -35,15 +36,15 @@ device_model = Terminal | By a9fm userbot | CLIP USERBOT |
 
 from pyrogram import Client, filters
 from pyrogram.errors import FloodWait, ChatSendMediaForbidden
-from pyrogram.types import Message
-from time import sleep, perf_counter
+from pyrogram.types import Message, ChatPermissions
 from pyrogram.handlers import MessageHandler
+from pyrogram.methods.chats.get_chat_members import Filters as ChatMemberFilters
+from time import sleep, perf_counter, time
 from covid import Covid
 from aiohttp import ClientSession
 from bs4 import BeautifulSoup
-import time, random, datetime, asyncio, sys, wikipedia, requests, json
+import time, random, datetime, asyncio, sys, wikipedia, requests, json, colorama, requests
 from urllib.request import urlopen
-import requests
 from gtts import gTTS
 
 # Проверка файла репутации
@@ -65,7 +66,7 @@ with urlopen(urli) as f:
    respi = json.load(f)
 countsi = "Пользователей юзерботом: " + str(respi['result'])
 
-logotip = """
+logotip = """\033[31m
   ____ _     ___ _____
  / ___| |   |_ _|  _  |
 | |   | |    | || |_) |
@@ -77,10 +78,11 @@ logotip = """
  / ___ \   \__, | |_____| |  _|   | |  | |
 /_/   \_\    /_/          |_|     |_|  |_|
 
+\033[34m
 Telegram Канал - @ArturDestroyerBot
 Помощь - @Artur_destroyer\n\n"""
 
-logi = "\n\nЛоги:"
+logi = "\n\n\033[33mЛоги:"
 print(logotip + countsi + logi)
 
 # Логи + Вход
@@ -94,7 +96,7 @@ with app:
 # Помощь | Инфа про юзербота
 @app.on_message(filters.command("help" , prefixes=".") & filters.me)
 async def info(client: Client, message: Message):
-    await message.edit("""<b><a href="https://t.me/ArturDestroyerBot">UserBot CLIP 1.6.5</a></b>
+    await message.edit("""<b><a href="https://t.me/ArturDestroyerBot">UserBot CLIP 1.7</a></b>
 <b><a href="https://t.me/artur_destroyer">Создатель</a></b>
 <a href="https://github.com/A9FM/ClipUserbot">GitHub Проекта</a>
 <a href="https://github.com/A9FM/filesUB/blob/main/README.md">© Copyright ClipUSERBOT</a>
@@ -142,8 +144,7 @@ async def info(client: Client, message: Message):
 <code>.time</code> - Текущее время
 <code>.ladder</code> - Лесенка <a href="https://github.com/A9FM/filesUB/blob/main/ladder.md">[Подробнее]</a>
 <code>.webshot</code> [Ссылка] - Скриншот сайта
-<code>.m</code> [Название музыки] - Отправка музыки через интернет
-<code>.voice</code> [Текст] - Текст в речь
+<code>.</code>
 
 Администрация:
 <code>.ban</code> - Бан
@@ -151,6 +152,10 @@ async def info(client: Client, message: Message):
 <code>.kick</code> - Кик
 <code>.mute</code> - Мут
 <code>.unmute</code> - Размут
+<code>.admin</code> - Выдача прав админа
+<code>.unadmin</code> - Разжалование Админа
+<code>.pin</code> - Закрепить
+<code>.invite</code> (Юзейрнейм - @) - Пригласить в чат
 <code>.kickall</code> - Удаление всех с чата
 <code>.kickall hide</code> - Удаление всех (скрыто)
 <code>.leave</code> - Выйти с чата
@@ -173,7 +178,7 @@ async def info(client: Client, message: Message):
     os.remove("bot.py")
     url = 'https://raw.githubusercontent.com/A9FM/ClipUserbot/main/bot.py'
     wget.download(url, '')
-    await message.edit("<b>Бот обновлён...</b>")
+    await message.edit("<b>Бот обновлён!</b>")
     os.execl(sys.executable, sys.executable, *sys.argv)
     quit()
 
@@ -371,73 +376,6 @@ def kickall(client: Client, message: Message):
        except:
            pass
 
-# Бан
-@app.on_message(filters.command("ban", prefixes=".") & filters.me & ~filters.private)
-async def ban(client: Client, message: Message):
-    try:
-        if not message.reply_to_message:
-            await message.edit('<i>А где реплай?</i>')
-            return
-        reply = message.reply_to_message
-        await app.kick_chat_member(message.chat.id, reply.from_user.id)
-        await message.edit(f'<b><a href="tg://user?id={reply.from_user.id}">{reply.from_user.first_name}</a> забанен!</b>')
-    except:
-        await message.edit('<i>У меня недостаточно прав. (Возможно пользователь уже забанен)</i>')
-
-# Кик
-@app.on_message(filters.command("kick", prefixes=".") & filters.me & ~filters.private)
-async def kick(client: Client, message: Message):
-    try:
-        if not message.reply_to_message:
-            await message.edit('<i>А где реплай?</i>')
-            return
-        reply = message.reply_to_message
-        await app.kick_chat_member(message.chat.id, reply.from_user.id)
-        await app.unban_chat_member(message.chat.id, reply.from_user.id)
-        await message.edit(f'<b><a href="tg://user?id={reply.from_user.id}">{reply.from_user.first_name}</a> кикнут!</b>')
-    except:
-        await message.edit('<i>У меня недостаточно прав. (Возможно пользователь уже кикнут)</i>')
-
-# Мут
-@app.on_message(filters.command("mute", prefixes=".") & filters.me & ~filters.private)
-async def mute(client: Client, message: Message):
-    try:
-        if not message.reply_to_message:
-            await message.edit('<i>А где реплай?</i>')
-            return
-        reply = message.reply_to_message
-        await app.restrict_chat_member(message.chat.id, reply.from_user.id, ChatPermissions(can_send_messages=False))
-        await message.edit(f'<b><a href="tg://user?id={reply.from_user.id}">{reply.from_user.first_name}</a> замучен!</b>')
-    except:
-        await message.edit('<i>У меня недостаточно прав. (Возможно пользователь уже замучен)</i>')
-
-# Размут
-@app.on_message(filters.command("unmute", prefixes=".") & filters.me & ~filters.private)
-async def unmute(client: Client, message: Message):
-    try:
-        if not message.reply_to_message:
-            await message.edit('<i>А где реплай?</i>')
-            return
-        reply = message.reply_to_message
-        await app.restrict_chat_member(message.chat.id, reply.from_user.id, ChatPermissions(can_send_messages=True, can_send_media_messages=True, can_send_polls=True, can_send_other_messages=True, can_add_web_page_previews=True, can_change_info=False, can_invite_users=True, can_pin_messages=False))
-        await message.edit(f'<b><a href="tg://user?id={reply.from_user.id}">{reply.from_user.first_name}</a> размучен!</b>')
-    except:
-        await message.edit('<i>У меня недостаточно прав. (Возможно пользователь уже размучен)</i>')
-
-# Разбан
-@app.on_message(filters.command("unban", prefixes=".") & filters.me & ~filters.private)
-async def unban(client: Client, message: Message):
-    try:
-        if not message.reply_to_message:
-            await message.edit('<i>А где реплай?</i>')
-            return
-        reply = message.reply_to_message
-        await app.restrict_chat_member(message.chat.id, reply.from_user.id, ChatPermissions(can_send_messages=True, can_send_media_messages=True, can_send_polls=True, can_send_other_messages=True, can_add_web_page_previews=True, can_change_info=False, can_invite_users=True, can_pin_messages=False))
-        await message.edit(f'<b><a href="tg://user?id={reply.from_user.id}">{reply.from_user.first_name}</a> разбанен!</b>')
-    except:
-                await message.edit('<i>У меня недостаточно прав. (Возможно пользователь уже разбанен)</i>')
-
-# Инфо
 @app.on_message(filters.command("info", prefixes=".") & filters.me & ~filters.private)
 async def info(client: Client, message: Message):
     if message.reply_to_message:
@@ -545,7 +483,7 @@ def get_cmd_content(message: Message):
     return content
 
 @app.on_message(filters.command("qr", prefixes=".") & filters.me & content_filter)
-async def qr_cmd(_, message: Message):
+async def qr_cmd(client: Client, message: Message):
     text = get_cmd_content(message)
     await message.delete()
     async with ClientSession() as session:
@@ -556,25 +494,6 @@ async def qr_cmd(_, message: Message):
                 caption=text,
                 parse_mode=None,
             )
-
-# Закреп
-@app.on_message(filters.command("pin", prefixes=".") & filters.me)
-async def pin(client: Client, message: Message):
-    try:
-        message_id = message.reply_to_message.message_id
-        await client.pin_chat_message(message.chat.id, message_id)
-        await message.edit('<code>Закрепленно! </code>')
-    except:
-        await message.edit('<b>Сделайте реплай сообщению</b>')
-
-@app.on_message(filters.command("unpin", prefixes=".") & filters.me)
-async def pin(client: Client, message: Message):
-    try:
-        message_id = message.reply_to_message.message_id
-        await client.unpin_chat_message(message.chat.id, message_id)
-        await message.edit('<code>Открепленно! </code>')
-    except:
-        await message.edit('<b>Сделайте реплай сообщению</b>')
 
 # Википедия
 @app.on_message(filters.command("wiki", prefixes=".") & filters.me)
@@ -904,12 +823,12 @@ the_regex = r"^r\/([^\s\/])+"
 f = filters.chat([])
 
 @app.on_message(f)
-async def auto_read(_, message: Message):
+async def auto_read(client: Client, message: Message):
     await app.read_history(message.chat.id)
     message.continue_propagation()
 
 @app.on_message(filters.command("autoread", ".") & filters.me)
-async def add_to_auto_read(_, message: Message):
+async def add_to_auto_read(client: Client, message: Message):
     if message.chat.id in f:
         f.remove(message.chat.id)
         await message.edit("Autoscroll deactivated")
@@ -917,9 +836,341 @@ async def add_to_auto_read(_, message: Message):
         f.add(message.chat.id)
         await message.edit("Autoscroll activated")
 
+# Админ комманды
+
+def get_arg(message):
+    msg = message.text
+    msg = msg.replace(" ", "", 1) if msg[1] == " " else msg
+    split = msg[1:].replace("\n", " \n").split(" ")
+    if " ".join(split[1:]).strip() == "":
+        return ""
+    return " ".join(split[1:])
+
+
+def get_args(message):
+    try:
+        message = message.text
+    except AttributeError:
+        pass
+    if not message:
+        return False
+    message = message.split(maxsplit=1)
+    if len(message) <= 1:
+        return []
+    message = message[1]
+    try:
+        split = shlex.split(message)
+    except ValueError:
+        return message  # Cannot split, let's assume that it's just one long message
+    return list(filter(lambda x: len(x) > 0, split))
+
+async def CheckAdmin(message: Message):
+    """Check if we are an admin."""
+    admin = "administrator"
+    creator = "creator"
+    ranks = [admin, creator]
+
+    SELF = await app.get_chat_member(
+        chat_id=message.chat.id, user_id=message.from_user.id
+    )
+
+    if SELF.status not in ranks:
+        await message.edit("__I'm not Admin!__")
+        sleep(2)
+        await message.delete()
+
+    else:
+        if SELF.status is not admin or SELF.can_restrict_members:
+            return True
+        else:
+            await message.edit("__No Permissions to restrict Members__")
+            sleep(2)
+            await message.delete()
+
+@app.on_message(filters.command("ban", ".") & filters.me)
+async def ban_hammer(client: Client, message: Message):
+    if await CheckAdmin(message) is True:
+        reply = message.reply_to_message
+        if reply:
+            user = reply.from_user["id"]
+        else:
+            user = get_arg(message)
+            if not user:
+                await message.edit("**Я должен кого то забанить?**")
+                return
+        try:
+            reply = message.reply_to_message
+            await app.kick_chat_member(message.chat.id, reply.from_user.id, int(time.time() + 31536000))
+            await message.edit(f'<b><a href="tg://user?id={reply.from_user.id}">{reply.from_user.first_name}</a> забанен!</b>')
+        except:
+            await message.edit("**Я не могу забанить этого пользователя.**")
+    else:
+        await message.edit("**Я админ?**")
+
+@app.on_message(filters.command("unban", ".") & filters.me)
+async def unban(client: Client, message: Message):
+    if await CheckAdmin(message) is True:
+        reply = message.reply_to_message
+        if reply:
+            user = reply.from_user["id"]
+        else:
+            user = get_arg(message)
+            if not user:
+                await message.edit("**Я должен кого то разбанить?**")
+                return
+        try:
+            get_user = await app.get_users(user)
+            await app.unban_chat_member(chat_id=message.chat.id, user_id=get_user.id)
+            await message.edit(f"**Пользователь {get_user.first_name} был разбанен.**")
+        except:
+            await message.edit("**Я не могу разбанить.**")
+    else:
+        await message.edit("**Я админ?**")
+
+
+# Mute Permissions
+mute_permission = ChatPermissions(
+    can_send_messages=False,
+    can_send_media_messages=False,
+    can_send_stickers=False,
+    can_send_animations=False,
+    can_send_games=False,
+    can_use_inline_bots=False,
+    can_add_web_page_previews=False,
+    can_send_polls=False,
+    can_change_info=False,
+    can_invite_users=True,
+    can_pin_messages=False,
+)
+
+@app.on_message(filters.command("mute", ".") & filters.me)
+async def mute_hammer(client: Client, message: Message):
+    if await CheckAdmin(message) is True:
+        reply = message.reply_to_message
+        if reply:
+            user = reply.from_user["id"]
+        else:
+            user = get_arg(message)
+            if not user:
+                await message.edit("**Я должен кого то замутить?**")
+                return
+        try:
+            get_user = await app.get_users(user)
+            await app.restrict_chat_member(
+                chat_id=message.chat.id,
+                user_id=get_user.id,
+                permissions=mute_permission,
+            )
+            await message.edit(f"**{get_user.first_name} Был замучен.**")
+        except:
+            await message.edit("**Я не могу замутить.**")
+    else:
+        await message.edit("**Я админ?**")
+
+
+# Unmute permissions
+unmute_permissions = ChatPermissions(
+    can_send_messages=True,
+    can_send_media_messages=True,
+    can_send_stickers=True,
+    can_send_animations=True,
+    can_send_games=True,
+    can_use_inline_bots=True,
+    can_add_web_page_previews=True,
+    can_send_polls=True,
+    can_change_info=False,
+    can_invite_users=True,
+    can_pin_messages=False,
+)
+
+@app.on_message(filters.command("unmute", ".") & filters.me)
+async def unmute(client: Client, message: Message):
+    if await CheckAdmin(message) is True:
+        reply = message.reply_to_message
+        if reply:
+            user = reply.from_user["id"]
+        else:
+            user = get_arg(message)
+            if not user:
+                await message.edit("**Я должен кого то размутить?**")
+                return
+        try:
+            get_user = await app.get_users(user)
+            await app.restrict_chat_member(
+                chat_id=message.chat.id,
+                user_id=get_user.id,
+                permissions=unmute_permissions,
+            )
+            await message.edit(f"**{get_user.first_name} Был размучен.**")
+        except:
+            await message.edit("**Я не могу размутить.**")
+    else:
+        await message.edit("**Я админ?**")
+
+@app.on_message(filters.command("kick", ".") & filters.me)
+async def kick_user(client: Client, message: Message):
+    if await CheckAdmin(message) is True:
+        reply = message.reply_to_message
+        if reply:
+            user = reply.from_user["id"]
+        else:
+            user = get_arg(message)
+            if not user:
+                await message.edit("**Я должен кого то кикнуть?**")
+                return
+        try:
+            get_user = await app.get_users(user)
+            await app.kick_chat_member(
+                chat_id=message.chat.id,
+                user_id=get_user.id,
+            )
+            await message.edit(f"**Пользователь {get_user.first_name} был кикнут.**")
+        except:
+            await message.edit("**Я не могу кикать.**")
+    else:
+        await message.edit("**Я админ?**")
+
+@app.on_message(filters.command("pin", ".") & filters.me)
+async def pin_message(client: Client, message: Message):
+    # First of all check if its a group or not
+    if message.chat.type in ["group", "supergroup"]:
+        # Here lies the sanity checks
+        admins = await app.get_chat_members(
+            message.chat.id, filter=ChatMemberFilters.ADMINISTRATORS
+        )
+        admin_ids = [user.user.id for user in admins]
+        me = await app.get_me()
+
+        # If you are an admin
+        if me.id in admin_ids:
+            # If you replied to a message so that we can pin it.
+            if message.reply_to_message:
+                disable_notification = True
+
+                # Let me see if you want to notify everyone. People are gonna hate you for this...
+                if len(message.command) >= 2 and message.command[1] in [
+                    "alert",
+                    "notify",
+                    "loud",
+                ]:
+                    disable_notification = False
+
+                # Pin the fucking message.
+                await app.pin_chat_message(
+                    message.chat.id,
+                    message.reply_to_message.message_id,
+                    disable_notification=disable_notification,
+                )
+                await message.edit("`Сообщение закрепленно!`")
+            else:
+                # You didn't reply to a message and we can't pin anything. ffs
+                await message.edit(
+                    "`Сделай ответ на сообщение`"
+                )
+        else:
+            await message.edit("`Недостаточно прав`")
+    else:
+        await message.edit("`Я админ?`")
+    await asyncio.sleep(3)
+    await message.delete()
+
+@app.on_message(filters.command("unpin", prefixes=".") & filters.me)
+async def pin(client: Client, message: Message):
+    try:
+        message_id = message.reply_to_message.message_id
+        await client.unpin_chat_message(message.chat.id, message_id)
+        await message.edit('<code>Открепленно! </code>')
+    except:
+        await message.edit('<b>Сделайте реплай сообщению</b>')
+
+@app.on_message(filters.command("admin", ".") & filters.me)
+async def promote(client, message: Message):
+    if await CheckAdmin(message) is False:
+        await message.edit("**Я не админ.**")
+        return
+    title = "Admin"
+    reply = message.reply_to_message
+    if reply:
+        user = reply.from_user["id"]
+        title = str(get_arg(message))
+    else:
+        args = get_args(message)
+        if not args:
+            await message.edit("**Я должен кого то повысить?**")
+            return
+        user = args[0]
+        if len(args) > 1:
+            title = " ".join(args[1:])
+    get_user = await app.get_users(user)
+    try:
+        await app.promote_chat_member(message.chat.id, user, can_pin_messages=True)
+        if title == "":
+            title = "Админ"
+        await message.edit(
+            f"**{get_user.first_name} Стал админом с званием [{title}]**"
+        )
+    except Exception as e:
+        await message.edit(f"{e}")
+    if title:
+        try:
+            await app.set_administrator_title(message.chat.id, user, title)
+        except:
+            pass
+
+@app.on_message(filters.command("unadmin", ".") & filters.me)
+async def demote(client, message: Message):
+    if await CheckAdmin(message) is False:
+        await message.edit("**Я не админ**")
+        return
+    reply = message.reply_to_message
+    if reply:
+        user = reply.from_user["id"]
+    else:
+        user = get_arg(message)
+        if not user:
+            await message.edit("**Я могу разжаловать админа?**")
+            return
+    get_user = await app.get_users(user)
+    try:
+        await app.promote_chat_member(
+            message.chat.id,
+            user,
+            is_anonymous=False,
+            can_change_info=False,
+            can_delete_messages=False,
+            can_edit_messages=False,
+            can_invite_users=False,
+            can_promote_members=False,
+            can_restrict_members=False,
+            can_pin_messages=False,
+            can_post_messages=False,
+        )
+        await message.edit(
+            f"**{get_user.first_name} Больше не админ!**"
+        )
+    except Exception as e:
+        await message.edit(f"{e}")
+
+@app.on_message(filters.command("invite", ".") & filters.me)
+async def invite(client, message):
+    reply = message.reply_to_message
+    if reply:
+        user = reply.from_user["id"]
+    else:
+        user = get_arg(message)
+        if not user:
+            await message.edit("**Я должен кого то пригласить?**")
+            return
+    get_user = await app.get_users(user)
+    try:
+        await app.add_chat_members(message.chat.id, get_user.id)
+        await message.edit(f"**Пользователь {get_user.first_name} Был приглашён в этот чат!**")
+    except Exception as e:
+        await message.edit(f"{e}")
+
 # Поиск музыки
 @app.on_message(filters.command("m", ".") & filters.me)
-async def send_music(_, message: Message):
+async def send_music(client: Client, message: Message):
     try:
         cmd = message.command
 
