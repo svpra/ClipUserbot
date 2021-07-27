@@ -831,10 +831,10 @@ async def auto_read(client: Client, message: Message):
 async def add_to_auto_read(client: Client, message: Message):
     if message.chat.id in f:
         f.remove(message.chat.id)
-        await message.edit("Autoscroll deactivated")
+        await message.edit("Авточтение отключено")
     else:
         f.add(message.chat.id)
-        await message.edit("Autoscroll activated")
+        await message.edit("Авточтение включено")
 
 # Админ комманды
 
