@@ -77,7 +77,7 @@ logotip = """\033[31m
 Telegram Канал - @ArturDestroyerBot
 Помощь - @Artur_destroyer\n\nВерсия 1.7\n"""
 
-logi = "\n033[33mЛоги:"
+logi = "Логи:"
 print(logotip + logi)
 
 # Логи + Вход
