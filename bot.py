@@ -46,6 +46,8 @@ from bs4 import BeautifulSoup
 import time, random, datetime, asyncio, sys, wikipedia, requests, json, colorama, requests
 from urllib.request import urlopen
 from gtts import gTTS
+import youtube_dl
+import glob
 
 # Проверка файла репутации
 rep = os.path.exists('rep.txt')
@@ -75,7 +77,7 @@ logotip = """\033[31m
 
 \033[34m
 Telegram Канал - @ArturDestroyerBot
-Помощь - @Artur_destroyer\nВерсия 1.7\n\n"""
+Помощь - @Artur_destroyer\nВерсия 1.7.1 [BETA]\n\n"""
 
 logi = "Логи:"
 print(logotip + logi)
@@ -91,7 +93,7 @@ with app:
 # Помощь | Инфа про юзербота
 @app.on_message(filters.command("help" , prefixes=".") & filters.me)
 async def info(client: Client, message: Message):
-    await message.edit("""<b><a href="https://t.me/ArturDestroyerBot">UserBot CLIP 1.7</a></b>
+    await message.edit("""<b><a href="https://t.me/ArturDestroyerBot">UserBot CLIP 1.7.1 [BETA]</a></b>
 <b><a href="https://t.me/artur_destroyer">Создатель</a></b>
 <a href="https://github.com/A9FM/ClipUserbot">GitHub Проекта</a>
 <a href="https://github.com/A9FM/filesUB/blob/main/README.md">© Copyright ClipUSERBOT</a>
@@ -135,6 +137,7 @@ async def info(client: Client, message: Message):
 <code>.webshot</code> [Ссылка] - Скриншот сайта
 <code>.autoread</code> - Авто-чтение (нет уведомлений с этого чата)
 <code>.spam</code> [Кол-во смс] [Текст сообщения] - Спам
+<code>.yt</code> [ссылка] - Скачивание и отправление видео с Ютуб
 
 Администрация:
 <code>.ban</code> - Бан
@@ -221,7 +224,7 @@ async def spam(client: Client, message: Message):
 @app.on_message(filters.command('time', prefixes='.') & filters.me)
 async def spam(client: Client, message: Message):
     now = datetime.datetime.now()
-    timnow = now.strftime("%d-%m-%Y %H:%M")
+    timnow = now.strftime("%d-%m-%Y\nВремя %H:%M")
     timenow = "Текущая дата : " + timnow
     await message.edit(timenow)
 
@@ -252,6 +255,17 @@ async def webshot(client, message):
         await client.send_photo(message.chat.id, full_link, caption=f'<b> Ссылка > {user_link}</b>')
     except:
         await message.edit('<i>Неизвестный сайт.</i>')
+
+# Видео с ютуб
+@app.on_message(filters.command("yt", prefixes=".") & filters.me)
+async def webshot(client, message):
+    linked = message.command[1]
+    ydl_opts = { 'outtmpl': 'video.mp4', }
+    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+        ydl.download([linked])
+    await client.send_video(chat_id=message.chat.id, video='video.mp4', reply_to_message_id=message.message_id)
+    await message.delete()
+    os.remove('video.mp4')
 
 # Призыв всех
 @app.on_message(filters.command("tagall", prefixes=".") & filters.me)
