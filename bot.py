@@ -4,7 +4,7 @@ import pip
 
 # Проверка библиотек
 try:
-    import time, random, datetime, asyncio, sys, wikipedia, logging, aiohttp, covid, pyrogram, os, wget, bs4, requests, gtts, colorama
+    import time, random, datetime, asyncio, sys, wikipedia, logging, aiohttp, covid, pyrogram, os, wget, bs4, requests, gtts, colorama, youtube-dl
 except ModuleNotFoundError:
     print("Установка дополнений...\n")
     pip.main(['install', 'tgcrypto'])
