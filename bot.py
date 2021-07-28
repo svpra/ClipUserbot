@@ -18,6 +18,7 @@ except ModuleNotFoundError:
     pip.main(['install', 'requests'])
     pip.main(['install', 'gtts'])
     pip.main(['install', 'colorama'])
+    pip.main(['install', 'youtube_dl'])
     import os
     os.execl(sys.executable, sys.executable, *sys.argv)
     quit()
@@ -43,11 +44,9 @@ from time import sleep, perf_counter, time
 from covid import Covid
 from aiohttp import ClientSession
 from bs4 import BeautifulSoup
-import time, random, datetime, asyncio, sys, wikipedia, requests, json, colorama, requests
+import time, random, datetime, asyncio, sys, wikipedia, requests, json, colorama, requests, youtube_dl
 from urllib.request import urlopen
 from gtts import gTTS
-import youtube_dl
-import glob
 
 # Проверка файла репутации
 rep = os.path.exists('rep.txt')
