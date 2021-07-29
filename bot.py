@@ -77,7 +77,7 @@ logotip = """\033[31m
 
 \033[34m
 Telegram Канал - @ArturDestroyerBot
-Помощь - @Artur_destroyer\nВерсия 1.7.1 [BETA]\n\n"""
+Помощь - @Artur_destroyer\nВерсия 1.7.2 [BETA]\n\n"""
 
 logi = "Логи:"
 print(logotip + logi)
@@ -93,34 +93,34 @@ with app:
 # Помощь | Инфа про юзербота
 @app.on_message(filters.command("help" , prefixes=".") & filters.me)
 async def info(client: Client, message: Message):
-    await message.edit("""<b><a href="https://t.me/ArturDestroyerBot">UserBot CLIP 1.7.1 [BETA]</a></b>
+    await message.edit("""<b><a href="https://t.me/ArturDestroyerBot">UserBot CLIP 1.7.2 [BETA]</a></b>
 <b><a href="https://t.me/artur_destroyer">Создатель</a></b>
 <a href="https://github.com/A9FM/ClipUserbot">GitHub Проекта</a>
 <a href="https://github.com/A9FM/filesUB/blob/main/README.md">© Copyright ClipUSERBOT</a>
 
 <b>Команды</b>
 
-Основные:
+『Основные』
 <code>.help</code> - Помощь | Информация | Проверка версии
 <code>.ping</code> - Проверка Пинга бота [Качество полключения]
 <code>.restart</code> - Перезагрузка [Ошибка, Баг в боте]
 <code>.update</code> - Обновить
 <code>.beta</code> - Обновиться на [BETA]
 
-Мало временни:
+『Мало временни』
 <code>.afk</code> [Причина] - Ввойти в АФК [Не в сети]
 <code>.unafk</code> - Выйти из АФК
 <code>.wiki</code> [Слово] - Поиск в Википедии
 <code>.covid</code> [Страна] - Статистика заражения вирусом covid-19 [Коронавирус]
 <code>.weather</code> [Город] - Погода
 
-Процент загрузки:
+『Троллинг』
 <code>.hack</code> - Взлом Пентагонна
 <code>.jopa</code> - Взлом жопы
 <code>.mum</code> - Поиск матери
 <code>.drugs</code> - Принять 3aПрEщEHHblE BещECTBа
 
-Плюшки:
+『Плюшки』
 <code>.type</code> - Эффект Печати
 <code>.hide</code> - Сообщения с Авто-удалением
 <code>.sw</code> - Переключение расскладки [Если написали по типу ghbdtn]
@@ -134,13 +134,13 @@ async def info(client: Client, message: Message):
 <code>.eur</code> - Курс Евро
 <code>.qr</code> [Текст] - Создание QR-Кода с вашим текстом
 <code>.time</code> - Текущее время
-<code>.ladder</code> - Лесенка <a href="https://github.com/A9FM/filesUB/blob/main/ladder.md">[Подробнее]</a>
+<code>.ladder</code> - текст лесенкой (п пр при прив привет) 
 <code>.webshot</code> [Ссылка] - Скриншот сайта
 <code>.autoread</code> - Авто-чтение (нет уведомлений с этого чата)
 <code>.spam</code> [Кол-во смс] [Текст сообщения] - Спам
 <code>.yt</code> [ссылка] - Скачивание и отправление видео с Ютуб
 
-Администрация:
+『Администрация』
 <code>.ban</code> - Бан
 <code>.unban</code> - Разбан
 <code>.kick</code> - Кик
@@ -185,7 +185,6 @@ async def info(client: Client, message: Message):
     await message.edit("<b>Бот обновлён![BETA]</b>")
     os.execl(sys.executable, sys.executable, *sys.argv)
     quit()
-
 
 # Репутация
 @app.on_message(filters.text & filters.incoming & filters.regex('^\-$') & filters.reply)
