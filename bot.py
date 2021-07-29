@@ -1,3 +1,4 @@
+
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import pip
@@ -28,7 +29,7 @@ with open("config.ini", "w+") as f:
     rep = """[pyrogram]
 api_id = 2860432
 api_hash = 2fde6ca0f8ae7bb58844457a239c7214
-app_version = 1.7
+app_version = 1.7.1
 device_model = Terminal | By a9fm userbot | CLIP USERBOT |
 """
     repo = str(rep)
@@ -104,6 +105,7 @@ async def info(client: Client, message: Message):
 <code>.ping</code> - Проверка Пинга бота [Качество полключения]
 <code>.restart</code> - Перезагрузка [Ошибка, Баг в боте]
 <code>.update</code> - Обновить
+<code>.beta</code> - Обновиться на [BETA]
 
 Мало временни:
 <code>.afk</code> [Причина] - Ввойти в АФК [Не в сети]
@@ -173,6 +175,17 @@ async def info(client: Client, message: Message):
     await message.edit("<b>Бот обновлён!</b>")
     os.execl(sys.executable, sys.executable, *sys.argv)
     quit()
+
+@app.on_message(filters.command("beta" , prefixes=".") & filters.me)
+async def info(client: Client, message: Message):
+    await message.edit("<b>Обновление бота [BETA]...</b>")
+    os.remove("bot.py")
+    url = 'https://raw.githubusercontent.com/A9FM/ClipUserbot/beta/bot.py'
+    wget.download(url, '')
+    await message.edit("<b>Бот обновлён![BETA]</b>")
+    os.execl(sys.executable, sys.executable, *sys.argv)
+    quit()
+
 
 # Репутация
 @app.on_message(filters.text & filters.incoming & filters.regex('^\-$') & filters.reply)
@@ -1185,7 +1198,7 @@ async def send_music(client: Client, message: Message):
                 message.reply_to_message.text or message.reply_to_message.caption
             )
         elif not message.reply_to_message and len(cmd) == 1:
-            await message.edit("give me a song name")
+            await message.edit("Дай мне название музыки")
             await asyncio.sleep(2)
             await message.delete()
             return
