@@ -1,4 +1,3 @@
-
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import pip
@@ -29,7 +28,7 @@ with open("config.ini", "w+") as f:
     rep = """[pyrogram]
 api_id = 2860432
 api_hash = 2fde6ca0f8ae7bb58844457a239c7214
-app_version = 1.7.1
+app_version = 1.7.2
 device_model = Terminal | By a9fm userbot | CLIP USERBOT |
 """
     repo = str(rep)
@@ -130,11 +129,9 @@ async def info(client: Client, message: Message):
 <code>.tagall</code> - Призыв всех участников
 <code>.id</code> - Айди
 <code>.info</code> - Информация
-<code>.usd</code> - Курс Доллара
-<code>.eur</code> - Курс Евро
 <code>.qr</code> [Текст] - Создание QR-Кода с вашим текстом
 <code>.time</code> - Текущее время
-<code>.ladder</code> - текст лесенкой (п пр при прив привет) 
+<code>.ladder</code> - текст лесенкой (п пр при прив привет)
 <code>.webshot</code> [Ссылка] - Скриншот сайта
 <code>.autoread</code> - Авто-чтение (нет уведомлений с этого чата)
 <code>.spam</code> [Кол-во смс] [Текст сообщения] - Спам
@@ -271,12 +268,22 @@ async def webshot(client, message):
 @app.on_message(filters.command("yt", prefixes=".") & filters.me)
 async def webshot(client, message):
     linked = message.command[1]
+    await message.edit("Скачивание видео...")
     ydl_opts = { 'outtmpl': 'video.mp4', }
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         ydl.download([linked])
-    await client.send_video(chat_id=message.chat.id, video='video.mp4', reply_to_message_id=message.message_id)
+    await client.send_video(chat_id=message.chat.id, video='video.mp4', caption="Оригинал: " + message.command[1])
     await message.delete()
     os.remove('video.mp4')
+
+@app.on_message(filters.command("myt", prefixes=".") & filters.me)
+async def webshot(client, message):
+    myth = "youtube-dl -f 140 " + message.command[1] + " -o 'music.m4a'"
+    await message.edit("Скачивание аудиодорожки...")
+    os.system(myth)
+    await client.send_audio(chat_id=message.chat.id, audio='music.m4a', caption="Звук с видео: " + message.command[1])
+    await message.delete()
+    os.remove("music.m4a")
 
 # Призыв всех
 @app.on_message(filters.command("tagall", prefixes=".") & filters.me)
@@ -800,37 +807,6 @@ async def hide(client: Client, message: Message):
 
     sleep(1.25)
     await message.delete()
-
-# Курс валют
-DOLLAR = 'https://www.google.com/search?sxsrf=ALeKk01NWm6viYijAo3HXYOEQUyDEDtFEw%3A1584716087546&source=hp&ei=N9l0XtDXHs716QTcuaXoAg&q=%D0%B4%D0%BE%D0%BB%D0%BB%D0%B0%D1%80+%D0%BA+%D1%80%D1%83%D0%B1%D0%BB%D1%8E&oq=%D0%B4%D0%BE%D0%BB%D0%BB%D0%B0%D1%80+&gs_l=psy-ab.3.0.35i39i70i258j0i131l4j0j0i131l4.3044.4178..5294...1.0..0.83.544.7......0....1..gws-wiz.......35i39.5QL6Ev1Kfk4'
-EUR = 'https://www.google.com/search?q=%D0%BA%D1%83%D1%80%D1%81+%D0%B5%D0%B2%D1%80%D0%BE&oq=%D0%BA%D1%83%D1%80%D1%81+%D0%B5&aqs=chrome.1.69i57j0i433l5j0i395i433l2j0i131i395i433.3879j1j7&sourceid=chrome&ie=UTF-8'
-
-headers = {
-    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36'}
-
-@app.on_message(filters.command("usd", prefixes=".") & filters.me)
-async def usd(client: Client, message: Message):
-    try:
-        await message.edit('<code>Собираем данные...</code>')
-        full_page = requests.get(DOLLAR, headers=headers, timeout=1)
-        soup = BeautifulSoup(full_page.content, 'html.parser')
-        rub = soup.findAll(
-            "span", {"class": "DFlfde", "class": "SwHCTb", "data-precision": 2})
-        await message.edit(f'<b>1 Доллар равен </b><code>{rub}</code><b> Рублям</b>')
-    except:
-        await message.edit('<code>Ошибка</code>')
-
-@app.on_message(filters.command("eur", prefixes=".") & filters.me)
-async def eur(client: Client, message: Message):
-    try:
-        await message.edit('<code>Собираем данные...</code>')
-        full_page = requests.get(EUR, headers=headers, timeout=1)
-        soup = BeautifulSoup(full_page.content, 'html.parser')
-        rub = soup.findAll(
-            "span", {"class": "DFlfde", "class": "SwHCTb", "data-precision": 2})
-        await message.edit(f'<b>1 Евро равен </b><code>{rub}</code><b> Рублям</b>')
-    except:
-        await message.edit('<code>Ошибка</code>')
 
 # Авточтение
 the_regex = r"^r\/([^\s\/])+"
