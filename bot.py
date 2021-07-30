@@ -76,7 +76,7 @@ logotip = """\033[31m
 
 \033[34m
 Telegram Канал - @ArturDestroyerBot
-Помощь - @Artur_destroyer\nВерсия 1.7.2 [BETA]\n\n"""
+Помощь - @Artur_destroyer\nВерсия 1.8\n\n"""
 
 logi = "Логи:"
 print(logotip + logi)
@@ -92,7 +92,7 @@ with app:
 # Помощь | Инфа про юзербота
 @app.on_message(filters.command("help" , prefixes=".") & filters.me)
 async def help(client: Client, message: Message):
-    await message.edit("""<b><a href="https://t.me/ArturDestroyerBot">UserBot CLIP 1.7.2 [BETA]</a></b>
+    await message.edit("""<b><a href="https://t.me/ArturDestroyerBot">🤖 UserBot CLIP 1.8🤖</a></b>
 <b><a href="https://t.me/artur_destroyer">Создатель</a></b>
 <a href="https://github.com/A9FM/ClipUserbot">GitHub Проекта</a>
 <a href="https://github.com/A9FM/filesUB/blob/main/README.md">© Copyright ClipUSERBOT</a>
@@ -135,7 +135,8 @@ async def help(client: Client, message: Message):
 <code>.webshot</code> [Ссылка] - Скриншот сайта
 <code>.autoread</code> - Авто-чтение (нет уведомлений с этого чата)
 <code>.spam</code> [Кол-во смс] [Текст сообщения] - Спам
-<code>.yt</code> [ссылка] - Скачивание и отправление видео с Ютуб
+<code>.yt</code> [ссылка] - Скачивание и отправка видео (ютуб, тикток, лайк, инста)
+<code>.myt</code> [ссылка] - Скачивание и отправа звука с видео (ютуб, тикток, лайк, инста)
 
 『Администрация』
 <code>.ban</code> - Бан
@@ -186,39 +187,43 @@ async def betaupdate(client: Client, message: Message):
 # Репутация
 @app.on_message(filters.text & filters.incoming & filters.regex('^\-$') & filters.reply)
 async def rep(client: Client, message: Message):
-    if message.reply_to_message.from_user.is_self:
-        with open("rep.txt", "r+") as f:
-            data = f.read()
-            data = int(data)
-            num = 1
-            rep = data - num
-            repo = str(rep)
-            f.close()
-        with open("rep.txt", "w+") as f:
-            repo = str(rep)
-            f.write(repo)
-            f.close()
-            text = "💔 Вы понизили мою репутацию 💔\n🔝 Репутация " + str(repo) + " 🔝"
-            await message.reply_text(text)
+    try:
+        if message.reply_to_message.from_user.is_self:
+            with open("rep.txt", "r+") as f:
+                data = f.read()
+                data = int(data)
+                num = 1
+                rep = data - num
+                repo = str(rep)
+                f.close()
+            with open("rep.txt", "w+") as f:
+                repo = str(rep)
+                f.write(repo)
+                f.close()
+                text = "💔 Вы понизили мою репутацию 💔\n🔝 Репутация " + str(repo) + " 🔝"
+                await message.reply_text(text)
+    except:
+        pass
 
 @app.on_message(filters.text & filters.incoming & filters.regex('^\+$') & filters.reply)
 async def rep(client: Client, message: Message):
-    if message.reply_to_message.from_user.is_self:
-        with open("rep.txt", "r+") as f:
-            data = f.read()
-            data = int(data)
-            num = 1
-            rep = data + num
-            repo = str(rep)
-            f.close()
-        with open("rep.txt", "w+") as f:
-            repo = str(rep)
-            f.write(repo)
-            f.close()
-            text = "❤️ Вы повысили мою репутацию ❤️\n🔝 Репутация " + str(repo) + " 🔝"
-            await message.reply_text(text)
-
-
+    try:
+        if message.reply_to_message.from_user.is_self:
+            with open("rep.txt", "r+") as f:
+                data = f.read()
+                data = int(data)
+                num = 1
+                rep = data + num
+                repo = str(rep)
+                f.close()
+            with open("rep.txt", "w+") as f:
+                repo = str(rep)
+                f.write(repo)
+                f.close()
+                text = "❤️ Вы повысили мою репутацию ❤️\n🔝 Репутация " + str(repo) + " 🔝"
+                await message.reply_text(text)
+    except:
+        pass
 # Айди
 @app.on_message(filters.command('id', prefixes='.') & filters.me)
 async def spam(client: Client, message: Message):
@@ -236,7 +241,7 @@ async def spam(client: Client, message: Message):
     timenow = "Текущая дата : " + timnow
     await message.edit(timenow)
 
-# спам
+# Спам
 @app.on_message(filters.command('spam', prefixes='.') & filters.me)
 async def spam(client: Client, message: Message):
         if not message.text.split('.spam', maxsplit=1)[1]:
@@ -272,15 +277,17 @@ async def webshot(client, message):
     ydl_opts = { 'outtmpl': 'video.mp4', }
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         ydl.download([linked])
+    await message.edit("Отправка видео...")
     await client.send_video(chat_id=message.chat.id, video='video.mp4', caption="Оригинал: " + message.command[1])
     await message.delete()
     os.remove('video.mp4')
 
 @app.on_message(filters.command("myt", prefixes=".") & filters.me)
 async def webshot(client, message):
-    myth = "youtube-dl -f 140 " + message.command[1] + " -o 'music.m4a'"
+    myth = "youtube-dl -f 140 " + message.command[1] + " -o music.m4a"
     await message.edit("Скачивание аудиодорожки...")
     os.system(myth)
+    await message.edit("Отправка аудиодорожки...")
     await client.send_audio(chat_id=message.chat.id, audio='music.m4a', caption="Звук с видео: " + message.command[1])
     await message.delete()
     os.remove("music.m4a")
@@ -589,164 +596,81 @@ async def weather(client: Client, message: Message):
     await client.send_photo(chat_id=message.chat.id, photo=get_pic(city), reply_to_message_id=message.message_id)
     os.remove(f'{city}.png')
 
-# Выйти с группы
-@app.on_message(filters.command("leave", prefixes=".") & filters.me)
-async def leave(client: Client, message: Message):
-    m = await message.edit('<code>Всем пока... [Пользователь вышел с чата]</code>')
-    await asyncio.sleep(3)
-    await client.leave_chat(chat_id=message.chat.id)
+# Поиск музыки
+@app.on_message(filters.command("m", ".") & filters.me)
+async def send_music(client: Client, message: Message):
+    try:
+        cmd = message.command
 
-# Команда взлома пентагона
-@app.on_message(filters.command("hack", prefixes=".") & filters.me)
-async def hack(client: Client, message: Message):
-    perc = 0
-    while(perc < 100):
-        try:
-            text = "👮 Взлом пентагона в процессе ..." + str(perc) + "%"
-            await message.edit(str(text))
-            perc += random.randint(1, 3)
-            sleep(0.1)
-        except FloodWait as e:
-            sleep(e.x)
-    text = "✅ Пентагон успешно взломан!"
-    await message.edit(str(text))
-    sleep(3)
-    perc = 0
-    while(perc < 100):
-        try:
-            text = "⬇️ Скачивание данных ..." + str(perc) + "%"
-            await message.edit(str(text))
-            perc += random.randint(1, 5)
-            sleep(0.15)
-        except FloodWait as e:
-            sleep(e.x)
-        text = "🐓Нашли файты что ты петух!"
-        await message.edit(text)
+        song_name = ""
+        if len(cmd) > 1:
+            song_name = " ".join(cmd[1:])
+        elif message.reply_to_message and len(cmd) == 1:
+            song_name = (
+                message.reply_to_message.text or message.reply_to_message.caption
+            )
+        elif not message.reply_to_message and len(cmd) == 1:
+            await message.edit("Дай мне название музыки")
+            await asyncio.sleep(2)
+            await message.delete()
+            return
 
-# Команда Взлома жопы
-@app.on_message(filters.command("jopa", prefixes=".") & filters.me)
-async def jopa(client: Client, message: Message):
-    perc = 0
-    while(perc < 100):
-        try:
-            text = "🍑 Взлом жопы в процессе ..." + str(perc) + "%"
-            await message.edit(str(text))
-            perc += random.randint(1, 3)
-            sleep(0.1)
-        except FloodWait as e:
-            sleep(e.x)
-    text = "✅ Жопа взломана"
-    await message.edit(str(text))
-    sleep(3)
-    text = "🔍 Поиск Сливов ..."
-    await message.edit(str(text))
-    perc = 0
-    sleep(3)
-    while(perc < 100):
-        try:
-            text = "⬇️ Скачивание сливов ..." + str(perc) + "%"
-            await message.edit(str(text))
-            perc += random.randint(1, 4)
-            sleep(0.15)
-        except FloodWait as e:
-            sleep(e.x)
-    text = "✅ Сливы были найдены"
-    await message.edit(str(text))
-    perc = 0
-    sleep(5)
-    while(perc < 100):
-        try:
-            text = "⬆️ Продажа сливов барыге..." + str(perc) + "%"
-            await message.edit(str(text))
-            perc += random.randint(1, 5)
-            sleep(0.15)
-        except FloodWait as e:
-            sleep(e.x)
+        song_results = await app.get_inline_bot_results("deezermusicbot", song_name)
 
-    text = "✅ Проданно"
-    await message.edit(str(text))
-    sleep(2)
-    rand =+ random.randint(100, 5000)
-    bal = rand
-    text = "💸 Вы заработали " + str(bal) + " ₽"
-    await message.edit(text)
-
-# Наркота
-@app.on_message(filters.command("drugs", prefixes=".") & filters.me)
-async def drugs(client: Client, message: Message):
-    perc = 0
-    result = 0
-    while(perc < 100):
         try:
-            text = "🍁Поиск запрещённых препаратов " + str(perc) + "%"
-            await message.edit(str(text))
-            perc += random.randint(1, 3)
-            sleep(0.1)
-        except FloodWait as e:
-            sleep(e.x)
-    text = "Найдено 3 кг шпекса🍪💨"
-    await message.edit(str(text))
-    sleep(3)
-    text = "Оформляем вкид 🌿⚗️"
-    await message.edit(str(text))
-    sleep(5)
-    result += random.randint(1, 4)
+            # send to Saved Messages because hide_via doesn't work sometimes
+            saved = await app.send_inline_bot_result(
+                chat_id="me",
+                query_id=song_results.query_id,
+                result_id=song_results.results[0].id,
+                hide_via=True,
+            )
 
-    if result == 1:
-        text = "🔥😳 Вас успешно откачали, пожалуйста, больше не принимайте запрещённые препараты 😳🔥"
-        await message.edit(str(text))
-    if result == 2:
-        text = "🥴Вы пожилой наркоман, вас не берёт одна доза, вам необходимо больше, попробуйте  ещё раз оформить вкид🥴"
-        await message.edit(str(text))
-    if result == 3:
-        text = "😖Сегодня не ваш день, вы хоть и пожилой, но приняли слишком много. Окончательная причина смерти - передоз😖"
-        await message.edit(str(text))
-    if result == 4:
-        text = "😌Вы оформили вкид, Вам понравилось)😌"
-        await message.edit(str(text))
+            # forward as a new message from Saved Messages
+            saved = await app.get_messages("me", int(saved.updates[1].message.id))
+            reply_to = (
+                message.reply_to_message.message_id
+                if message.reply_to_message
+                else None
+            )
+            await app.send_audio(
+                chat_id=message.chat.id,
+                audio=str(saved.audio.file_id),
+                reply_to_message_id=reply_to,
+            )
 
-# Оскорбление мамки
-@app.on_message(filters.command("mum" , prefixes=".") & filters.me)
-async def mum(client: Client, message: Message):
-    text = "🔍 Поиск твоей мамки начался..."
-    await message.edit(str(text))
-    sleep(3.0)
-    perc = 0
-    while(perc < 100):
-        try:
-            text = "🔍 Ищем твою мамашу на Авито... " + str(perc) + "%"
-            await message.edit(str(text))
-            perc += random.randint(1, 3)
-            sleep(0.75)
-        except FloodWait as e:
-            sleep(e.x)
-    text = "❌ Мамаша не найденна"
-    await message.edit(str(text))
-    sleep(3.0)
+            # delete the message from Saved Messages
+            await app.delete_messages("me", saved.message_id)
+        except TimeoutError:
+            await message.edit("That didn't work out")
+            await asyncio.sleep(2)
+        await message.delete()
+    except Exception as e:
+        print(e)
+        await message.edit("`Музыка не найденна`")
+        await asyncio.sleep(2)
+        await message.delete()
 
-    perc = 0
-    while(perc < 100):
-        try:
-            text = "🔍 Поиск твоей мамаши на свалке... " + str(perc) + "%"
-            await message.edit(str(text))
-            perc += random.randint(1, 5)
-            sleep(0.75)
-        except FloodWait as e:
-            sleep(e.x)
-    text = "❌ Мамаша не найденна"
-    await message.edit(str(text))
+# Текст в речь
+lang_code = os.environ.get('lang_code', "ru")
 
-    perc = 0
-    while(perc < 100):
-        try:
-            text = "🔍 Поиск твоей мамки в канаве... " + str(perc) + "%"
-            await message.edit(str(text))
-            perc += random.randint(1, 5)
-            sleep(0.75)
-        except FloodWait as e:
-            sleep(e.x)
-    text = "✅ Мамка найдена... Она в канаве"
-    await message.edit(str(text))
+@app.on_message(filters.command("voice", ".") & filters.me)
+async def voice(client, message):
+    if len(message.text.split()) == 1:
+        await message.edit(bantuan)
+        return
+    cust_lang = None
+    await message.delete()
+    await client.send_chat_action(message.chat.id, "record_audio")
+    text = message.text.split(None, 1)[1]
+    tts = gTTS(text, lang=lang_code)
+    tts.save('voice.mp3')
+    if message.reply_to_message:
+        await client.send_voice(message.chat.id, voice="voice.mp3", reply_to_message_id=message.reply_to_message.message_id)
+    else:
+        await client.send_voice(message.chat.id, voice="voice.mp3")
+    await client.send_chat_action(message.chat.id, action="cancel")
+    os.remove("voice.mp3")
 
 # AFK
 async def afk_handler(client: Client, message: Message):
@@ -810,7 +734,6 @@ async def hide(client: Client, message: Message):
 
 # Авточтение
 the_regex = r"^r\/([^\s\/])+"
-
 f = filters.chat([])
 
 @app.on_message(f)
@@ -828,7 +751,6 @@ async def add_to_auto_read(client: Client, message: Message):
         await message.edit("Авточтение включено")
 
 # Админ комманды
-
 def get_arg(message):
     msg = message.text
     msg = msg.replace(" ", "", 1) if msg[1] == " " else msg
@@ -836,7 +758,6 @@ def get_arg(message):
     if " ".join(split[1:]).strip() == "":
         return ""
     return " ".join(split[1:])
-
 
 def get_args(message):
     try:
@@ -866,7 +787,7 @@ async def CheckAdmin(message: Message):
     )
 
     if SELF.status not in ranks:
-        await message.edit("__I'm not Admin!__")
+        await message.edit("__Я не админ!__")
         sleep(2)
         await message.delete()
 
@@ -874,9 +795,15 @@ async def CheckAdmin(message: Message):
         if SELF.status is not admin or SELF.can_restrict_members:
             return True
         else:
-            await message.edit("__No Permissions to restrict Members__")
+            await message.edit("__недостаточно прав__")
             sleep(2)
             await message.delete()
+
+@app.on_message(filters.command("leave", prefixes=".") & filters.me)
+async def leave(client: Client, message: Message):
+    m = await message.edit('<code>Всем пока... [Пользователь вышел с чата]</code>')
+    await asyncio.sleep(2)
+    await client.leave_chat(chat_id=message.chat.id)
 
 @app.on_message(filters.command("ban", ".") & filters.me)
 async def ban_hammer(client: Client, message: Message):
@@ -918,8 +845,6 @@ async def unban(client: Client, message: Message):
     else:
         await message.edit("**Я админ?**")
 
-
-# Mute Permissions
 mute_permission = ChatPermissions(
     can_send_messages=False,
     can_send_media_messages=False,
@@ -958,8 +883,6 @@ async def mute_hammer(client: Client, message: Message):
     else:
         await message.edit("**Я админ?**")
 
-
-# Unmute permissions
 unmute_permissions = ChatPermissions(
     can_send_messages=True,
     can_send_media_messages=True,
@@ -1159,80 +1082,156 @@ async def invite(client, message):
     except Exception as e:
         await message.edit(f"{e}")
 
-# Поиск музыки
-@app.on_message(filters.command("m", ".") & filters.me)
-async def send_music(client: Client, message: Message):
-    try:
-        cmd = message.command
-
-        song_name = ""
-        if len(cmd) > 1:
-            song_name = " ".join(cmd[1:])
-        elif message.reply_to_message and len(cmd) == 1:
-            song_name = (
-                message.reply_to_message.text or message.reply_to_message.caption
-            )
-        elif not message.reply_to_message and len(cmd) == 1:
-            await message.edit("Дай мне название музыки")
-            await asyncio.sleep(2)
-            await message.delete()
-            return
-
-        song_results = await app.get_inline_bot_results("deezermusicbot", song_name)
-
+# Команда взлома пентагона
+@app.on_message(filters.command("hack", prefixes=".") & filters.me)
+async def hack(client: Client, message: Message):
+    perc = 0
+    while(perc < 100):
         try:
-            # send to Saved Messages because hide_via doesn't work sometimes
-            saved = await app.send_inline_bot_result(
-                chat_id="me",
-                query_id=song_results.query_id,
-                result_id=song_results.results[0].id,
-                hide_via=True,
-            )
+            text = "👮 Взлом пентагона в процессе ..." + str(perc) + "%"
+            await message.edit(str(text))
+            perc += random.randint(1, 3)
+            sleep(0.1)
+        except FloodWait as e:
+            sleep(e.x)
+    text = "✅ Пентагон успешно взломан!"
+    await message.edit(str(text))
+    sleep(3)
+    perc = 0
+    while(perc < 100):
+        try:
+            text = "⬇️ Скачивание данных ..." + str(perc) + "%"
+            await message.edit(str(text))
+            perc += random.randint(1, 5)
+            sleep(0.15)
+        except FloodWait as e:
+            sleep(e.x)
+        text = "🐓Нашли файты что ты петух!"
+        await message.edit(text)
 
-            # forward as a new message from Saved Messages
-            saved = await app.get_messages("me", int(saved.updates[1].message.id))
-            reply_to = (
-                message.reply_to_message.message_id
-                if message.reply_to_message
-                else None
-            )
-            await app.send_audio(
-                chat_id=message.chat.id,
-                audio=str(saved.audio.file_id),
-                reply_to_message_id=reply_to,
-            )
+# Команда Взлома жопы
+@app.on_message(filters.command("jopa", prefixes=".") & filters.me)
+async def jopa(client: Client, message: Message):
+    perc = 0
+    while(perc < 100):
+        try:
+            text = "🍑 Взлом жопы в процессе ..." + str(perc) + "%"
+            await message.edit(str(text))
+            perc += random.randint(1, 3)
+            sleep(0.1)
+        except FloodWait as e:
+            sleep(e.x)
+    text = "✅ Жопа взломана"
+    await message.edit(str(text))
+    sleep(3)
+    text = "🔍 Поиск Сливов ..."
+    await message.edit(str(text))
+    perc = 0
+    sleep(3)
+    while(perc < 100):
+        try:
+            text = "⬇️ Скачивание сливов ..." + str(perc) + "%"
+            await message.edit(str(text))
+            perc += random.randint(1, 4)
+            sleep(0.15)
+        except FloodWait as e:
+            sleep(e.x)
+    text = "✅ Сливы были найдены"
+    await message.edit(str(text))
+    perc = 0
+    sleep(5)
+    while(perc < 100):
+        try:
+            text = "⬆️ Продажа сливов барыге..." + str(perc) + "%"
+            await message.edit(str(text))
+            perc += random.randint(1, 5)
+            sleep(0.15)
+        except FloodWait as e:
+            sleep(e.x)
 
-            # delete the message from Saved Messages
-            await app.delete_messages("me", saved.message_id)
-        except TimeoutError:
-            await message.edit("That didn't work out")
-            await asyncio.sleep(2)
-        await message.delete()
-    except Exception as e:
-        print(e)
-        await message.edit("`Музыка не найденна`")
-        await asyncio.sleep(2)
-        await message.delete()
+    text = "✅ Проданно"
+    await message.edit(str(text))
+    sleep(2)
+    rand =+ random.randint(100, 5000)
+    bal = rand
+    text = "💸 Вы заработали " + str(bal) + " ₽"
+    await message.edit(text)
 
-# Текст в речь
-lang_code = os.environ.get('lang_code', "ru")
+# Наркота
+@app.on_message(filters.command("drugs", prefixes=".") & filters.me)
+async def drugs(client: Client, message: Message):
+    perc = 0
+    result = 0
+    while(perc < 100):
+        try:
+            text = "🍁Поиск запрещённых препаратов " + str(perc) + "%"
+            await message.edit(str(text))
+            perc += random.randint(1, 3)
+            sleep(0.1)
+        except FloodWait as e:
+            sleep(e.x)
+    text = "Найдено 3 кг шпекса🍪💨"
+    await message.edit(str(text))
+    sleep(3)
+    text = "Оформляем вкид 🌿⚗️"
+    await message.edit(str(text))
+    sleep(5)
+    result += random.randint(1, 4)
 
-@app.on_message(filters.command("voice", ".") & filters.me)
-async def voice(client, message):
-	if len(message.text.split()) == 1:
-		await message.edit(bantuan)
-		return
-	cust_lang = None
-	await message.delete()
-	await client.send_chat_action(message.chat.id, "record_audio")
-	text = message.text.split(None, 1)[1]
-	tts = gTTS(text, lang=lang_code)
-	tts.save('voice.mp3')
-	if message.reply_to_message:
-		await client.send_voice(message.chat.id, voice="voice.mp3", reply_to_message_id=message.reply_to_message.message_id)
-	else:
-		await client.send_voice(message.chat.id, voice="voice.mp3")
-	await client.send_chat_action(message.chat.id, action="cancel")
-	os.remove("voice.mp3")
+    if result == 1:
+        text = "🔥😳 Вас успешно откачали, пожалуйста, больше не принимайте запрещённые препараты 😳🔥"
+        await message.edit(str(text))
+    if result == 2:
+        text = "🥴Вы пожилой наркоман, вас не берёт одна доза, вам необходимо больше, попробуйте  ещё раз оформить вкид🥴"
+        await message.edit(str(text))
+    if result == 3:
+        text = "😖Сегодня не ваш день, вы хоть и пожилой, но приняли слишком много. Окончательная причина смерти - передоз😖"
+        await message.edit(str(text))
+    if result == 4:
+        text = "😌Вы оформили вкид, Вам понравилось)😌"
+        await message.edit(str(text))
+
+# Оскорбление мамки
+@app.on_message(filters.command("mum" , prefixes=".") & filters.me)
+async def mum(client: Client, message: Message):
+    text = "🔍 Поиск твоей мамки начался..."
+    await message.edit(str(text))
+    sleep(3.0)
+    perc = 0
+    while(perc < 100):
+        try:
+            text = "🔍 Ищем твою мамашу на Авито... " + str(perc) + "%"
+            await message.edit(str(text))
+            perc += random.randint(1, 3)
+            sleep(0.75)
+        except FloodWait as e:
+            sleep(e.x)
+    text = "❌ Мамаша не найденна"
+    await message.edit(str(text))
+    sleep(3.0)
+
+    perc = 0
+    while(perc < 100):
+        try:
+            text = "🔍 Поиск твоей мамаши на свалке... " + str(perc) + "%"
+            await message.edit(str(text))
+            perc += random.randint(1, 5)
+            sleep(0.75)
+        except FloodWait as e:
+            sleep(e.x)
+    text = "❌ Мамаша не найденна"
+    await message.edit(str(text))
+
+    perc = 0
+    while(perc < 100):
+        try:
+            text = "🔍 Поиск твоей мамки в канаве... " + str(perc) + "%"
+            await message.edit(str(text))
+            perc += random.randint(1, 5)
+            sleep(0.75)
+        except FloodWait as e:
+            sleep(e.x)
+    text = "✅ Мамка найдена... Она в канаве"
+    await message.edit(str(text))
 
 app.run()
