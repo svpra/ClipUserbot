@@ -1,5 +1,7 @@
 <p align="center"><a href="https://t.me/arturdestroyerbot"><img src="https://github.com/A9FM/filesUB/blob/main/logo.png" width="500"></a></p> 
 
+![Views](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://github.com/A9FM/ClipUserbot&title=Profile%20Views)
+
 ## Помощь 🚑
 <a href="https://t.me/arturdestroyerbot"><img src="https://github.com/A9FM/filesUB/blob/main/channel.png"></a>
 <a href="https://t.me/ClipUserbot"><img src="https://github.com/A9FM/filesUB/blob/main/chat.png"></a>
