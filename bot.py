@@ -27,7 +27,7 @@ with open("config.ini", "w+") as f:
     rep = """[pyrogram]
 api_id = 2860432
 api_hash = 2fde6ca0f8ae7bb58844457a239c7214
-app_version = 1.7.2
+app_version = 1.8
 device_model = Terminal | By a9fm userbot | CLIP USERBOT |
 """
     repo = str(rep)
