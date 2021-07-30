@@ -4,12 +4,11 @@ import pip
 
 # Проверка библиотек
 try:
-    import time, random, datetime, asyncio, sys, wikipedia, logging, aiohttp, covid, pyrogram, os, wget, bs4, requests, gtts, colorama, youtube_dl
+    import time, random, datetime, asyncio, sys, wikipedia, logging, aiohttp, pyrogram, os, wget, bs4, requests, gtts, colorama, youtube_dl
 except ModuleNotFoundError:
     print("Установка дополнений...\n")
     pip.main(['install', 'tgcrypto'])
     pip.main(['install', 'pyrogram'])
-    pip.main(['install', 'covid'])
     pip.main(['install', 'aiohttp'])
     pip.main(['install', 'wikipedia'])
     pip.main(['install', 'logging'])
@@ -41,7 +40,6 @@ from pyrogram.types import Message, ChatPermissions
 from pyrogram.handlers import MessageHandler
 from pyrogram.methods.chats.get_chat_members import Filters as ChatMemberFilters
 from time import sleep, perf_counter, time
-from covid import Covid
 from aiohttp import ClientSession
 from bs4 import BeautifulSoup
 import time, random, datetime, asyncio, sys, wikipedia, requests, json, colorama, requests, youtube_dl
@@ -110,7 +108,6 @@ async def help(client: Client, message: Message):
 <code>.afk</code> [Причина] - Ввойти в АФК [Не в сети]
 <code>.unafk</code> - Выйти из АФК
 <code>.wiki</code> [Слово] - Поиск в Википедии
-<code>.covid</code> [Страна] - Статистика заражения вирусом covid-19 [Коронавирус]
 <code>.weather</code> [Город] - Погода
 
 『Троллинг』
@@ -450,28 +447,6 @@ async def ping(client: Client, message: Message):
         await message.edit(f'<b>🏓 Понг\n📶</b> {round(ping)} мс\n🔴Качество соединения: Не стабильное🔴')
     if 600 <= ping:
         await message.edit(f'<b>🏓 Понг\n📶</b> {round(ping)} мс\n⚠Качество соединения: Перепады связи⚠')
-
-# Covid
-@app.on_message(filters.command("covid", prefixes=".") & filters.me)
-async def covid_local(client: Client, message: Message):
-    region = ' '.join(message.command[1:])
-    await message.edit('<code>Загрузка...</code>')
-    covid = Covid(source="worldometers")
-    try:
-        local_status = covid.get_status_by_country_name(region)
-        await message.edit("<b>=======🦠 COVID-19 STATUS 🦠=======</b>\n" +
-                           f"<b>Регион [Страна]</b>: <code>{local_status['country']}</code>\n" +
-                           "<b>====================================</b>\n" +
-                           f"<b>🤧 Новые заражения</b>: <code>{local_status['new_cases']}</code>\n" +
-                           f"<b>😷 Новые смерти</b>: <code>{local_status['new_deaths']}</code>\n" +
-                           "<b>====================================</b>\n" +
-                           f"<b>😷 Подтверждённые</b>: <code>{local_status['confirmed']}</code>\n" +
-                           f"<b>❗️ Активные [Заражённые]:</b> <code>{local_status['active']}</code>\n" +
-                           f"<b>⚠️ Критически</b>: <code>{local_status['critical']}</code>\n" +
-                           f"<b>💀 Смертей</b>: <code>{local_status['deaths']}</code>\n" +
-                           f"<b>🚑 Спасенно [Вылеченно]</b>: <code>{local_status['recovered']}</code>\n")
-    except ValueError:
-        await message.edit(f'<code>There is no region called "{region}"</code>')
 
 # Сократитель ссылок
 linkToken = '6c2ac1846a1c1A2d5f88A3E5fbf0e14fcf96d7d0'
