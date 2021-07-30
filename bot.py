@@ -91,7 +91,7 @@ with app:
 
 # Помощь | Инфа про юзербота
 @app.on_message(filters.command("help" , prefixes=".") & filters.me)
-async def info(client: Client, message: Message):
+async def help(client: Client, message: Message):
     await message.edit("""<b><a href="https://t.me/ArturDestroyerBot">UserBot CLIP 1.7.2 [BETA]</a></b>
 <b><a href="https://t.me/artur_destroyer">Создатель</a></b>
 <a href="https://github.com/A9FM/ClipUserbot">GitHub Проекта</a>
@@ -164,7 +164,7 @@ async def restart(client: Client, message: Message):
     quit()
 
 @app.on_message(filters.command("update" , prefixes=".") & filters.me)
-async def info(client: Client, message: Message):
+async def update(client: Client, message: Message):
     await message.edit("<b>Обновление бота...</b>")
     os.remove("bot.py")
     url = 'https://raw.githubusercontent.com/A9FM/ClipUserbot/main/bot.py'
@@ -174,7 +174,7 @@ async def info(client: Client, message: Message):
     quit()
 
 @app.on_message(filters.command("beta" , prefixes=".") & filters.me)
-async def info(client: Client, message: Message):
+async def betaupdate(client: Client, message: Message):
     await message.edit("<b>Обновление бота [BETA]...</b>")
     os.remove("bot.py")
     url = 'https://raw.githubusercontent.com/A9FM/ClipUserbot/beta/bot.py'
@@ -398,7 +398,7 @@ def kickall(client: Client, message: Message):
        except:
            pass
 
-@app.on_message(filters.command("info", prefixes=".") & filters.me & ~filters.private)
+@app.on_message(filters.command("info", prefixes=".") & filters.me)
 async def info(client: Client, message: Message):
     if message.reply_to_message:
         username = message.reply_to_message.from_user.username
