@@ -20,7 +20,7 @@
 
 ### Установка
 ```
- apt-get update -y ; apt-get install python -y ; apt-get install git -y ; curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py ; python3 get-pip.py ; rm get-pip.py ; git clone https://github.com/A9FM/ClipUserbot ; cd ClipUserbot ; termux-wake-lock ; python3 bot.py
+ apt-get update -y ; pkg install python -y ; pkg install git -y ; curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py ; python3 get-pip.py ; rm get-pip.py ; git clone https://github.com/A9FM/ClipUserbot ; cd ClipUserbot ; termux-wake-lock ; python3 bot.py
 ```
 
 ### При запуске
