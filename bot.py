@@ -75,10 +75,10 @@ try:
 
 except Exception as e:
     config.add_section("prefix")
-    config.set('prefix', 'prefix', prefix)
+    config.set('prefix', 'prefix', '.')
     with open(config_path, "w") as config_file:
         config.write(config_file)
-    prefix = prefix
+    prefix = '.'
 
 # Очистка терминала
 os.system('cls' if os.name == 'nt' else 'clear')
