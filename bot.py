@@ -4,7 +4,7 @@ import pip
 
 # Проверка библиотек
 try:
-    import time, random, datetime, asyncio, sys, wikipedia, logging, aiohttp, pyrogram, os, wget, bs4, requests, gtts, colorama, youtube_dl
+    import time, random, datetime, asyncio, sys, wikipedia, logging, aiohttp, pyrogram, os, wget, bs4, requests, gtts, colorama, youtube_dl, db0mb3r, configparser
 except ModuleNotFoundError:
     print("Установка дополнений...\n")
     pip.main(['install', 'tgcrypto'])
@@ -18,21 +18,26 @@ except ModuleNotFoundError:
     pip.main(['install', 'gtts'])
     pip.main(['install', 'colorama'])
     pip.main(['install', 'youtube_dl'])
+    pip.main(['install', 'db0mb3r'])
+    pip.main(['install', 'configparser'])
     import os
     os.execl(sys.executable, sys.executable, *sys.argv)
     quit()
 
 # Проверка конфига
-with open("config.ini", "w+") as f:
-    rep = """[pyrogram]
+config = os.path.exists('config.ini')
+if config == True:
+    print("work")
+else:
+    with open("config.ini", "w+") as f:
+        rep = """[pyrogram]
 api_id = 2860432
 api_hash = 2fde6ca0f8ae7bb58844457a239c7214
-app_version = 1.8
 device_model = Terminal | By a9fm userbot | CLIP USERBOT |
 """
-    repo = str(rep)
-    f.write(repo)
-    f.close()
+        repo = str(rep)
+        f.write(repo)
+        f.close()
 
 from pyrogram import Client, filters
 from pyrogram.errors import FloodWait, ChatSendMediaForbidden
@@ -42,8 +47,7 @@ from pyrogram.methods.chats.get_chat_members import Filters as ChatMemberFilters
 from time import sleep, perf_counter, time
 from aiohttp import ClientSession
 from bs4 import BeautifulSoup
-import time, random, datetime, asyncio, sys, wikipedia, requests, json, colorama, requests, youtube_dl
-from urllib.request import urlopen
+import time, random, datetime, asyncio, sys, wikipedia, requests, json, colorama, requests, youtube_dl, subprocess, configparser
 from gtts import gTTS
 
 # Проверка файла репутации
@@ -60,7 +64,7 @@ else:
 # Очистка терминала
 os.system('cls' if os.name == 'nt' else 'clear')
 
-logotip = """\033[31m
+logo = """\033[31m
   ____ _     ___ _____
  / ___| |   |_ _|  _  |
 | |   | |    | || |_) |
@@ -74,10 +78,11 @@ logotip = """\033[31m
 
 \033[34m
 Telegram Канал - @ArturDestroyerBot
-Помощь - @Artur_destroyer\nВерсия 1.8\n\n"""
+Помощь - @Artur_destroyer
+Версия 1.9
 
-logi = "Логи:"
-print(logotip + logi)
+Логи:"""
+print(logo)
 
 # Логи + Вход
 app = Client("my_account")
@@ -87,99 +92,148 @@ import logging
 with app:
          app.join_chat('ArturDestroyerBot') # Прошу, не убирайте эту строку
 
-# Помощь | Инфа про юзербота
-@app.on_message(filters.command("help" , prefixes=".") & filters.me)
-async def help(client: Client, message: Message):
-    await message.edit("""<b><a href="https://t.me/ArturDestroyerBot">🤖 UserBot CLIP 1.8🤖</a></b>
-<b><a href="https://t.me/artur_destroyer">Создатель</a></b>
-<a href="https://github.com/A9FM/ClipUserbot">GitHub Проекта</a>
-<a href="https://github.com/A9FM/filesUB/blob/main/README.md">© Copyright ClipUSERBOT</a>
+# Доп код перезагрузка
+with app:
+         if len(sys.argv) == 4:
+             try:
+                 restart_type = sys.argv[3]
+                 if restart_type == '1': text = '<code>Обновление завершенно!</code>'
+                 else: text = '<code>Перезагрузка завершенна!</code>'
+                 app.send_message(chat_id=sys.argv[1], text=text, reply_to_message_id=int(sys.argv[2]))
+             except:
+                 app.send_message(chat_id=sys.argv[1], text=text)
 
-<b>Команды</b>
+
+# Префиксы доп
+config_path = os.path.join(sys.path[0], 'config.ini')
+config = configparser.ConfigParser()
+config.read(config_path)
+
+def get_prefix():
+    prefix = config.get("prefix", "prefix")
+    return prefix
+
+try:
+    prefix = get_prefix()
+
+except Exception as e:
+    config.add_section("prefix")
+    config.set('prefix', 'prefix', prefix)
+    with open(config_path, "w") as config_file:
+        config.write(config_file)
+    prefix = prefix
+
+# Помощь | Инфа про Юзербота
+@app.on_message(filters.command("help", prefix) & filters.me)
+async def help(client: Client, message: Message):
+    await message.edit("""<b><a href="https://t.me/ArturDestroyerBot">🤖 UserBot CLIP 1.9 🤖</a></b>
+<b><a href="https://t.me/artur_destroyer">👨‍💻 Создатель 👨‍💻</a></b>
+<b><a href="https://www.donationalerts.com/r/a9fm">💰 Донат Создателю 💰</a></b>
+<b><a href="https://github.com/A9FM/ClipUserbot#readme">🤔 Как установить? 🤔</a></b>
+<b><a href="https://github.com/A9FM/filesUB/blob/main/README.md">© Copyright ClipUSERBOT ©</a></b>
 
 『Основные』
-<code>.help</code> - Помощь | Информация | Проверка версии
-<code>.ping</code> - Проверка Пинга бота [Качество полключения]
-<code>.restart</code> - Перезагрузка [Ошибка, Баг в боте]
-<code>.update</code> - Обновить
-<code>.beta</code> - Обновиться на [BETA]
+⇛ <code>help</code> - Помощь | Информация | Проверка версии
+⇛ <code>ping</code> - Проверка Пинга Юзербота [Качество полключения]
+⇛ <code>restart</code> - Перезагрузка [Ошибка, Баг в Юзерботе]
+⇛ <code>update</code> - Обновить
+⇛ <code>beta</code> - Обновиться на [BETA]
+⇛ <code>sp</code> [Символ] - Смена префикса (знака в начале для комманд)
 
 『Мало временни』
-<code>.afk</code> [Причина] - Ввойти в АФК [Не в сети]
-<code>.unafk</code> - Выйти из АФК
-<code>.wiki</code> [Слово] - Поиск в Википедии
-<code>.weather</code> [Город] - Погода
+⇛ <code>afk</code> [Причина] - Ввойти в АФК [Не в сети]
+⇛ <code>unafk</code> - Выйти из АФК
+⇛ <code>wiki</code> [Слово] - Поиск в Википедии
+⇛ <code>weather</code> [Город] - Погода
 
 『Троллинг』
-<code>.hack</code> - Взлом Пентагонна
-<code>.jopa</code> - Взлом жопы
-<code>.mum</code> - Поиск матери
-<code>.drugs</code> - Принять 3aПрEщEHHblE BещECTBа
+⇛ <code>hack</code> - Взлом Пентагонна
+⇛ <code>jopa</code> - Взлом жопы
+⇛ <code>mum</code> - Поиск матери
+⇛ <code>drugs</code> - Принять 3aПрEщEHHblE BещECTBа
+⇛ <code>bomber</code> - Запуск Бомбера (Сайт)
+⇛ <code>bbomber</code> [Номер без знака +] - Запуск бомбера (боты)
+⇛ <code>sbomber</code> - Завершение роботы бомбера
 
 『Плюшки』
-<code>.type</code> - Эффект Печати
-<code>.hide</code> - Сообщения с Авто-удалением
-<code>.sw</code> - Переключение расскладки [Если написали по типу ghbdtn]
-<code>.pin</code> - Закрепить
-<code>.unpin</code> - Открепить
-<code>.short</code> [Ссылка] - сократитель ссылок
-<code>.tagall</code> - Призыв всех участников
-<code>.id</code> - Айди
-<code>.info</code> - Информация
-<code>.qr</code> [Текст] - Создание QR-Кода с вашим текстом
-<code>.time</code> - Текущее время
-<code>.ladder</code> - текст лесенкой (п пр при прив привет)
-<code>.webshot</code> [Ссылка] - Скриншот сайта
-<code>.autoread</code> - Авто-чтение (нет уведомлений с этого чата)
-<code>.spam</code> [Кол-во смс] [Текст сообщения] - Спам
-<code>.yt</code> [ссылка] - Скачивание и отправка видео (ютуб, тикток, лайк, инста)
-<code>.myt</code> [ссылка] - Скачивание и отправа звука с видео (ютуб, тикток, лайк, инста)
+⇛ <code>type</code> - Эффект Печати
+⇛ <code>hide</code> - Сообщения с Авто-удалением
+⇛ <code>sw</code> - Переключение расскладки [Если написали по типу ghbdtn]
+⇛ <code>short</code> [Ссылка] - сократитель ссылок
+⇛ <code>tagall</code> - Призыв всех участников
+⇛ <code>id</code> - Айди
+⇛ <code>info</code> - Информация
+⇛ <code>qr</code> [Текст] - Создание QR-Кода с вашим текстом
+⇛ <code>time</code> - Текущее время
+⇛ <code>ladder</code> - текст лесенкой (п пр при прив привет)
+⇛ <code>webshot</code> [Ссылка] - Скриншот сайта
+⇛ <code>autoread</code> - Авто-чтение (нет уведомлений с этого чата)
+⇛ <code>spam</code> [Кол-во смс] [Текст сообщения] - Спам
+⇛ <code>yt</code> [ссылка] - Скачивание и отправка видео (ютуб, тикток, лайк, инста)
+⇛ <code>myt</code> [ссылка] - Скачивание и отправа звука с видео (ютуб, тикток, лайк, инста)
+⇛ <code>q</code> [Ответ] - Сделать цитату (Стикер с текстом пользователя)
+⇛ <code>spamban</code> [Ответ] - Проверка ограничений
+⇛ <code>voice</code> [Текст] - Текст в голосовое
+⇛ <code>text</code> [Ответ на голосовое] - Голосовое сообщение в текст
 
 『Администрация』
-<code>.ban</code> - Бан
-<code>.unban</code> - Разбан
-<code>.kick</code> - Кик
-<code>.mute</code> - Мут
-<code>.unmute</code> - Размут
-<code>.admin</code> - Выдача прав админа
-<code>.unadmin</code> - Разжалование Админа
-<code>.pin</code> - Закрепить
-<code>.invite</code> (Юзейрнейм - @) - Пригласить в чат
-<code>.kickall</code> - Удаление всех с чата
-<code>.kickall hide</code> - Удаление всех (скрыто)
-<code>.leave</code> - Выйти с чата
+⇛ <code>ban</code> - Бан
+⇛ <code>unban</code> - Разбан
+⇛ <code>kick</code> - Кик
+⇛ <code>mute</code> - Мут
+⇛ <code>unmute</code> - Размут
+⇛ <code>admin</code> - Выдача прав админа
+⇛ <code>unadmin</code> - Разжалование Админа
+⇛ <code>invite</code> (Юзейрнейм - @) - Пригласить в чат
+⇛ <code>kickall</code> - Удаление всех с чата
+⇛ <code>kickall hide</code> - Удаление всех (скрыто)
+⇛ <code>leave</code> - Выйти с чата
+⇛ <code>pin</code> - Закрепить
+⇛ <code>unpin</code> - Открепить
 
 [Репутация, для повышения попросите 2 человека написать вам в ответ сообщение "+"]
 
 Если нужна помощь, пиши @artur_destroyer""", disable_web_page_preview=True)
 
-# Перезагрузка
-@app.on_message(filters.command("restart" , prefixes=".") & filters.me)
-async def restart(client: Client, message: Message):
-    await message.edit("<b>Перезагрузка бота...</b>")
-    await message.edit("<b>Бот перезапущен!</b>")
-    os.execl(sys.executable, sys.executable, *sys.argv)
-    quit()
+async def restart(message: Message, restart_type):
+    if restart_type == 'update': text = '1'
+    else: text = '2'
+    await os.execvp("python", ["python", "bot.py", f"{message.chat.id}",  f" {message.message_id}", f"{text}"])
 
-@app.on_message(filters.command("update" , prefixes=".") & filters.me)
+@app.on_message(filters.command('restart', prefix) & filters.me)
+async def restart_comand(client: Client, message: Message):
+    await message.edit('<code>Перезагрузка...</code>')
+    await restart(message, restart_type='restart')
+
+@app.on_message(filters.command("update", prefix) & filters.me)
 async def update(client: Client, message: Message):
-    await message.edit("<b>Обновление бота...</b>")
+    await message.edit('<code>Обновление...</code>')
     os.remove("bot.py")
     url = 'https://raw.githubusercontent.com/A9FM/ClipUserbot/main/bot.py'
     wget.download(url, '')
-    await message.edit("<b>Бот обновлён!</b>")
-    os.execl(sys.executable, sys.executable, *sys.argv)
-    quit()
+    await restart(message, restart_type='update')
 
-@app.on_message(filters.command("beta" , prefixes=".") & filters.me)
-async def betaupdate(client: Client, message: Message):
-    await message.edit("<b>Обновление бота [BETA]...</b>")
+@app.on_message(filters.command("beta", prefix) & filters.me)
+async def beta(client: Client, message: Message):
+    await message.edit('<code>Обновление на бета версию...</code>')
     os.remove("bot.py")
     url = 'https://raw.githubusercontent.com/A9FM/ClipUserbot/beta/bot.py'
     wget.download(url, '')
-    await message.edit("<b>Бот обновлён![BETA]</b>")
-    os.execl(sys.executable, sys.executable, *sys.argv)
-    quit()
+    await restart(message, restart_type='update')
+
+# Префикс
+@app.on_message(filters.command("sp", prefix) & filters.me)
+async def pref(client: Client, message: Message):
+    if len(message.command) > 1:
+        prefix = message.command[1]
+        print(message.command)
+        config.set('prefix', 'prefix', prefix)
+        with open(config_path, "w") as config_file:
+            config.write(config_file)
+        await message.edit(f'<b>Префикс [ <code>{prefix}</code> ] установлен!</b>\nПожалуйста, подождите окончания перезагрузки')
+        await restart(message, restart_type='restart')
+    else:
+        await message.edit('<b>Префикс не должен быть пустым!</b>')
 
 # Репутация
 @app.on_message(filters.text & filters.incoming & filters.regex('^\-$') & filters.reply)
@@ -222,7 +276,7 @@ async def rep(client: Client, message: Message):
     except:
         pass
 # Айди
-@app.on_message(filters.command('id', prefixes='.') & filters.me)
+@app.on_message(filters.command('id', prefix) & filters.me)
 async def spam(client: Client, message: Message):
     if message.reply_to_message is None:
         await message.edit(f"Твой айди: {message.chat.id}")
@@ -230,16 +284,61 @@ async def spam(client: Client, message: Message):
         id = f"Твой айди: {message.reply_to_message.from_user.id}\n\nАйди группы: {message.chat.id}"
         await message.edit(id)
 
+# Бомбер
+@app.on_message(filters.command('bomber', prefix) & filters.me)
+async def spam(client: Client, message: Message):
+    await message.edit("Запускаем бомбер")
+    global bombe
+    print("""
+ _____                 _               
+|  _  |               | |              
+| |_) | ___  _ __ ___ | |__   ___ _ __ 
+|  _ < / _ \| '_ ` _ \| '_ \ / _ \ '__|
+| |_) | (_) | | | | | | |_) |  __/ |   
+|____/ \___/|_| |_| |_|_.__/ \___|_|   
+""")
+
+    bombe = subprocess.Popen(["bomber"], stdout=subprocess.PIPE)
+    await asyncio.sleep(5)
+    await message.edit("Бомбер запущен :^\nСсылка: 127.0.0.1:8080")
+
+@app.on_message(filters.command('sbomber', prefix) & filters.me)
+async def spam(client: Client, message: Message):
+    bombe.terminate()
+    await message.edit("Бомбер завершил свою роботу...")
+
+@app.on_message(filters.command('bbomber', prefix) & filters.me)
+async def spam(client: Client, message: Message):
+    bomber = message.command[1]
+# Старт ботов
+    await app.send_message('mobilebomber_bot', "/start")
+    await app.send_message('BomberFree_bot', "/start")
+    await app.send_message('couldboombot', "/start")
+    await app.send_message('FREE_bomjGang_bot', "/start")
+    await message.edit("Запуск ботов")
+# Выбор бомбера
+    await app.send_message('mobilebomber_bot', "Запустить 🔥💣 бомбер")
+    await app.send_message('couldboombot', "⚡️Запустить Spam")
+    await app.send_message('FREE_bomjGang_bot', "🔥БОМБЕР🔥")
+    await asyncio.sleep(2)
+# Запуск
+    await app.send_message('mobilebomber_bot', bomber)
+    await app.send_message('BomberFree_bot', bomber)
+    await app.send_message('couldboombot', bomber)
+    await app.send_message('FREE_bomjGang_bot', bomber)
+    result = "Бомбер запущен на номер " + message.command[1]
+    await message.edit(result)
+
 # Время
-@app.on_message(filters.command('time', prefixes='.') & filters.me)
+@app.on_message(filters.command('time', prefix) & filters.me)
 async def spam(client: Client, message: Message):
     now = datetime.datetime.now()
-    timnow = now.strftime("%d-%m-%Y\nВремя %H:%M")
+    timnow = now.strftime("%d.%m.%Y\nВремя %H:%M:%S")
     timenow = "Текущая дата : " + timnow
     await message.edit(timenow)
 
 # Спам
-@app.on_message(filters.command('spam', prefixes='.') & filters.me)
+@app.on_message(filters.command('spam', prefix) & filters.me)
 async def spam(client: Client, message: Message):
         if not message.text.split('.spam', maxsplit=1)[1]:
                 await message.edit('<i>Нету аргументов.</i>')
@@ -253,12 +352,12 @@ async def spam(client: Client, message: Message):
                 await asyncio.sleep(0.01)
 
 # Скриншот сайта
-@app.on_message(filters.command('webshot', prefixes=".") & filters.me)
+@app.on_message(filters.command('webshot', prefix) & filters.me)
 async def webshot(client, message):
     try:
         if len(message.text.split()) < 2:
-        	await message.edit('<i>Нету аргументов.</i>')
-        	return
+            await message.edit('<i>Нету аргументов.</i>')
+            return
         user_link = message.command[1]
         await message.delete()
         full_link = 'https://webshot.deam.io/{}/?width=1920&height=1080?type=png'.format(user_link)
@@ -267,7 +366,7 @@ async def webshot(client, message):
         await message.edit('<i>Неизвестный сайт.</i>')
 
 # Видео с ютуб
-@app.on_message(filters.command("yt", prefixes=".") & filters.me)
+@app.on_message(filters.command("yt", prefix) & filters.me)
 async def webshot(client, message):
     linked = message.command[1]
     await message.edit("Скачивание видео...")
@@ -279,7 +378,7 @@ async def webshot(client, message):
     await message.delete()
     os.remove('video.mp4')
 
-@app.on_message(filters.command("myt", prefixes=".") & filters.me)
+@app.on_message(filters.command("myt", prefix) & filters.me)
 async def webshot(client, message):
     myth = "youtube-dl -f 140 " + message.command[1] + " -o music.m4a"
     await message.edit("Скачивание аудиодорожки...")
@@ -290,7 +389,7 @@ async def webshot(client, message):
     os.remove("music.m4a")
 
 # Призыв всех
-@app.on_message(filters.command("tagall", prefixes=".") & filters.me)
+@app.on_message(filters.command("tagall", prefix) & filters.me)
 async def tagall(client, message):
     args = ' ! '
     if len(message.text.split()) >= 2:
@@ -319,7 +418,7 @@ async def tagall(client, message):
             await asyncio.sleep(2)
 
 # Удалить смс
-@app.on_message(filters.command("del" , prefixes=".") & filters.me)
+@app.on_message(filters.command("del", prefix) & filters.me)
 async def del_msg(client: Client, message: Message):
     if message.reply_to_message:
         message_id = message.reply_to_message.message_id
@@ -327,7 +426,7 @@ async def del_msg(client: Client, message: Message):
         await client.delete_messages(message.chat.id, message_id)
 
 # Пурдж
-@app.on_message(filters.command('purge', prefixes='.') & filters.me)
+@app.on_message(filters.command('purge', prefix) & filters.me)
 async def purge(client: Client, message: Message):
         if message.reply_to_message:
                 r = message.reply_to_message.message_id
@@ -350,7 +449,7 @@ async def purge(client: Client, message: Message):
                 await message.edit('<i>А где реплай?</i>')
 
 # Команда type
-@app.on_message(filters.command("type", prefixes=".") & filters.me)
+@app.on_message(filters.command("type", prefix) & filters.me)
 async def type(client: Client, message: Message):
     orig_text = message.text.split(".type ", maxsplit=1)[1]
     text = orig_text
@@ -369,8 +468,8 @@ async def type(client: Client, message: Message):
             sleep(e.x)
 
 # Лестница
-@app.on_message(filters.command("ladder" , prefixes=".") & filters.me)
-async def restart(client: Client, message: Message):
+@app.on_message(filters.command("ladder", prefix) & filters.me)
+async def ladder(client: Client, message: Message):
     text = message.command[1]
     output = []
     for i in range(len(text) + 1):
@@ -378,9 +477,44 @@ async def restart(client: Client, message: Message):
     ot = "\n".join(output)
     await message.edit(ot)
 
+# Quotes
+@app.on_message(filters.command("q", prefix) & filters.me)
+async def quotly(client: Client, message: Message):
+    if not message.reply_to_message:
+        await message.edit("Ответь на сообщение")
+        return
+    await message.edit("Создаю цитату....")
+    await message.reply_to_message.forward("QuotLyBot")
+    await asyncio.sleep(7)
+    iii = await app.get_history("QuotLyBot")
+    await message.delete()
+    await app.forward_messages(message.chat.id, "QuotLyBot", iii[0].message_id)
+
+# ГС в текст
+@app.on_message(filters.command("text", prefix) & filters.me)
+async def quotly(client: Client, message: Message):
+    if not message.reply_to_message:
+        await message.edit("Ответь на сообщение")
+        return
+    await message.edit("Пишу текстом...")
+    await message.reply_to_message.forward("VoiceMsgBot")
+    await asyncio.sleep(5)
+    iii = await app.get_history("VoiceMsgBot")
+    await message.edit("Отправка текста...")
+    await app.forward_messages(message.chat.id, "VoiceMsgBot", iii[0].message_id)
+
+# Ограничения
+@app.on_message(filters.command("spamban", prefix) & filters.me)
+async def quotly(client: Client, message: Message):
+    await message.edit("Чекаю твой акк на наличие нарушений")
+    await app.send_message('spambot', "/start")
+    await asyncio.sleep(1)
+    iii = await app.get_history("spambot")
+    await message.delete()
+    await app.forward_messages(message.chat.id, "spamBot", iii[0].message_id)
 
 # Удаление всех с группы (200 уч лимит) !!! СКРЫТО
-@app.on_message(filters.command('kickall hide', '.') & filters.me & ~filters.private)
+@app.on_message(filters.command('kickall hide', prefix) & filters.me)
 def kickall(client: Client, message: Message):
     message.delete()
     num = 0
@@ -392,7 +526,7 @@ def kickall(client: Client, message: Message):
            pass
 
 # Удаление всех с группы (200 уч лимит)
-@app.on_message(filters.command('kickall', '.') & filters.me & ~filters.private)
+@app.on_message(filters.command('kickall', prefix) & filters.me)
 def kickall(client: Client, message: Message):
     num = 0
     for all in client.iter_chat_members(message.chat.id):
@@ -402,36 +536,35 @@ def kickall(client: Client, message: Message):
        except:
            pass
 
-@app.on_message(filters.command("info", prefixes=".") & filters.me)
+@app.on_message(filters.command("info", prefix) & filters.me)
 async def info(client: Client, message: Message):
     if message.reply_to_message:
         username = message.reply_to_message.from_user.username
         id = message.reply_to_message.from_user.id
         first_name = message.reply_to_message.from_user.first_name
         user_link = message.reply_to_message.from_user.mention
+        last_name = message.reply_to_message.from_user.last_name
+        number = message.reply_to_message.from_user.phone_number
     else:
         username = message.from_user.username
         id = message.from_user.id
         first_name = message.from_user.first_name
         user_link = message.from_user.mention
-    if username:
-        username = f"@{username}"
-        text = f"""
+        last_name = message.from_user.last_name
+        number = message.from_user.phone_number
+
+    text = f"""
 ╭ <b>Информация</b>:
 ┃ Айди: <code>{id}</code>
 ┃ Имя: {first_name}
-┃ Юзернейм: {username}
-╰ Ссылка: {user_link}"""
-    else:
-        text = f"""
-╭ <b>Информация</b>:
-┃ Айди: <code>{id}</code>
-┃ Имя: {first_name}
+┃ Фамилия: {last_name}
+┃ Юзернейм: @{username}
+┃ Номер телефонна: {number}
 ╰ Ссылка: {user_link}"""
     await message.edit(text, parse_mode="HTML")
 
 # Пинг
-@app.on_message(filters.command("ping", prefixes=".") & filters.me)
+@app.on_message(filters.command("ping", prefix) & filters.me)
 async def ping(client: Client, message: Message):
     start = perf_counter()
     await message.edit('Pong')
@@ -462,7 +595,7 @@ async def link_short(link: str):
         ) as resp:
             return await resp.json()
 
-@app.on_message(filters.command("short", prefixes=".") & filters.me)
+@app.on_message(filters.command("short", prefix) & filters.me)
 async def shorten_link_command(client: Client, message: Message):
     if message.reply_to_message:
          link = message.reply_to_message.text
@@ -486,7 +619,7 @@ def get_cmd_content(message: Message):
         content = ''
     return content
 
-@app.on_message(filters.command("qr", prefixes=".") & filters.me & content_filter)
+@app.on_message(filters.command("qr", prefix) & filters.me & content_filter)
 async def qr_cmd(client: Client, message: Message):
     text = get_cmd_content(message)
     await message.delete()
@@ -500,7 +633,7 @@ async def qr_cmd(client: Client, message: Message):
             )
 
 # Википедия
-@app.on_message(filters.command("wiki", prefixes=".") & filters.me)
+@app.on_message(filters.command("wiki", prefix) & filters.me)
 async def wiki(client: Client, message: Message):
     lang = message.command[1]
     user_request = ' '.join(message.command[2:])
@@ -525,7 +658,7 @@ async def wiki(client: Client, message: Message):
 <code>{exc}</code>''')
 
 # Переклюяение раскладки
-@app.on_message(filters.command("sw", prefixes=".") & filters.me)
+@app.on_message(filters.command("sw", prefix) & filters.me)
 async def switch(client: Client, message: Message):
     text = ' '.join(message.command[1:])
     ru_keys = """ёйцукенгшщзхъфывапролджэячсмитьбю.Ё"№;%:?ЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭ/ЯЧСМИТЬБЮ,"""
@@ -562,7 +695,7 @@ def get_pic(city):
         return file_name
 
 # Погода
-@app.on_message(filters.command("weather", prefixes=".") & filters.me)
+@app.on_message(filters.command("weather", prefix) & filters.me)
 async def weather(client: Client, message: Message):
     city = message.command[1]
     await message.edit("```Загрузка...```")
@@ -572,7 +705,7 @@ async def weather(client: Client, message: Message):
     os.remove(f'{city}.png')
 
 # Поиск музыки
-@app.on_message(filters.command("m", ".") & filters.me)
+@app.on_message(filters.command("m", prefix) & filters.me)
 async def send_music(client: Client, message: Message):
     try:
         cmd = message.command
@@ -629,7 +762,7 @@ async def send_music(client: Client, message: Message):
 # Текст в речь
 lang_code = os.environ.get('lang_code', "ru")
 
-@app.on_message(filters.command("voice", ".") & filters.me)
+@app.on_message(filters.command("voice", prefix) & filters.me)
 async def voice(client, message):
     if len(message.text.split()) == 1:
         await message.edit(bantuan)
@@ -659,7 +792,7 @@ async def afk_handler(client: Client, message: Message):
     except NameError:
         pass
 
-@app.on_message (filters.command("afk" , prefixes=".") & filters.me)
+@app.on_message (filters.command("afk", prefix) & filters.me)
 async def afk(client: Client, message: Message):
     global start, end, handler, reason
     start = datetime.datetime.now().replace(microsecond=0)
@@ -672,7 +805,7 @@ async def afk(client: Client, message: Message):
                        f"<b>Причина:</b> <i>{reason}</i>")
 
 # No AFK
-@app.on_message (filters.command("unafk" , prefixes=".") & filters.me)
+@app.on_message (filters.command("unafk", prefix) & filters.me)
 async def unafk(client: Client, message: Message):
     try:
         global start, end
@@ -686,7 +819,7 @@ async def unafk(client: Client, message: Message):
         await message.delete()
 
 # Автоудаление сообщений
-@app.on_message(filters.command("hide", prefixes=".") & filters.me)
+@app.on_message(filters.command("hide", prefix) & filters.me)
 async def hide(client: Client, message: Message):
     orig_text = message.text.split(".hide ", maxsplit=1)[1]
     text = orig_text
@@ -716,7 +849,7 @@ async def auto_read(client: Client, message: Message):
     await app.read_history(message.chat.id)
     message.continue_propagation()
 
-@app.on_message(filters.command("autoread", ".") & filters.me)
+@app.on_message(filters.command("autoread", prefix) & filters.me)
 async def add_to_auto_read(client: Client, message: Message):
     if message.chat.id in f:
         f.remove(message.chat.id)
@@ -774,13 +907,13 @@ async def CheckAdmin(message: Message):
             sleep(2)
             await message.delete()
 
-@app.on_message(filters.command("leave", prefixes=".") & filters.me)
+@app.on_message(filters.command("leave", prefix) & filters.me)
 async def leave(client: Client, message: Message):
     m = await message.edit('<code>Всем пока... [Пользователь вышел с чата]</code>')
     await asyncio.sleep(2)
     await client.leave_chat(chat_id=message.chat.id)
 
-@app.on_message(filters.command("ban", ".") & filters.me)
+@app.on_message(filters.command("ban", prefix) & filters.me)
 async def ban_hammer(client: Client, message: Message):
     if await CheckAdmin(message) is True:
         reply = message.reply_to_message
@@ -800,7 +933,7 @@ async def ban_hammer(client: Client, message: Message):
     else:
         await message.edit("**Я админ?**")
 
-@app.on_message(filters.command("unban", ".") & filters.me)
+@app.on_message(filters.command("unban", prefix) & filters.me)
 async def unban(client: Client, message: Message):
     if await CheckAdmin(message) is True:
         reply = message.reply_to_message
@@ -834,7 +967,7 @@ mute_permission = ChatPermissions(
     can_pin_messages=False,
 )
 
-@app.on_message(filters.command("mute", ".") & filters.me)
+@app.on_message(filters.command("mute", prefix) & filters.me)
 async def mute_hammer(client: Client, message: Message):
     if await CheckAdmin(message) is True:
         reply = message.reply_to_message
@@ -872,7 +1005,7 @@ unmute_permissions = ChatPermissions(
     can_pin_messages=False,
 )
 
-@app.on_message(filters.command("unmute", ".") & filters.me)
+@app.on_message(filters.command("unmute", prefix) & filters.me)
 async def unmute(client: Client, message: Message):
     if await CheckAdmin(message) is True:
         reply = message.reply_to_message
@@ -896,7 +1029,7 @@ async def unmute(client: Client, message: Message):
     else:
         await message.edit("**Я админ?**")
 
-@app.on_message(filters.command("kick", ".") & filters.me)
+@app.on_message(filters.command("kick", prefix) & filters.me)
 async def kick_user(client: Client, message: Message):
     if await CheckAdmin(message) is True:
         reply = message.reply_to_message
@@ -919,7 +1052,7 @@ async def kick_user(client: Client, message: Message):
     else:
         await message.edit("**Я админ?**")
 
-@app.on_message(filters.command("pin", ".") & filters.me)
+@app.on_message(filters.command("pin", prefix) & filters.me)
 async def pin_message(client: Client, message: Message):
     # First of all check if its a group or not
     if message.chat.type in ["group", "supergroup"]:
@@ -963,7 +1096,7 @@ async def pin_message(client: Client, message: Message):
     await asyncio.sleep(3)
     await message.delete()
 
-@app.on_message(filters.command("unpin", prefixes=".") & filters.me)
+@app.on_message(filters.command("unpin", prefix) & filters.me)
 async def pin(client: Client, message: Message):
     try:
         message_id = message.reply_to_message.message_id
@@ -972,7 +1105,7 @@ async def pin(client: Client, message: Message):
     except:
         await message.edit('<b>Сделайте реплай сообщению</b>')
 
-@app.on_message(filters.command("admin", ".") & filters.me)
+@app.on_message(filters.command("admin", prefix) & filters.me)
 async def promote(client, message: Message):
     if await CheckAdmin(message) is False:
         await message.edit("**Я не админ.**")
@@ -1006,7 +1139,7 @@ async def promote(client, message: Message):
         except:
             pass
 
-@app.on_message(filters.command("unadmin", ".") & filters.me)
+@app.on_message(filters.command("unadmin", prefix) & filters.me)
 async def demote(client, message: Message):
     if await CheckAdmin(message) is False:
         await message.edit("**Я не админ**")
@@ -1040,7 +1173,7 @@ async def demote(client, message: Message):
     except Exception as e:
         await message.edit(f"{e}")
 
-@app.on_message(filters.command("invite", ".") & filters.me)
+@app.on_message(filters.command("invite", prefix) & filters.me)
 async def invite(client, message):
     reply = message.reply_to_message
     if reply:
@@ -1058,7 +1191,7 @@ async def invite(client, message):
         await message.edit(f"{e}")
 
 # Команда взлома пентагона
-@app.on_message(filters.command("hack", prefixes=".") & filters.me)
+@app.on_message(filters.command("hack", prefix) & filters.me)
 async def hack(client: Client, message: Message):
     perc = 0
     while(perc < 100):
@@ -1085,7 +1218,7 @@ async def hack(client: Client, message: Message):
         await message.edit(text)
 
 # Команда Взлома жопы
-@app.on_message(filters.command("jopa", prefixes=".") & filters.me)
+@app.on_message(filters.command("jopa", prefix) & filters.me)
 async def jopa(client: Client, message: Message):
     perc = 0
     while(perc < 100):
@@ -1129,11 +1262,11 @@ async def jopa(client: Client, message: Message):
     sleep(2)
     rand =+ random.randint(100, 5000)
     bal = rand
-    text = "💸 Вы заработали " + str(bal) + " ₽"
+    text = "💸 Вы зараЮзерботали " + str(bal) + " ₽"
     await message.edit(text)
 
 # Наркота
-@app.on_message(filters.command("drugs", prefixes=".") & filters.me)
+@app.on_message(filters.command("drugs", prefix) & filters.me)
 async def drugs(client: Client, message: Message):
     perc = 0
     result = 0
@@ -1167,7 +1300,7 @@ async def drugs(client: Client, message: Message):
         await message.edit(str(text))
 
 # Оскорбление мамки
-@app.on_message(filters.command("mum" , prefixes=".") & filters.me)
+@app.on_message(filters.command("mum", prefix) & filters.me)
 async def mum(client: Client, message: Message):
     text = "🔍 Поиск твоей мамки начался..."
     await message.edit(str(text))
