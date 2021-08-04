@@ -61,6 +61,25 @@ else:
         f.write(repo)
         f.close()
 
+# Префиксы доп
+config_path = os.path.join(sys.path[0], 'config.ini')
+config = configparser.ConfigParser()
+config.read(config_path)
+
+def get_prefix():
+    prefix = config.get("prefix", "prefix")
+    return prefix
+
+try:
+    prefix = get_prefix()
+
+except Exception as e:
+    config.add_section("prefix")
+    config.set('prefix', 'prefix', prefix)
+    with open(config_path, "w") as config_file:
+        config.write(config_file)
+    prefix = prefix
+
 # Очистка терминала
 os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -103,25 +122,6 @@ with app:
              except:
                  app.send_message(chat_id=sys.argv[1], text=text)
 
-
-# Префиксы доп
-config_path = os.path.join(sys.path[0], 'config.ini')
-config = configparser.ConfigParser()
-config.read(config_path)
-
-def get_prefix():
-    prefix = config.get("prefix", "prefix")
-    return prefix
-
-try:
-    prefix = get_prefix()
-
-except Exception as e:
-    config.add_section("prefix")
-    config.set('prefix', 'prefix', prefix)
-    with open(config_path, "w") as config_file:
-        config.write(config_file)
-    prefix = prefix
 
 # Помощь | Инфа про Юзербота
 @app.on_message(filters.command("help", prefix) & filters.me)
