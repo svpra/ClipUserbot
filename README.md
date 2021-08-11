@@ -12,11 +12,7 @@
 
 [![Хероку](https://www.herokucdn.com/deploy/button.svg)](https://dashboard.heroku.com/new?template=https://github.com/A9FM/ClipUserbotHeroku)
 
----
-
-## Единственный юзербот сделанный в 1 файле
-
----
+### Единственный юзербот который не имеет скам модулей
 
 ## Для Termux (Android)
 
