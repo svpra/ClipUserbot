@@ -50,6 +50,27 @@ from bs4 import BeautifulSoup
 import time, random, datetime, asyncio, sys, wikipedia, requests, json, colorama, requests, youtube_dl, subprocess, configparser
 from gtts import gTTS
 
+start = os.path.exists('start.ogg')
+if start == True:
+    print("work...")
+else:
+    url = 'https://github.com/A9FM/filesUB/blob/main/start.ogg?raw=true'
+    wget.download(url, '')
+
+stop = os.path.exists('stop.ogg')
+if stop == True:
+    print("work...")
+else:
+    url = 'https://github.com/A9FM/filesUB/blob/main/stop.ogg?raw=true'
+    wget.download(url, '')
+
+update = os.path.exists('update.ogg')
+if update == True:
+    print("work...")
+else:
+    url = 'https://github.com/A9FM/filesUB/blob/main/update.ogg?raw=true'
+    wget.download(url, '')
+
 # Проверка файла репутации
 rep = os.path.exists('rep.txt')
 if rep == True:
@@ -98,7 +119,7 @@ logo = """\033[31m
 \033[34m
 Telegram Канал - @ArturDestroyerBot
 Помощь - @Artur_destroyer
-Версия 1.9
+Версия 1.9.1 [РЕЛИЗ]
 
 Логи:"""
 print(logo)
@@ -107,26 +128,40 @@ print(logo)
 app = Client("my_account")
 import logging
 
+logi = "╭ Логи\n┃ "
+
 # Вход в группу [Обновления]
 with app:
          app.join_chat('ArturDestroyerBot') # Прошу, не убирайте эту строку
 
 # Доп код перезагрузка
 with app:
+         app.unblock_user("ClipUSERBOT_LOGGERbot")
+         now = datetime.datetime.now()
+         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+         startlog = logi + timnow + "\n╰ Юзербот был запущен"
+         app.send_message("ClipUSERBOT_LOGGERbot", startlog)
+
+
          if len(sys.argv) == 4:
              try:
                  restart_type = sys.argv[3]
-                 if restart_type == '1': text = '<code>Обновление завершенно!</code>'
-                 else: text = '<code>Перезагрузка завершенна!</code>'
-                 app.send_message(chat_id=sys.argv[1], text=text, reply_to_message_id=int(sys.argv[2]))
+                 if restart_type == '1':
+                    app.send_audio(sys.argv[1], "update.ogg", '<code>Обновление завершенно!</code>')
+                 else:
+                    app.send_audio(sys.argv[1], "start.ogg", '<code>Перезагрузка завершенна!</code>')
              except:
-                 app.send_message(chat_id=sys.argv[1], text=text)
+                pass
 
 
 # Помощь | Инфа про Юзербота
 @app.on_message(filters.command("help", prefix) & filters.me)
 async def help(client: Client, message: Message):
-    await message.edit("""<b><a href="https://t.me/ArturDestroyerBot">🤖 UserBot CLIP 1.9 🤖</a></b>
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Список комманд"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
+    await message.edit("""<b><a href="https://t.me/ArturDestroyerBot">🤖 UserBot CLIP 1.9.1 [РЕЛИЗ] 🤖</a></b>
 <b><a href="https://t.me/artur_destroyer">👨‍💻 Создатель 👨‍💻</a></b>
 <b><a href="https://www.donationalerts.com/r/a9fm">💰 Донат Создателю 💰</a></b>
 <b><a href="https://github.com/A9FM/ClipUserbot#readme">🤔 Как установить? 🤔</a></b>
@@ -137,7 +172,7 @@ async def help(client: Client, message: Message):
 ⇛ <code>ping</code> - Проверка Пинга Юзербота [Качество полключения]
 ⇛ <code>restart</code> - Перезагрузка [Ошибка, Баг в Юзерботе]
 ⇛ <code>update</code> - Обновить
-⇛ <code>beta</code> - Обновиться на [BETA]
+⇛ <code>beta</code> - Обновиться на [РЕЛИЗ]
 ⇛ <code>sp</code> [Символ] - Смена префикса (знака в начале для комманд)
 
 『Мало временни』
@@ -163,6 +198,7 @@ async def help(client: Client, message: Message):
 ⇛ <code>tagall</code> - Призыв всех участников
 ⇛ <code>id</code> - Айди
 ⇛ <code>info</code> - Информация
+⇛ <code>infofull</code> - Полная информация
 ⇛ <code>qr</code> [Текст] - Создание QR-Кода с вашим текстом
 ⇛ <code>time</code> - Текущее время
 ⇛ <code>ladder</code> - текст лесенкой (п пр при прив привет)
@@ -175,6 +211,7 @@ async def help(client: Client, message: Message):
 ⇛ <code>spamban</code> [Ответ] - Проверка ограничений
 ⇛ <code>voice</code> [Текст] - Текст в голосовое
 ⇛ <code>text</code> [Ответ на голосовое] - Голосовое сообщение в текст
+⇛ <code>cl</code> [Текст] - Шифровка текста [Только пользователи CLIP]
 
 『Администрация』
 ⇛ <code>ban</code> - Бан
@@ -201,12 +238,23 @@ async def restart(message: Message, restart_type):
     await os.execvp("python", ["python", "bot.py", f"{message.chat.id}",  f" {message.message_id}", f"{text}"])
 
 @app.on_message(filters.command('restart', prefix) & filters.me)
-async def restart_comand(client: Client, message: Message):
-    await message.edit('<code>Перезагрузка...</code>')
+async def restartt(client: Client, message: Message):
+    now = datetime.datetime.now()
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Юзербот был выключен"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
+    await message.delete()
+    await app.send_audio(message.chat.id, "stop.ogg", '<code>Перезагрузка...</code>')
     await restart(message, restart_type='restart')
 
 @app.on_message(filters.command("update", prefix) & filters.me)
-async def update(client: Client, message: Message):
+async def updatte(client: Client, message: Message):
+    now = datetime.datetime.now()
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Юзербот был обновлён"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     await message.edit('<code>Обновление...</code>')
     os.remove("bot.py")
     url = 'https://raw.githubusercontent.com/A9FM/ClipUserbot/main/bot.py'
@@ -215,6 +263,11 @@ async def update(client: Client, message: Message):
 
 @app.on_message(filters.command("beta", prefix) & filters.me)
 async def beta(client: Client, message: Message):
+    now = datetime.datetime.now()
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Юзербот был обновлён [Бета]"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     await message.edit('<code>Обновление на бета версию...</code>')
     os.remove("bot.py")
     url = 'https://raw.githubusercontent.com/A9FM/ClipUserbot/beta/bot.py'
@@ -226,6 +279,12 @@ async def beta(client: Client, message: Message):
 async def pref(client: Client, message: Message):
     if len(message.command) > 1:
         prefix = message.command[1]
+
+        now = datetime.datetime.now()
+        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+        log = logi + timnow + "\n╰ Префикс был сменён на [ " + message.command[1] + " ]"
+        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
         print(message.command)
         config.set('prefix', 'prefix', prefix)
         with open(config_path, "w") as config_file:
@@ -237,9 +296,14 @@ async def pref(client: Client, message: Message):
 
 # Репутация
 @app.on_message(filters.text & filters.incoming & filters.regex('^\-$') & filters.reply)
-async def rep(client: Client, message: Message):
+async def repMinus(client: Client, message: Message):
     try:
         if message.reply_to_message.from_user.is_self:
+
+            now = datetime.datetime.now()
+            timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+            l0g = logi + timnow + "\n╰ Репутация была понижена\n\n"
+
             with open("rep.txt", "r+") as f:
                 data = f.read()
                 data = int(data)
@@ -253,13 +317,20 @@ async def rep(client: Client, message: Message):
                 f.close()
                 text = "💔 Вы понизили мою репутацию 💔\n🔝 Репутация " + str(repo) + " 🔝"
                 await message.reply_text(text)
+            log = l0g + "💔 Вы понизили мою репутацию 💔\n🔝 Репутация " + str(repo) + " 🔝"
+            await app.send_message("ClipUSERBOT_LOGGERbot", log)
     except:
         pass
 
 @app.on_message(filters.text & filters.incoming & filters.regex('^\+$') & filters.reply)
-async def rep(client: Client, message: Message):
+async def repPlus(client: Client, message: Message):
     try:
         if message.reply_to_message.from_user.is_self:
+
+            now = datetime.datetime.now()
+            timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+            l0g = logi + timnow + "\n╰ Репутация была повышена\n\n"
+
             with open("rep.txt", "r+") as f:
                 data = f.read()
                 data = int(data)
@@ -273,20 +344,32 @@ async def rep(client: Client, message: Message):
                 f.close()
                 text = "❤️ Вы повысили мою репутацию ❤️\n🔝 Репутация " + str(repo) + " 🔝"
                 await message.reply_text(text)
+            log = l0g + "❤️ Вы повысили мою репутацию ❤️\n🔝 Репутация " + str(repo) + " 🔝"
+            await app.send_message("ClipUSERBOT_LOGGERbot", log)
     except:
         pass
+
 # Айди
 @app.on_message(filters.command('id', prefix) & filters.me)
-async def spam(client: Client, message: Message):
+async def id(client: Client, message: Message):
+    now = datetime.datetime.now()
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Комманда id"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     if message.reply_to_message is None:
-        await message.edit(f"Твой айди: {message.chat.id}")
+        await message.edit(f"Айди: {message.chat.id}")
     else:
-        id = f"Твой айди: {message.reply_to_message.from_user.id}\n\nАйди группы: {message.chat.id}"
+        id = f"Айди: {message.reply_to_message.from_user.id}\nАйди чата: {message.chat.id}"
         await message.edit(id)
 
 # Бомбер
 @app.on_message(filters.command('bomber', prefix) & filters.me)
-async def spam(client: Client, message: Message):
+async def b0mb3r(client: Client, message: Message):
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Запущен бомбер"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     await message.edit("Запускаем бомбер")
     global bombe
     print("""
@@ -300,53 +383,85 @@ async def spam(client: Client, message: Message):
 
     bombe = subprocess.Popen(["bomber"], stdout=subprocess.PIPE)
     await asyncio.sleep(5)
-    await message.edit("Бомбер запущен :^\nСсылка: 127.0.0.1:8080")
+    await message.edit("Бомбер запущен!\nСсылка: 127.0.0.1:8080")
 
 @app.on_message(filters.command('sbomber', prefix) & filters.me)
-async def spam(client: Client, message: Message):
+async def sbomber(client: Client, message: Message):
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Бомбер выключен"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     bombe.terminate()
     await message.edit("Бомбер завершил свою роботу...")
 
 @app.on_message(filters.command('bbomber', prefix) & filters.me)
-async def spam(client: Client, message: Message):
+async def bbomber(client: Client, message: Message):
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ bbomber включён"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     bomber = message.command[1]
-# Старт ботов
-    await app.send_message('mobilebomber_bot', "/start")
     await app.send_message('BomberFree_bot', "/start")
     await app.send_message('couldboombot', "/start")
-    await app.send_message('FREE_bomjGang_bot', "/start")
+    await app.send_message('TNT_Robot', "/start")
     await message.edit("Запуск ботов")
-# Выбор бомбера
-    await app.send_message('mobilebomber_bot', "Запустить 🔥💣 бомбер")
-    await app.send_message('couldboombot', "⚡️Запустить Spam")
-    await app.send_message('FREE_bomjGang_bot', "🔥БОМБЕР🔥")
     await asyncio.sleep(2)
-# Запуск
-    await app.send_message('mobilebomber_bot', bomber)
+    await app.send_message('couldboombot', "⚡️Запустить Spam")
+    await app.send_message('TNT_Robot', "🧨 Бомбить")
+    await asyncio.sleep(2)
     await app.send_message('BomberFree_bot', bomber)
     await app.send_message('couldboombot', bomber)
-    await app.send_message('FREE_bomjGang_bot', bomber)
+    await app.send_message('TNT_Robot', bomber + " 15")
     result = "Бомбер запущен на номер " + message.command[1]
     await message.edit(result)
 
 # Время
 @app.on_message(filters.command('time', prefix) & filters.me)
-async def spam(client: Client, message: Message):
+async def time(client: Client, message: Message):
     now = datetime.datetime.now()
     timnow = now.strftime("%d.%m.%Y\nВремя %H:%M:%S")
     timenow = "Текущая дата : " + timnow
     await message.edit(timenow)
 
+# Читы репутация
+@app.on_message(filters.command('rep', prefix) & filters.me)
+async def repNakrutka(client: Client, message: Message):
+    try:
+        with open("rep.txt", "r+") as f:
+            data = f.read()
+            data = int(data)
+            num = message.command[1]
+            rep = num
+            repo = str(rep)
+            f.close()
+        with open("rep.txt", "w+") as f:
+            repo = str(rep)
+            f.write(repo)
+            f.close()
+            text = "❤️ Репутация изменена ❤️\n🔝 Репутация " + str(repo) + " 🔝"
+            await message.edit(text)
+
+        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+        log = logi + timnow + "\n╰ Накручена репутация\n\n❤️ Репутация изменена ❤️\n🔝 Репутация " + str(repo) + " 🔝"
+        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+    except:
+        pass
+
 # Спам
 @app.on_message(filters.command('spam', prefix) & filters.me)
 async def spam(client: Client, message: Message):
-        if not message.text.split('.spam', maxsplit=1)[1]:
+        if not message.text.split(prefix + 'spam', maxsplit=1)[1]:
                 await message.edit('<i>Нету аргументов.</i>')
                 return
         count = message.command[1]
         text = ' '.join(message.command[2:])
         count = int(count)
         await message.delete()
+
+        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+        log = logi + timnow + "\n╰ Запущен спам"
+        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
         for _ in range(count):
                 await app.send_message(message.chat.id, text)
                 await asyncio.sleep(0.01)
@@ -361,14 +476,25 @@ async def webshot(client, message):
         user_link = message.command[1]
         await message.delete()
         full_link = 'https://webshot.deam.io/{}/?width=1920&height=1080?type=png'.format(user_link)
-        await client.send_photo(message.chat.id, full_link, caption=f'<b> Ссылка > {user_link}</b>')
+        await client.send_photo(message.chat.id, full_link, caption=f'<b> Ссылка ⟶ {user_link}</b>')
+
+
+        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+        log = logi + timnow + "\n╰ Скриншот сайта"
+        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     except:
         await message.edit('<i>Неизвестный сайт.</i>')
 
 # Видео с ютуб
 @app.on_message(filters.command("yt", prefix) & filters.me)
-async def webshot(client, message):
+async def yt(client, message):
     linked = message.command[1]
+
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Запрос на скачивания видео"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     await message.edit("Скачивание видео...")
     ydl_opts = { 'outtmpl': 'video.mp4', }
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
@@ -379,7 +505,12 @@ async def webshot(client, message):
     os.remove('video.mp4')
 
 @app.on_message(filters.command("myt", prefix) & filters.me)
-async def webshot(client, message):
+async def myt(client, message):
+
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Запрос на скачивание звука"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     myth = "youtube-dl -f 140 " + message.command[1] + " -o music.m4a"
     await message.edit("Скачивание аудиодорожки...")
     os.system(myth)
@@ -391,9 +522,14 @@ async def webshot(client, message):
 # Призыв всех
 @app.on_message(filters.command("tagall", prefix) & filters.me)
 async def tagall(client, message):
+
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Отмечены все участники"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     args = ' ! '
     if len(message.text.split()) >= 2:
-        args = message.text.split('.tagall ', maxsplit=1)[1]
+        args = message.text.split(prefix + 'tagall ', maxsplit=1)[1]
     await message.delete()
     chat_id = message.chat.id
     string = ""
@@ -411,7 +547,7 @@ async def tagall(client, message):
                 string += f"<a href='tg://user?id={member.user.id}'>{w}</a> "
             limit += 1
         else:
-            text = f"{args}{string}"
+            text = f"{args}|{string}"
             await client.send_message(chat_id, text, disable_web_page_preview=1)
             limit = 1
             string = ""
@@ -419,8 +555,12 @@ async def tagall(client, message):
 
 # Удалить смс
 @app.on_message(filters.command("del", prefix) & filters.me)
-async def del_msg(client: Client, message: Message):
+async def delete_messages(client: Client, message: Message):
     if message.reply_to_message:
+        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+        log = logi + timnow + "\n╰ Удалено сообщение"
+        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
         message_id = message.reply_to_message.message_id
         await message.delete()
         await client.delete_messages(message.chat.id, message_id)
@@ -429,6 +569,11 @@ async def del_msg(client: Client, message: Message):
 @app.on_message(filters.command('purge', prefix) & filters.me)
 async def purge(client: Client, message: Message):
         if message.reply_to_message:
+
+                timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+                log = logi + timnow + "\n╰ Удаление всех сообщений"
+                await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
                 r = message.reply_to_message.message_id
                 m = message.message_id
                 msgs = []
@@ -451,7 +596,12 @@ async def purge(client: Client, message: Message):
 # Команда type
 @app.on_message(filters.command("type", prefix) & filters.me)
 async def type(client: Client, message: Message):
-    orig_text = message.text.split(".type ", maxsplit=1)[1]
+    
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Коммада type"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
+    orig_text = message.text.split(prefix + "type ", maxsplit=1)[1]
     text = orig_text
     tbp = ""
     typing_symbol = "▒"
@@ -459,18 +609,24 @@ async def type(client: Client, message: Message):
         try:
             joper = tbp + typing_symbol
             await message.edit(str(joper))
-            sleep(0.10)
+            await asyncio.sleep(0.10)
             tbp = tbp + text[0]
             text = text[1:]
             await message.edit(str(tbp))
-            sleep(0.10)
+            await asyncio.sleep(0.10)
         except FloodWait as e:
-            sleep(e.x)
+            await asyncio.sleep(e.x)
 
 # Лестница
 @app.on_message(filters.command("ladder", prefix) & filters.me)
 async def ladder(client: Client, message: Message):
-    text = message.command[1]
+
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Комманда ladder"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
+    orig_text = message.text.split(prefix + "ladder ", maxsplit=1)[1]
+    text = orig_text
     output = []
     for i in range(len(text) + 1):
      output.append(text[:i])
@@ -483,6 +639,11 @@ async def quotly(client: Client, message: Message):
     if not message.reply_to_message:
         await message.edit("Ответь на сообщение")
         return
+
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Создана цитата"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     await message.edit("Создаю цитату....")
     await message.reply_to_message.forward("QuotLyBot")
     await asyncio.sleep(7)
@@ -492,10 +653,15 @@ async def quotly(client: Client, message: Message):
 
 # ГС в текст
 @app.on_message(filters.command("text", prefix) & filters.me)
-async def quotly(client: Client, message: Message):
+async def gstotext(client: Client, message: Message):
     if not message.reply_to_message:
         await message.edit("Ответь на сообщение")
         return
+
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Переведено голосовое в текст"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     await message.edit("Пишу текстом...")
     await message.reply_to_message.forward("VoiceMsgBot")
     await asyncio.sleep(5)
@@ -505,7 +671,12 @@ async def quotly(client: Client, message: Message):
 
 # Ограничения
 @app.on_message(filters.command("spamban", prefix) & filters.me)
-async def quotly(client: Client, message: Message):
+async def spamban(client: Client, message: Message):
+
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Проверка нарушений"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     await message.edit("Чекаю твой акк на наличие нарушений")
     await app.send_message('spambot', "/start")
     await asyncio.sleep(1)
@@ -516,6 +687,10 @@ async def quotly(client: Client, message: Message):
 # Удаление всех с группы (200 уч лимит) !!! СКРЫТО
 @app.on_message(filters.command('kickall hide', prefix) & filters.me)
 def kickall(client: Client, message: Message):
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Удалены участники"
+    app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     message.delete()
     num = 0
     for all in client.iter_chat_members(message.chat.id):
@@ -528,6 +703,11 @@ def kickall(client: Client, message: Message):
 # Удаление всех с группы (200 уч лимит)
 @app.on_message(filters.command('kickall', prefix) & filters.me)
 def kickall(client: Client, message: Message):
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Удалены участники"
+    app.send_message("ClipUSERBOT_LOGGERbot", log)
+
+    message.edit("Вашим участникам хана)")
     num = 0
     for all in client.iter_chat_members(message.chat.id):
        try:
@@ -536,8 +716,12 @@ def kickall(client: Client, message: Message):
        except:
            pass
 
-@app.on_message(filters.command("info", prefix) & filters.me)
+@app.on_message(filters.command("infofull", prefix) & filters.me)
 async def info(client: Client, message: Message):
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Полная информация"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     if message.reply_to_message:
         username = message.reply_to_message.from_user.username
         id = message.reply_to_message.from_user.id
@@ -563,9 +747,38 @@ async def info(client: Client, message: Message):
 ╰ Ссылка: {user_link}"""
     await message.edit(text, parse_mode="HTML")
 
+@app.on_message(filters.command("info", prefix) & filters.me)
+async def info(client: Client, message: Message):
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Информация"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
+    if message.reply_to_message:
+        username = message.reply_to_message.from_user.username
+        id = message.reply_to_message.from_user.id
+        first_name = message.reply_to_message.from_user.first_name
+        user_link = message.reply_to_message.from_user.mention
+    else:
+        username = message.from_user.username
+        id = message.from_user.id
+        first_name = message.from_user.first_name
+        user_link = message.from_user.mention
+
+    text = f"""
+╭ <b>Информация</b>:
+┃ Айди: <code>{id}</code>
+┃ Имя: {first_name}
+┃ Юзернейм: @{username}
+╰ Ссылка: {user_link}"""
+    await message.edit(text, parse_mode="HTML")
+
 # Пинг
 @app.on_message(filters.command("ping", prefix) & filters.me)
 async def ping(client: Client, message: Message):
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Пинг"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     start = perf_counter()
     await message.edit('Pong')
     end = perf_counter()
@@ -597,6 +810,10 @@ async def link_short(link: str):
 
 @app.on_message(filters.command("short", prefix) & filters.me)
 async def shorten_link_command(client: Client, message: Message):
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Сокращенна ссылка"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     if message.reply_to_message:
          link = message.reply_to_message.text
     else:
@@ -621,6 +838,10 @@ def get_cmd_content(message: Message):
 
 @app.on_message(filters.command("qr", prefix) & filters.me & content_filter)
 async def qr_cmd(client: Client, message: Message):
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Создан qr-code"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     text = get_cmd_content(message)
     await message.delete()
     async with ClientSession() as session:
@@ -635,6 +856,10 @@ async def qr_cmd(client: Client, message: Message):
 # Википедия
 @app.on_message(filters.command("wiki", prefix) & filters.me)
 async def wiki(client: Client, message: Message):
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Поиск в википедии"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     lang = message.command[1]
     user_request = ' '.join(message.command[2:])
     await message.edit('<b>Ищем инфу</b>')
@@ -660,9 +885,38 @@ async def wiki(client: Client, message: Message):
 # Переклюяение раскладки
 @app.on_message(filters.command("sw", prefix) & filters.me)
 async def switch(client: Client, message: Message):
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Комманда sw"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     text = ' '.join(message.command[1:])
     ru_keys = """ёйцукенгшщзхъфывапролджэячсмитьбю.Ё"№;%:?ЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭ/ЯЧСМИТЬБЮ,"""
     en_keys = """`qwertyuiop[]asdfghjkl;'zxcvbnm,./~@#$%^&QWERTYUIOP{}ASDFGHJKL:"|ZXCVBNM<>?"""
+    if text == '':
+        if message.reply_to_message:
+            reply_text = message.reply_to_message.text
+            change = str.maketrans(ru_keys + en_keys, en_keys + ru_keys)
+            reply_text = str.translate(reply_text, change)
+            await message.edit(reply_text)
+        else:
+            await message.edit('Текст отсутствует')
+            await asyncio.sleep(3)
+            await message.delete()
+    else:
+        change = str.maketrans(ru_keys + en_keys, en_keys + ru_keys)
+        text = str.translate(text, change)
+        await message.edit(text)
+
+# Шифровка сообщений
+@app.on_message(filters.command("cl", prefix) & filters.me)
+async def switch(client: Client, message: Message):
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Комманда cl"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
+    text = ' '.join(message.command[1:])
+    ru_keys = """ёйцукенгшщзхъфывапролджэячсмитьбю.Ё"№;%:?ЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭ/ЯЧСМИТЬБЮ,"""
+    en_keys = """異體字体♬♝♞♟γδεηθκλμνZXM∩SάằẫăǽẳßβЂ฿™đďÐðӘҾΣĤĦҤḦĥћҥḧŒœØỢ$śşŝšṧṩᵴﮐ§♌♍♎♏♐♑♒♓✵✶✷✸✹"""
     if text == '':
         if message.reply_to_message:
             reply_text = message.reply_to_message.text
@@ -697,6 +951,10 @@ def get_pic(city):
 # Погода
 @app.on_message(filters.command("weather", prefix) & filters.me)
 async def weather(client: Client, message: Message):
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Погода"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     city = message.command[1]
     await message.edit("```Загрузка...```")
     r = requests.get(f"https://wttr.in/{city}?m?M?0?q?T&lang=ru")
@@ -708,6 +966,10 @@ async def weather(client: Client, message: Message):
 @app.on_message(filters.command("m", prefix) & filters.me)
 async def send_music(client: Client, message: Message):
     try:
+        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+        log = logi + timnow + "\n╰ Поиск музыки"
+        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
         cmd = message.command
 
         song_name = ""
@@ -764,6 +1026,10 @@ lang_code = os.environ.get('lang_code', "ru")
 
 @app.on_message(filters.command("voice", prefix) & filters.me)
 async def voice(client, message):
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Текст в голосовое"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     if len(message.text.split()) == 1:
         await message.edit(bantuan)
         return
@@ -794,6 +1060,10 @@ async def afk_handler(client: Client, message: Message):
 
 @app.on_message (filters.command("afk", prefix) & filters.me)
 async def afk(client: Client, message: Message):
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Вход в АФК режим"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     global start, end, handler, reason
     start = datetime.datetime.now().replace(microsecond=0)
     handler = client.add_handler(MessageHandler(afk_handler, (filters.private & ~filters.me)))
@@ -808,6 +1078,10 @@ async def afk(client: Client, message: Message):
 @app.on_message (filters.command("unafk", prefix) & filters.me)
 async def unafk(client: Client, message: Message):
     try:
+        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+        log = logi + timnow + "\n╰ Выход с АФК режима"
+        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
         global start, end
         end = datetime.datetime.now().replace(microsecond=0)
         afk_time = (end - start)
@@ -821,7 +1095,11 @@ async def unafk(client: Client, message: Message):
 # Автоудаление сообщений
 @app.on_message(filters.command("hide", prefix) & filters.me)
 async def hide(client: Client, message: Message):
-    orig_text = message.text.split(".hide ", maxsplit=1)[1]
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Скрытие текста"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
+    orig_text = message.text.split(prefix + "hide ", maxsplit=1)[1]
     text = orig_text
     tbp = ""
     typing_symbol = "▒"
@@ -829,15 +1107,15 @@ async def hide(client: Client, message: Message):
         try:
             joper = tbp + typing_symbol
             await message.edit(str(joper))
-            sleep(0.10)
+            await asyncio.sleep(0.10)
             tbp = tbp + text[0]
             text = text[1:]
             await message.edit(str(tbp))
-            sleep(0.10)
+            await asyncio.sleep(0.10)
         except FloodWait as e:
-            sleep(e.x)
+            await asyncio.sleep(e.x)
 
-    sleep(1.25)
+    await asyncio.sleep(1.25)
     await message.delete()
 
 # Авточтение
@@ -851,6 +1129,10 @@ async def auto_read(client: Client, message: Message):
 
 @app.on_message(filters.command("autoread", prefix) & filters.me)
 async def add_to_auto_read(client: Client, message: Message):
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Авточтение"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     if message.chat.id in f:
         f.remove(message.chat.id)
         await message.edit("Авточтение отключено")
@@ -896,7 +1178,7 @@ async def CheckAdmin(message: Message):
 
     if SELF.status not in ranks:
         await message.edit("__Я не админ!__")
-        sleep(2)
+        await asyncio.sleep(2)
         await message.delete()
 
     else:
@@ -904,17 +1186,25 @@ async def CheckAdmin(message: Message):
             return True
         else:
             await message.edit("__недостаточно прав__")
-            sleep(2)
+            await asyncio.sleep(2)
             await message.delete()
 
 @app.on_message(filters.command("leave", prefix) & filters.me)
 async def leave(client: Client, message: Message):
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Выход с чата"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     m = await message.edit('<code>Всем пока... [Пользователь вышел с чата]</code>')
     await asyncio.sleep(2)
     await client.leave_chat(chat_id=message.chat.id)
 
 @app.on_message(filters.command("ban", prefix) & filters.me)
 async def ban_hammer(client: Client, message: Message):
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Запрос на бан в беседе"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     if await CheckAdmin(message) is True:
         reply = message.reply_to_message
         if reply:
@@ -969,6 +1259,10 @@ mute_permission = ChatPermissions(
 
 @app.on_message(filters.command("mute", prefix) & filters.me)
 async def mute_hammer(client: Client, message: Message):
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Запрос на мут"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     if await CheckAdmin(message) is True:
         reply = message.reply_to_message
         if reply:
@@ -1007,6 +1301,10 @@ unmute_permissions = ChatPermissions(
 
 @app.on_message(filters.command("unmute", prefix) & filters.me)
 async def unmute(client: Client, message: Message):
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Запрос на размут"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     if await CheckAdmin(message) is True:
         reply = message.reply_to_message
         if reply:
@@ -1031,6 +1329,10 @@ async def unmute(client: Client, message: Message):
 
 @app.on_message(filters.command("kick", prefix) & filters.me)
 async def kick_user(client: Client, message: Message):
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Запрос на кик участника"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     if await CheckAdmin(message) is True:
         reply = message.reply_to_message
         if reply:
@@ -1054,22 +1356,21 @@ async def kick_user(client: Client, message: Message):
 
 @app.on_message(filters.command("pin", prefix) & filters.me)
 async def pin_message(client: Client, message: Message):
-    # First of all check if its a group or not
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Запрос на закрепление сообщения"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     if message.chat.type in ["group", "supergroup"]:
-        # Here lies the sanity checks
         admins = await app.get_chat_members(
             message.chat.id, filter=ChatMemberFilters.ADMINISTRATORS
         )
         admin_ids = [user.user.id for user in admins]
         me = await app.get_me()
 
-        # If you are an admin
         if me.id in admin_ids:
-            # If you replied to a message so that we can pin it.
             if message.reply_to_message:
                 disable_notification = True
 
-                # Let me see if you want to notify everyone. People are gonna hate you for this...
                 if len(message.command) >= 2 and message.command[1] in [
                     "alert",
                     "notify",
@@ -1077,7 +1378,6 @@ async def pin_message(client: Client, message: Message):
                 ]:
                     disable_notification = False
 
-                # Pin the fucking message.
                 await app.pin_chat_message(
                     message.chat.id,
                     message.reply_to_message.message_id,
@@ -1085,7 +1385,6 @@ async def pin_message(client: Client, message: Message):
                 )
                 await message.edit("`Сообщение закрепленно!`")
             else:
-                # You didn't reply to a message and we can't pin anything. ffs
                 await message.edit(
                     "`Сделай ответ на сообщение`"
                 )
@@ -1098,6 +1397,10 @@ async def pin_message(client: Client, message: Message):
 
 @app.on_message(filters.command("unpin", prefix) & filters.me)
 async def pin(client: Client, message: Message):
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Сообщение закрепленно"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     try:
         message_id = message.reply_to_message.message_id
         await client.unpin_chat_message(message.chat.id, message_id)
@@ -1107,6 +1410,10 @@ async def pin(client: Client, message: Message):
 
 @app.on_message(filters.command("admin", prefix) & filters.me)
 async def promote(client, message: Message):
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Выдан статус админа одному из участников"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     if await CheckAdmin(message) is False:
         await message.edit("**Я не админ.**")
         return
@@ -1141,6 +1448,10 @@ async def promote(client, message: Message):
 
 @app.on_message(filters.command("unadmin", prefix) & filters.me)
 async def demote(client, message: Message):
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Отобран статус админа одному из участников"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     if await CheckAdmin(message) is False:
         await message.edit("**Я не админ**")
         return
@@ -1175,6 +1486,10 @@ async def demote(client, message: Message):
 
 @app.on_message(filters.command("invite", prefix) & filters.me)
 async def invite(client, message):
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Участник приглашён"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     reply = message.reply_to_message
     if reply:
         user = reply.from_user["id"]
@@ -1193,81 +1508,95 @@ async def invite(client, message):
 # Команда взлома пентагона
 @app.on_message(filters.command("hack", prefix) & filters.me)
 async def hack(client: Client, message: Message):
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Комманда hack"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     perc = 0
     while(perc < 100):
         try:
             text = "👮 Взлом пентагона в процессе ..." + str(perc) + "%"
             await message.edit(str(text))
             perc += random.randint(1, 3)
-            sleep(0.1)
+            await asyncio.sleep(0.1)
         except FloodWait as e:
-            sleep(e.x)
+            await asyncio.sleep(e.x)
     text = "✅ Пентагон успешно взломан!"
     await message.edit(str(text))
-    sleep(3)
+    await asyncio.sleep(3)
     perc = 0
     while(perc < 100):
         try:
             text = "⬇️ Скачивание данных ..." + str(perc) + "%"
             await message.edit(str(text))
             perc += random.randint(1, 5)
-            sleep(0.15)
+            await asyncio.sleep(0.15)
         except FloodWait as e:
-            sleep(e.x)
-        text = "🐓Нашли файты что ты петух!"
-        await message.edit(text)
+            await asyncio.sleep(e.x)
+
+    await asyncio.sleep(1)
+    text = "🐓Нашли файты что ты петух!"
+    await message.edit(text)
 
 # Команда Взлома жопы
 @app.on_message(filters.command("jopa", prefix) & filters.me)
 async def jopa(client: Client, message: Message):
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Комманда jopa"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     perc = 0
     while(perc < 100):
         try:
             text = "🍑 Взлом жопы в процессе ..." + str(perc) + "%"
             await message.edit(str(text))
             perc += random.randint(1, 3)
-            sleep(0.1)
+            await asyncio.sleep(0.1)
         except FloodWait as e:
-            sleep(e.x)
+            await asyncio.sleep(e.x)
     text = "✅ Жопа взломана"
     await message.edit(str(text))
-    sleep(3)
+    await asyncio.sleep(3)
     text = "🔍 Поиск Сливов ..."
     await message.edit(str(text))
     perc = 0
-    sleep(3)
+    await asyncio.sleep(3)
     while(perc < 100):
         try:
             text = "⬇️ Скачивание сливов ..." + str(perc) + "%"
             await message.edit(str(text))
             perc += random.randint(1, 4)
-            sleep(0.15)
+            await asyncio.sleep(0.15)
         except FloodWait as e:
-            sleep(e.x)
+            await asyncio.sleep(e.x)
     text = "✅ Сливы были найдены"
     await message.edit(str(text))
     perc = 0
-    sleep(5)
+    await asyncio.sleep(5)
     while(perc < 100):
         try:
             text = "⬆️ Продажа сливов барыге..." + str(perc) + "%"
             await message.edit(str(text))
             perc += random.randint(1, 5)
-            sleep(0.15)
+            await asyncio.sleep(0.15)
         except FloodWait as e:
-            sleep(e.x)
+            await asyncio.sleep(e.x)
 
     text = "✅ Проданно"
     await message.edit(str(text))
-    sleep(2)
+    await asyncio.sleep(2)
     rand =+ random.randint(100, 5000)
     bal = rand
-    text = "💸 Вы зараЮзерботали " + str(bal) + " ₽"
+    text = "💸 Вы заработали " + str(bal) + " ₽"
     await message.edit(text)
 
 # Наркота
 @app.on_message(filters.command("drugs", prefix) & filters.me)
 async def drugs(client: Client, message: Message):
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Комманда drugs"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     perc = 0
     result = 0
     while(perc < 100):
@@ -1275,15 +1604,15 @@ async def drugs(client: Client, message: Message):
             text = "🍁Поиск запрещённых препаратов " + str(perc) + "%"
             await message.edit(str(text))
             perc += random.randint(1, 3)
-            sleep(0.1)
+            await asyncio.sleep(0.1)
         except FloodWait as e:
-            sleep(e.x)
+            await asyncio.sleep(e.x)
     text = "Найдено 3 кг шпекса🍪💨"
     await message.edit(str(text))
-    sleep(3)
+    await asyncio.sleep(3)
     text = "Оформляем вкид 🌿⚗️"
     await message.edit(str(text))
-    sleep(5)
+    await asyncio.sleep(5)
     result += random.randint(1, 4)
 
     if result == 1:
@@ -1302,21 +1631,25 @@ async def drugs(client: Client, message: Message):
 # Оскорбление мамки
 @app.on_message(filters.command("mum", prefix) & filters.me)
 async def mum(client: Client, message: Message):
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Комманда mum"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
     text = "🔍 Поиск твоей мамки начался..."
     await message.edit(str(text))
-    sleep(3.0)
+    await asyncio.sleep(3.0)
     perc = 0
     while(perc < 100):
         try:
             text = "🔍 Ищем твою мамашу на Авито... " + str(perc) + "%"
             await message.edit(str(text))
             perc += random.randint(1, 3)
-            sleep(0.75)
+            await asyncio.sleep(0.75)
         except FloodWait as e:
-            sleep(e.x)
+            await asyncio.sleep(e.x)
     text = "❌ Мамаша не найденна"
     await message.edit(str(text))
-    sleep(3.0)
+    await asyncio.sleep(3.0)
 
     perc = 0
     while(perc < 100):
@@ -1324,9 +1657,9 @@ async def mum(client: Client, message: Message):
             text = "🔍 Поиск твоей мамаши на свалке... " + str(perc) + "%"
             await message.edit(str(text))
             perc += random.randint(1, 5)
-            sleep(0.75)
+            await asyncio.sleep(0.75)
         except FloodWait as e:
-            sleep(e.x)
+            await asyncio.sleep(e.x)
     text = "❌ Мамаша не найденна"
     await message.edit(str(text))
 
@@ -1336,9 +1669,9 @@ async def mum(client: Client, message: Message):
             text = "🔍 Поиск твоей мамки в канаве... " + str(perc) + "%"
             await message.edit(str(text))
             perc += random.randint(1, 5)
-            sleep(0.75)
+            await asyncio.sleep(0.75)
         except FloodWait as e:
-            sleep(e.x)
+            await asyncio.sleep(e.x)
     text = "✅ Мамка найдена... Она в канаве"
     await message.edit(str(text))
 
