@@ -10,6 +10,8 @@
 * [Telegram](https://t.me/artur_destroyer)
 * [Github](https://github.com/A9FM)
 
+[![Хероку](https://www.herokucdn.com/deploy/button.svg)](https://dashboard.heroku.com/new?template=https://github.com/A9FM/ClipUserbotHeroku)
+
 ---
 
 ## Единственный юзербот сделанный в 1 файле
@@ -83,11 +85,6 @@ python3 bot.py
 ```
 cd ClipUserbot && python3 bot.py
 ```
-
 ---
-
-## Благодарность
-* [Dragon-Userbot](https://github.com/Dragon-Userbot/Dragon-Userbot)
-* [kali](https://t.me/kali228linux)
 
 ## [© ClipUserbot](https://github.com/A9FM/filesUB/blob/main/README.md) 
