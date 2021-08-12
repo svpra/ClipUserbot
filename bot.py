@@ -34,6 +34,7 @@ else:
 api_id = 2860432
 api_hash = 2fde6ca0f8ae7bb58844457a239c7214
 device_model = Terminal | By a9fm userbot | CLIP USERBOT |
+
 """
         repo = str(rep)
         f.write(repo)
@@ -154,6 +155,7 @@ with app:
                 pass
 
 
+
 # Помощь | Инфа про Юзербота
 @app.on_message(filters.command("help", prefix) & filters.me)
 async def help(client: Client, message: Message):
@@ -196,7 +198,7 @@ async def help(client: Client, message: Message):
 ⇛ <code>hide</code> - Сообщения с Авто-удалением
 ⇛ <code>sw</code> - Переключение расскладки [Если написали по типу ghbdtn]
 ⇛ <code>short</code> [Ссылка] - сократитель ссылок
-⇛ <code>tagall</code> - Призыв всех участников
+⇛ <code>tagall</code> [Задержка в секундах] - Призыв всех участников
 ⇛ <code>id</code> - Айди
 ⇛ <code>info</code> - Информация
 ⇛ <code>infofull</code> - Полная информация
@@ -205,7 +207,7 @@ async def help(client: Client, message: Message):
 ⇛ <code>ladder</code> - текст лесенкой (п пр при прив привет)
 ⇛ <code>webshot</code> [Ссылка] - Скриншот сайта
 ⇛ <code>autoread</code> - Авто-чтение (нет уведомлений с этого чата)
-⇛ <code>spam</code> [Кол-во смс] [Текст сообщения] - Спам
+⇛ <code>spam</code> [Кол-во смс] [Время между сообщениями в секундах] [Текст сообщения] - Спам
 ⇛ <code>yt</code> [ссылка] - Скачивание и отправка видео (ютуб, тикток, лайк, инста)
 ⇛ <code>myt</code> [ссылка] - Скачивание и отправа звука с видео (ютуб, тикток, лайк, инста)
 ⇛ <code>q</code> [Ответ] - Сделать цитату (Стикер с текстом пользователя)
@@ -236,7 +238,10 @@ async def help(client: Client, message: Message):
 async def restart(message: Message, restart_type):
     if restart_type == 'update': text = '1'
     else: text = '2'
-    await os.execvp("python", ["python", "bot.py", f"{message.chat.id}",  f" {message.message_id}", f"{text}"])
+    try:
+        await os.execvp("python3", ["python3", "bot.py", f"{message.chat.id}",  f" {message.message_id}", f"{text}"])
+    except:
+        await os.execvp("python", ["python", "bot.py", f"{message.chat.id}",  f" {message.message_id}", f"{text}"])
 
 @app.on_message(filters.command('restart', prefix) & filters.me)
 async def restartt(client: Client, message: Message):
@@ -456,11 +461,13 @@ async def repNakrutka(client: Client, message: Message):
 @app.on_message(filters.command('spam', prefix) & filters.me)
 async def spam(client: Client, message: Message):
         if not message.text.split(prefix + 'spam', maxsplit=1)[1]:
-                await message.edit('<i>Нету аргументов.</i>')
+                await message.edit('<i>Комманда была введена неправильно</i>')
                 return
         count = message.command[1]
-        text = ' '.join(message.command[2:])
+        slep = message.command[2]
+        text = ' '.join(message.command[3:])
         count = int(count)
+        slep = int(slep)
         await message.delete()
 
         now = datetime.datetime.now()
@@ -470,7 +477,7 @@ async def spam(client: Client, message: Message):
 
         for _ in range(count):
                 await app.send_message(message.chat.id, text)
-                await asyncio.sleep(0.01)
+                await asyncio.sleep(slep)
 
 # Скриншот сайта
 @app.on_message(filters.command('webshot', prefix) & filters.me)
@@ -536,9 +543,12 @@ async def tagall(client, message):
     log = logi + timnow + "\n╰ Отмечены все участники"
     await app.send_message("ClipUSERBOT_LOGGERbot", log)
 
+    slep = message.command[1]
+    slep = int(slep)
+    slepe = str(slep)
     args = ' ! '
     if len(message.text.split()) >= 2:
-        args = message.text.split(prefix + 'tagall ', maxsplit=1)[1]
+        args = message.text.split(prefix + 'tagall ' + slepe, maxsplit=1)[1]
     await message.delete()
     chat_id = message.chat.id
     string = ""
@@ -556,11 +566,11 @@ async def tagall(client, message):
                 string += f"<a href='tg://user?id={member.user.id}'>{w}</a> "
             limit += 1
         else:
-            text = f"{args}|{string}"
+            text = f"{args} | {string}"
             await client.send_message(chat_id, text, disable_web_page_preview=1)
             limit = 1
             string = ""
-            await asyncio.sleep(2)
+            await asyncio.sleep(slep)
 
 # Удалить смс
 @app.on_message(filters.command("del", prefix) & filters.me)
@@ -1113,8 +1123,10 @@ async def unafk(client: Client, message: Message):
         global start, end
         end = datetime.datetime.now().replace(microsecond=0)
         afk_time = (end - start)
-        await message.edit(f"<b>Я теперь не АФК.\n<b>Причина:</b> <i>{reason}</i>\nБыл в афк {afk_time}</b>")
+        await message.edit(f"<b>Я теперь не АФК.\n<b>Почему был (-а) АФК:</b> <i>{reason}</i>\nБыл в афк {afk_time}</b>")
         client.remove_handler(*handler)
+        await restart(message, restart_type='restart')
+        
     except NameError:
         await message.edit("<b>Я не был в АФК</b>")
         await asyncio.sleep(3)
