@@ -16,7 +16,7 @@ os.system("cls" if os.name == "nt" else "clear")
 
 import wget
 from alive_progress import alive_bar
-with alive_bar(24, bar='classic2', title='Подготовка', spinner='pointer', length=24) as bar:
+with alive_bar(23, bar='classic2', title='Подготовка', spinner='pointer', length=24) as bar:
     bar()
     try:
         import random
@@ -119,15 +119,6 @@ with alive_bar(24, bar='classic2', title='Подготовка', spinner='pointe
     except ModuleNotFoundError:
         pip.main(["install", "configparser"])
 
-
-    bar()
-    try:
-        import simpledemotivators
-    except ModuleNotFoundError:
-        pip.main(["install", "wheel"])
-        os.system("pkg install libjpeg-turbo -y")
-        pip.main(["install", "pillow"])
-        pip.main(["install", "simpledemotivators"])
 
     bar()
     configuration = os.path.exists("config.ini")
@@ -233,33 +224,32 @@ Telegram Канал - @ArturDestroyerBot
 logi = "╭ Логи\n┃ "
 
 # Перезагрузка, обновы
-with alive_bar(1, bar='smooth', title='Запуск', spinner='pointer', length=5) as bar:
-    app = Client("my_account")
+app = Client("my_account")
 
-    with app:
-        app.join_chat("ArturDestroyerBot")  # Прошу, не убирайте эту строку
-        app.unblock_user("ClipUSERBOT_LOGGERbot")
-        nowe = datetime.datetime.now()
-        timnowe = nowe.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        startlog = logi + timnowe + "\n╰ Юзербот был запущен"
-        app.send_message("ClipUSERBOT_LOGGERbot", startlog)
-        me = app.get_me()
-        
-        if len(sys.argv) == 4:
-            try:
-                restart_type = sys.argv[3]
-                if restart_type == "1":
-                    app.send_audio(
-                        sys.argv[1], "update.ogg", "<code>Обновление завершенно!</code>"
-                    )
-                else:
-                    app.send_audio(
-                        sys.argv[1], "start.ogg", "<code>Перезагрузка завершенна!</code>"
-                    )
-            except:
-                pass
+with app:
+    app.join_chat("ArturDestroyerBot")  # Прошу, не убирайте эту строку
+    app.unblock_user("ClipUSERBOT_LOGGERbot")
+    nowe = datetime.datetime.now()
+    timnowe = nowe.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    startlog = logi + timnowe + "\n╰ Юзербот был запущен"
+    app.send_message("ClipUSERBOT_LOGGERbot", startlog)
+    me = app.get_me()
+     
+    if len(sys.argv) == 4:
+        try:
+            restart_type = sys.argv[3]
+            if restart_type == "1":
+                app.send_audio(
+                    sys.argv[1], "update.ogg", "<code>Обновление завершенно!</code>"
+                )
+            else:
+                app.send_audio(
+                    sys.argv[1], "start.ogg", "<code>Перезагрузка завершенна!</code>"
+                )
+        except:
+            pass
 
-    bar()
+    
 
 os.system("cls" if os.name == "nt" else "clear")
 print(logo)
@@ -657,14 +647,8 @@ async def demotivator(client: Client, message: Message):
         await app.send_message("ClipUSERBOT_LOGGERbot", log)
 
         if message.reply_to_message.photo:
-            await message.edit("Создаём демотиватор...")
-            donwloads = await client.download_media(message.reply_to_message.photo.file_id)
-            text = message.text.split(prefix + "dem ", maxsplit=1)[1]
-            dem = Demotivator(text)
-            dem.create(donwloads)
-            await client.send_photo(chat_id=message.chat.id, photo="demresult.jpg")
-            await message.delete()
-            os.remove("demresult.jpg")
+            await message.edit("В разработке...")
+    
         else:
             await message.edit("Сделайте реплай на изображение")
     except Exception as erryr:
