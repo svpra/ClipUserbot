@@ -131,6 +131,7 @@ with alive_bar(24, bar='classic2', title='Подготовка', spinner='pointe
             os.system("pkg install libjpeg-turbo")
             os.system("LDFLAGS="-L/system/lib/" CFLAGS="-I/data/data/com.termux/files/usr/include/" pip install Pillow")
             pip.main(["install", "simpledemotivators"])
+            pip.main(["install", "_imagingft"])
 
     bar()
     configuration = os.path.exists("config.ini")
