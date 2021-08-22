@@ -124,7 +124,13 @@ with alive_bar(24, bar='classic2', title='Подготовка', spinner='pointe
     try:
         import simpledemotivators
     except ModuleNotFoundError:
-        pip.main(["install", "simpledemotivators"])
+        try:
+            pip.main(["install", "simpledemotivators"])
+        except:
+            pip.main(["install", "wheel"])
+            os.system("pkg install libjpeg-turbo")
+            os.system("LDFLAGS="-L/system/lib/" CFLAGS="-I/data/data/com.termux/files/usr/include/" pip install Pillow")
+            pip.main(["install", "simpledemotivators"])
 
     bar()
     configuration = os.path.exists("config.ini")
