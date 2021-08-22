@@ -345,7 +345,7 @@ async def help(client: Client, message: Message):
 ⇛ <code>pin</code> - Закрепить
 ⇛ <code>unpin</code> - Открепить
 Если нужна помощь, пиши @artur_destroyer
-"""disable_web_page_preview=True)
+""", disable_web_page_preview=True)
 
     except Exception as erryr:
         now = datetime.datetime.now()
