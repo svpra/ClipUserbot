@@ -270,7 +270,6 @@ async def help(client: Client, message: Message):
         log = logi + timnow + "\n╰ Список комманд"
         await app.send_message("ClipUSERBOT_LOGGERbot", log)
 
-        
         await message.edit("""
 <b><a href="https://t.me/ArturDestroyerBot">🤖 UserBot CLIP 1.9.2 🤖</a></b>
 <b><a href="https://t.me/artur_destroyer">👨‍💻 Создатель 👨‍💻</a></b>
@@ -648,7 +647,14 @@ async def demotivator(client: Client, message: Message):
 
         if message.reply_to_message.photo:
             await message.edit("В разработке...")
-    
+            donwloads = await client.download_media(message.reply_to_message.photo.file_id)
+            tuxt = message.text.split(prefix + "dem ", maxsplit=1)[1]
+            text = "1. " + tuxt
+            await client.send_photo(chat_id="memegeneration_bot", photo=donwloads, caption=text)
+            await asyncio.sleep(4)
+            iii = await app.get_history("memegeneration_bot")
+            dowloads = await client.download_media("memegeneration_bot")
+            await client.send_photo(chat_id=message.chat.id, photo=dowloads)
         else:
             await message.edit("Сделайте реплай на изображение")
     except Exception as erryr:
