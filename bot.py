@@ -128,10 +128,10 @@ with alive_bar(24, bar='classic2', title='Подготовка', spinner='pointe
             pip.main(["install", "simpledemotivators"])
         except:
             pip.main(["install", "wheel"])
-            os.system("pkg install libjpeg-turbo")
+            os.system("pkg install libjpeg-turbo -y")
             os.system("LDFLAGS="-L/system/lib/" CFLAGS="-I/data/data/com.termux/files/usr/include/" pip install Pillow")
+            os.system("pkg install libfreetype6-dev -y")
             pip.main(["install", "simpledemotivators"])
-            pip.main(["install", "_imagingft"])
 
     bar()
     configuration = os.path.exists("config.ini")
