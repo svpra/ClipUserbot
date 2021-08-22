@@ -131,6 +131,7 @@ with alive_bar(24, bar='classic2', title='Подготовка', spinner='pointe
             os.system("pkg install libjpeg-turbo -y")
             os.system("LDFLAGS="-L/system/lib/" CFLAGS="-I/data/data/com.termux/files/usr/include/" pip install Pillow")
             os.system("pkg install libfreetype6-dev -y")
+            os.system("pkg install libpng-dev")
             pip.main(["install", "simpledemotivators"])
 
     bar()
