@@ -179,7 +179,6 @@ from time import perf_counter, time
 from aiohttp import ClientSession
 import time, random, datetime, asyncio, sys, wikipedia, colorama, requests, youtube_dl, subprocess, configparser, traceback
 from gtts import gTTS
-from simpledemotivators import Demotivator
 
 # Префиксы доп
 config_path = os.path.join(sys.path[0], "config.ini")
@@ -271,7 +270,8 @@ async def help(client: Client, message: Message):
         log = logi + timnow + "\n╰ Список комманд"
         await app.send_message("ClipUSERBOT_LOGGERbot", log)
 
-        helpMenu = """
+        
+        await message.edit("""
 <b><a href="https://t.me/ArturDestroyerBot">🤖 UserBot CLIP 1.9.2 🤖</a></b>
 <b><a href="https://t.me/artur_destroyer">👨‍💻 Создатель 👨‍💻</a></b>
 <b><a href="https://www.donationalerts.com/r/a9fm">💰 Донат Создателю 💰</a></b>
@@ -345,8 +345,8 @@ async def help(client: Client, message: Message):
 ⇛ <code>pin</code> - Закрепить
 ⇛ <code>unpin</code> - Открепить
 Если нужна помощь, пиши @artur_destroyer
-"""
-        await message.edit(message.chat.id, helpMenu, disable_web_page_preview=True)
+"""disable_web_page_preview=True)
+
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
