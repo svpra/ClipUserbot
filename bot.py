@@ -657,7 +657,6 @@ async def demotivator(client: Client, message: Message):
             iii = await app.get_history("memegeneration_bot")
             donwloads = await client.download_media(iii[0].photo.file_id)
             await client.send_photo(chat_id=message.chat.id, photo=donwloads)
-            os.remove("/donwload/")
         else:
             await message.edit("Сделайте реплай на изображение")
     except Exception as erryr:
