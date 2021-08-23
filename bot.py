@@ -653,7 +653,7 @@ async def demotivator(client: Client, message: Message):
             await client.send_photo(chat_id="memegeneration_bot", photo=donwloads, caption=text)
             await asyncio.sleep(4)
             iii = await app.get_history("memegeneration_bot")
-            donwloads = await client.download_media(iii[0].file_id)
+            donwloads = await client.download_media(iii[0].photo.file_id)
             await client.send_photo(chat_id=message.chat.id, photo=donwloads)
         else:
             await message.edit("Сделайте реплай на изображение")
