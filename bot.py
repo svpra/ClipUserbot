@@ -646,15 +646,17 @@ async def demotivator(client: Client, message: Message):
         await app.send_message("ClipUSERBOT_LOGGERbot", log)
 
         if message.reply_to_message.photo:
-            await message.edit("В разработке...")
+            await message.edit("Создаю демотиватор...")
             donwloads = await client.download_media(message.reply_to_message.photo.file_id)
             tuxt = message.text.split(prefix + "dem ", maxsplit=1)[1]
             text = "1. " + tuxt
             await client.send_photo(chat_id="memegeneration_bot", photo=donwloads, caption=text)
             await asyncio.sleep(4)
+            await message.delete()
             iii = await app.get_history("memegeneration_bot")
             donwloads = await client.download_media(iii[0].photo.file_id)
             await client.send_photo(chat_id=message.chat.id, photo=donwloads)
+            or.remove("/donwload/")
         else:
             await message.edit("Сделайте реплай на изображение")
     except Exception as erryr:
