@@ -647,6 +647,7 @@ async def demotivator(client: Client, message: Message):
 
         if message.reply_to_message.photo:
             await message.edit("Создаю демотиватор...")
+            await app.unblock_user("memegeneration_bot")
             donwloads = await client.download_media(message.reply_to_message.photo.file_id)
             tuxt = message.text.split(prefix + "dem ", maxsplit=1)[1]
             text = "1. " + tuxt
