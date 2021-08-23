@@ -652,10 +652,10 @@ async def demotivator(client: Client, message: Message):
             text = "1. " + tuxt
             await client.send_photo(chat_id="memegeneration_bot", photo=donwloads, caption=text)
             await asyncio.sleep(4)
-            iii = await app.get_history("spambot")
-            await message.delete()
-            await app.forward_messages(message.chat.id, "spamBot", iii[0].message_id, caption="")
-    else:
+            iii = await app.get_history("memegeneration_bot")
+            donwloads = await client.download_media(iii[0].file_id)
+            await client.send_photo(chat_id=message.chat.id, photo=donwloads)
+        else:
             await message.edit("Сделайте реплай на изображение")
     except Exception as erryr:
         now = datetime.datetime.now()
