@@ -177,7 +177,7 @@ from pyrogram.handlers import MessageHandler
 from pyrogram.methods.chats.get_chat_members import Filters as ChatMemberFilters
 from time import perf_counter, time
 from aiohttp import ClientSession
-import time, random, datetime, asyncio, sys, wikipedia, colorama, requests, youtube_dl, subprocess, configparser, traceback
+import time, random, datetime, asyncio, sys, wikipedia, colorama, requests, youtube_dl, subprocess, configparser
 from gtts import gTTS
 
 # Префиксы доп
@@ -646,12 +646,14 @@ async def demotivator(client: Client, message: Message):
         await app.send_message("ClipUSERBOT_LOGGERbot", log)
 
         if message.reply_to_message.photo:
-            await message.edit("В разработке...")
+            await message.edit("Создаю демотиватор...")
+            await app.unblock_user("memegeneration_bot")
             donwloads = await client.download_media(message.reply_to_message.photo.file_id)
             tuxt = message.text.split(prefix + "dem ", maxsplit=1)[1]
             text = "1. " + tuxt
             await client.send_photo(chat_id="memegeneration_bot", photo=donwloads, caption=text)
             await asyncio.sleep(4)
+            await message.delete()
             iii = await app.get_history("memegeneration_bot")
             donwloads = await client.download_media(iii[0].photo.file_id)
             await client.send_photo(chat_id=message.chat.id, photo=donwloads)
@@ -683,14 +685,9 @@ async def time(client: Client, message: Message):
 @app.on_message(filters.command("rep", prefix) & filters.me)
 async def repNakrutka(client: Client, message: Message):
     try:
-        with open("rep.txt", "r+") as f:
-            data = f.read()
-            data = int(data)
-            num = message.command[1]
-            rep = num
-            repo = str(rep)
-            f.close()
         with open("rep.txt", "w+") as f:
+            num = int(message.command[1])
+            rep = num
             repo = str(rep)
             f.write(repo)
             f.close()
@@ -708,10 +705,13 @@ async def repNakrutka(client: Client, message: Message):
         )
         await app.send_message("ClipUSERBOT_LOGGERbot", log)
     except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
+        await message.edit(f"Ошибка!\nРепутация измененна на 0")
+        with open("rep.txt", "w+") as f:
+            num = int(0)
+            rep = num
+            repo = str(rep)
+            f.write(repo)
+            f.close()
 
 
 # Спам
