@@ -177,7 +177,7 @@ from pyrogram import Client, filters
 from pyrogram.types import Message, ChatPermissions
 from pyrogram.handlers import MessageHandler
 from pyrogram.methods.chats.get_chat_members import Filters as ChatMemberFilters
-from time import perf_counter, time
+from time import perf_counter
 from aiohttp import ClientSession
 import time, random, datetime, asyncio, sys, wikipedia, colorama, requests, youtube_dl, subprocess, configparser, shlex
 from gtts import gTTS
@@ -539,13 +539,37 @@ async def repPlus(client: Client, message: Message):
     except:
         pass
 
+# Прогресс бар
+@app.on_message(filters.command("progressbar", prefix) & filters.me)
+async def Progressbar(client: Client, message: Message):
+    try:
+        now = datetime.datetime.now()
+        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+        log = logi + timnow + "\n╰ Команда id"
+        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
+        text = message.text.split(prefix + "progressbar ", maxsplit=1)[1]
+        import time
+        total = 100  # total number to reach
+        bar_length = 20  # should be less than 100
+        for i in range(total + 1):
+            percent = 100.0 * i / total
+            time.sleep(0.0001)
+            await message.edit(text + "\n[{:{}}] {:>3}%".format("█" * int(percent / (100.0 / bar_length)), bar_length, int(percent)))
+    except Exception as erryr:
+        now = datetime.datetime.now()
+        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+        log = logi + timnow + "\n╰ Прогресс бар"
+        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
+        await message.edit(f"Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
+
 # Айди
 @app.on_message(filters.command("id", prefix) & filters.me)
 async def id(client: Client, message: Message):
     try:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Комманда id"
+        log = logi + timnow + "\n╰ Команда id"
         await app.send_message("ClipUSERBOT_LOGGERbot", log)
 
         if message.reply_to_message is None:
@@ -556,7 +580,7 @@ async def id(client: Client, message: Message):
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Список комманд"
+        log = logi + timnow + "\n╰ команда id"
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit(f"Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
 
