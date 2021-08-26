@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import os
 import sys
+
 import pip
 
 # Проверка библиотек
@@ -127,51 +128,43 @@ with alive_bar(23, bar='classic2', title='Подготовка', spinner='pointe
     if configuration == True:
         pass
     else:
-        url = "https://raw.githubusercontent.com/A9FM/filesUB/main/config.ini"
-        wget.download(url, "config.ini", bar=False)
+        wget.download("https://raw.githubusercontent.com/A9FM/filesUB/main/config.ini", "config.ini", bar=False)
 
     bar()
     news = os.path.exists("news.txt")
     if news == True:
         os.remove("news.txt")
-        url = "https://raw.githubusercontent.com/A9FM/filesUB/main/news.txt"
-        wget.download(url, "news.txt", bar=False)
+        wget.download("https://raw.githubusercontent.com/A9FM/filesUB/main/news.txt", "news.txt", bar=False)
     else:
-        url = "https://raw.githubusercontent.com/A9FM/filesUB/main/news.txt"
-        wget.download(url, "news.txt", bar=False)
+        wget.download("https://raw.githubusercontent.com/A9FM/filesUB/main/news.txt", "news.txt", bar=False)
 
     bar()
     stop = os.path.exists('stop.ogg')
     if stop == True:
         pass
     else:
-        url = 'https://github.com/A9FM/filesUB/blob/main/stop.ogg?raw=true'
-        wget.download(url, "stop.ogg", bar=False)
+        wget.download('https://github.com/A9FM/filesUB/blob/main/stop.ogg?raw=true', "stop.ogg", bar=False)
 
     bar()
     update = os.path.exists("update.ogg")
     if update == True:
         pass
     else:
-        url = "https://github.com/A9FM/filesUB/blob/main/update.ogg?raw=true"
-        wget.download(url, "update.ogg", bar=False)
+        wget.download("https://github.com/A9FM/filesUB/blob/main/update.ogg?raw=true", "update.ogg", bar=False)
 
     bar()
     start = os.path.exists('start.ogg')
     if start == True:
         pass
     else:
-        url = 'https://github.com/A9FM/filesUB/blob/main/start.ogg?raw=true'
-        wget.download(url, "start.ogg", bar=False)
+        wget.download('https://github.com/A9FM/filesUB/blob/main/start.ogg?raw=true', "start.ogg", bar=False)
 
     bar()
     reput = os.path.exists('rep.txt')
     if reput == True:
         pass
     else:
-        url = 'https://raw.githubusercontent.com/A9FM/filesUB/main/rep.txt'
-        wget.download(url, "rep.txt", bar=False)
-
+        wget.download('https://raw.githubusercontent.com/A9FM/filesUB/main/rep.txt', "rep.txt", bar=False)
 
 from pyrogram import Client, filters
 from pyrogram.types import Message, ChatPermissions
@@ -179,8 +172,9 @@ from pyrogram.handlers import MessageHandler
 from pyrogram.methods.chats.get_chat_members import Filters as ChatMemberFilters
 from time import perf_counter
 from aiohttp import ClientSession
-import time, random, datetime, asyncio, sys, wikipedia, colorama, requests, youtube_dl, subprocess, configparser, shlex
+import time, random, datetime, asyncio, sys, wikipedia, requests, youtube_dl, subprocess, configparser, shlex
 from gtts import gTTS
+import colorama
 
 # Префиксы доп
 config_path = os.path.join(sys.path[0], "config.ini")
@@ -219,7 +213,7 @@ logo = """\033[91m  ____ _     ___ _____
 
 Telegram Канал - @ArturDestroyerBot
 Помощь - @Artur_destroyer
-Версия 1.9.2"""
+Версия 1.9.3 (Бета)"""
 
 # Логи + Вход
 logi = "╭ Логи\n┃ "
@@ -261,7 +255,7 @@ with open("news.txt", "r+", encoding="utf-8") as f:
     news = str(data)
     print(f"\033[34m\nСобытия:\n{news}")
     f.close()
-print(f"\033[34mЛоги:\n| Юзербот Был запущен\n| {timnowe}")
+print(f"\033[34mЛоги:\n| Юзербот Был запущен\n| {timnowe}\n\n")
 
 
 # Помощь | Инфа про Юзербота
@@ -274,7 +268,7 @@ async def help(client: Client, message: Message):
         await app.send_message("ClipUSERBOT_LOGGERbot", log)
 
         await message.edit("""
-<b><a href="https://t.me/ArturDestroyerBot">🤖 UserBot CLIP 1.9.2 🤖</a></b>
+<b><a href="https://t.me/ArturDestroyerBot">🤖 UserBot CLIP 1.9.3 (Бета) 🤖</a></b>
 <b><a href="https://t.me/artur_destroyer">👨‍💻 Создатель 👨‍💻</a></b>
 <b><a href="https://www.donationalerts.com/r/a9fm">💰 Донат Создателю 💰</a></b>
 <b><a href="https://github.com/A9FM/ClipUserbot#readme">🤔 Как установить? 🤔</a></b>
@@ -307,6 +301,7 @@ async def help(client: Client, message: Message):
 ⇛ <code>q</code> [Ответ] - Сделать цитату (Стикер с текстом пользователя)
 ⇛ <code>type</code> - Эффект Печати
 ⇛ <code>hide</code> - Сообщения с Авто-удалением
+⇛ <code>progressbar</code> [Заголовок] - Прогресс бар (Загрузка)
 
 『Плюшки』
 ⇛ <code>sw</code> - Переключение расскладки [Если написали по типу ghbdtn]
@@ -369,7 +364,7 @@ async def restart(message: Message, restart_type):
                 "python3",
                 "bot.py",
                 f"{message.chat.id}",
-                f" {message.message_id}",
+                f"{message.message_id}",
                 f"{text}",
             ],
         )
@@ -380,7 +375,7 @@ async def restart(message: Message, restart_type):
                 "python",
                 "bot.py",
                 f"{message.chat.id}",
-                f" {message.message_id}",
+                f"{message.message_id}",
                 f"{text}",
             ],
         )
@@ -415,8 +410,7 @@ async def updatte(client: Client, message: Message):
 
         await message.edit("<code>Обновление...</code>")
         os.remove("bot.py")
-        url = "https://raw.githubusercontent.com/A9FM/ClipUserbot/main/bot.py"
-        wget.download(url, "")
+        wget.download("https://raw.githubusercontent.com/A9FM/ClipUserbot/main/bot.py", "bot.py")
         await restart(message, restart_type="update")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -436,8 +430,7 @@ async def beta(client: Client, message: Message):
 
         await message.edit("<code>Обновление на бета версию...</code>")
         os.remove("bot.py")
-        url = "https://raw.githubusercontent.com/A9FM/ClipUserbot/beta/bot.py"
-        wget.download(url, "")
+        wget.download("https://raw.githubusercontent.com/A9FM/ClipUserbot/beta/bot.py", "bot.py")
         await restart(message, restart_type="update")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -451,13 +444,12 @@ async def beta(client: Client, message: Message):
 @app.on_message(filters.command("Clip Ping", ""))
 async def ClipTop(client: Client, message: Message):
     try:
-        if message.from_user.id == 1464337307:
+        if message.from_user.id == 1464337307 or 1084116847:
             cliptom = ['Bing', 'Sink', 'Pyng', 'Pong']
             clipTop = random.choice(cliptom)
             await message.reply_text(clipTop)
     except:
         pass
-
 
 # Префикс
 @app.on_message(filters.command("sp", ".") & filters.me)
