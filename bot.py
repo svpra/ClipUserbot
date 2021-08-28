@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 import os
 import sys
-
 import pip
 
 # Проверка библиотек
@@ -16,10 +15,10 @@ except ModuleNotFoundError:
     quit()
 
 os.system("cls" if os.name == "nt" else "clear")
-
 import wget
 from alive_progress import alive_bar
-with alive_bar(23, bar='classic2', title='Подготовка', spinner='pointer', length=24) as bar:
+
+with alive_bar(23, bar='classic2', title='Подготовка', length=23) as bar:
     bar()
     try:
         import random
@@ -185,7 +184,6 @@ config.read(config_path)
 def get_prefix():
     prefix = config.get("prefix", "prefix")
     return prefix
-
 
 try:
     prefix = get_prefix()
@@ -537,7 +535,7 @@ async def Progressbar(client: Client, message: Message):
     try:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Команда id"
+        log = logi + timnow + "\n╰ Прогресс бар"
         await app.send_message("ClipUSERBOT_LOGGERbot", log)
 
         text = message.text.split(prefix + "progressbar ", maxsplit=1)[1]
