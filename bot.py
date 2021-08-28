@@ -210,7 +210,7 @@ logo = """\033[91m  ____ _     ___ _____
 
 Telegram Канал - @ArturDestroyerBot
 Помощь - @Artur_destroyer
-Версия 1.9.3 (Бета)"""
+Версия 1.9.3"""
 
 # Логи + Вход
 logi = "╭ Логи\n┃ "
@@ -265,7 +265,7 @@ async def help(client: Client, message: Message):
         await app.send_message("ClipUSERBOT_LOGGERbot", log)
 
         await message.edit("""
-<b><a href="https://t.me/ArturDestroyerBot">🤖 UserBot CLIP 1.9.3 (Бета) 🤖</a></b>
+<b><a href="https://t.me/ArturDestroyerBot">🤖 UserBot CLIP 1.9.3 🤖</a></b>
 <b><a href="https://t.me/artur_destroyer">👨‍💻 Создатель 👨‍💻</a></b>
 <b><a href="https://www.donationalerts.com/r/a9fm">💰 Донат Создателю 💰</a></b>
 <b><a href="https://github.com/A9FM/ClipUserbot#readme">🤔 Как установить? 🤔</a></b>
