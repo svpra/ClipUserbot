@@ -17,7 +17,6 @@ except ModuleNotFoundError:
 os.system("cls" if os.name == "nt" else "clear")
 import wget
 from alive_progress import alive_bar
-
 with alive_bar(23, bar='classic2', title='Подготовка', length=23) as bar:
     bar()
     try:
@@ -277,7 +276,7 @@ async def help(client: Client, message: Message):
 ⇛ <code>ping</code> - Проверка Пинга Юзербота [Качество полключения]
 ⇛ <code>restart</code> - Перезагрузка [Ошибка, Баг в Юзерботе]
 ⇛ <code>update</code> - Обновить
-⇛ <code>beta</code> - Обновиться на [РЕЛИЗ]
+⇛ <code>beta</code> - Обновиться на Бета версию
 ⇛ <code>online</code> - Вечный онлайн (В сети/Стабильное подключение к интернету)
 ⇛ <code>offline</code> - Отключение вечного онлайна
 ⇛ <code>.sp</code> [Символ] - Смена префикса (знака в начале для комманд)
@@ -314,6 +313,7 @@ async def help(client: Client, message: Message):
 ⇛ <code>webshot</code> [Ссылка] - Скриншот сайта
 ⇛ <code>autoread</code> - Авто-чтение (Нет уведомлений с этого чата)
 ⇛ <code>spam</code> [Кол-во смс] [Время между сообщениями в секундах] [Текст сообщения] - Спам
+⇛ <code>stspam</code> [Кол-во смс] [Время между сообщениями в секундах] [Айди стикера] - Спам стикерами
 ⇛ <code>yt</code> [ссылка] - Скачивание и отправка видео (ютуб, тикток, лайк, инста)
 ⇛ <code>myt</code> [ссылка] - Скачивание и отправа звука с видео (ютуб, тикток, лайк, инста)
 ⇛ <code>spamban</code> - Проверка ограничений
@@ -558,11 +558,13 @@ async def Progressbar(client: Client, message: Message):
 @app.on_message(filters.command("send", prefix) & filters.me)
 async def sendtoid(client: Client, message: Message):
     try:
-        await app.send_message( message.command[1], ".")
+        await app.unblock_user(message.command[1])
+        await message.edit(f"Отправлено сообщение пользователю {message.command[1]}")
+        await app.send_message(message.command[1], ".")
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ команда id"
+        log = logi + timnow + "\n╰ Отправка сообщения через айди"
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit(f"Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
 
@@ -588,6 +590,34 @@ async def id(client: Client, message: Message):
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit(f"Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
 
+# Спам стикерами
+@app.on_message(filters.command("stspam", prefix) & filters.me)
+async def spam(client: Client, message: Message):
+    try:
+        if not message.text.split(prefix + "stspam", maxsplit=1)[1]:
+            await message.edit("<i>Команда была введена неправильно</i>")
+            return
+        count = message.command[1]
+        slep = message.command[2]
+        sticker = message.command[3]
+        count = int(count)
+        slep = int(slep)
+        await message.delete()
+
+        now = datetime.datetime.now()
+        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+        log = logi + timnow + "\n╰ Запущен спам"
+        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
+        for _ in range(count):
+            await app.send_sticker(message.chat.id, sticker)
+            await asyncio.sleep(slep)
+    except Exception as erryr:
+        now = datetime.datetime.now()
+        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+        log = logi + timnow + "\n╰ Запущен спам"
+        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
+        await message.edit(f"Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
 
 # Бомбер
 @app.on_message(filters.command("bomber", prefix) & filters.me)
@@ -688,7 +718,7 @@ async def demotivator(client: Client, message: Message):
             donwloads = await app.download_media(iii[0].photo.file_id)
             await app.send_photo(chat_id=message.chat.id, photo=donwloads)
             await message.delete()
-            os.rmdir('/downloads/')
+            os.rmdir("/downloads/")
         else:
             await message.edit("Сделайте реплай на изображение")
     except Exception as erryr:
@@ -1160,15 +1190,15 @@ async def info(client: Client, message: Message):
             user_link = message.from_user.mention
             last_name = message.from_user.last_name
             number = message.from_user.phone_number
-
         text = f"""
 ╭ <b>Информация</b>:
 ┃ Айди: <code>{id}</code>
 ┃ Имя: {first_name}
 ┃ Фамилия: {last_name}
 ┃ Юзернейм: @{username}
-┃ Номер телефонна: {number}
-╰ Ссылка: {user_link}"""
+┃ Номер телефона: {number}
+╰ Ссылка: {user_link}
+"""
         await message.edit(text, parse_mode="HTML")
     except Exception as erryr:
         now = datetime.datetime.now()
