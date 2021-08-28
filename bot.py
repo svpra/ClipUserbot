@@ -322,6 +322,7 @@ async def help(client: Client, message: Message):
 ⇛ <code>cl</code> [Текст] - Шифровка текста [Только пользователи CLIP]
 ⇛ <code>eye</code> [Номер телефона] - Проверка номера в базе данных глаза бога
 ⇛ <code>dem</code> [Текст] - Демотиватор
+⇛ <code>send</code> [Айди] - Написать человеку, зная его айди
 ⇛ Репутация
 
 『Администрация』
@@ -540,8 +541,8 @@ async def Progressbar(client: Client, message: Message):
 
         text = message.text.split(prefix + "progressbar ", maxsplit=1)[1]
         import time
-        total = 100  # total number to reach
-        bar_length = 20  # should be less than 100
+        total = 100
+        bar_length = 20 
         for i in range(total + 1):
             percent = 100.0 * i / total
             time.sleep(0.0001)
@@ -552,6 +553,19 @@ async def Progressbar(client: Client, message: Message):
         log = logi + timnow + "\n╰ Прогресс бар"
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit(f"Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
+
+# Написать пользотелю зная его айди
+@app.on_message(filters.command("send", prefix) & filters.me)
+async def sendtoid(client: Client, message: Message):
+    try:
+        await app.send_message( message.command[1], ".")
+    except Exception as erryr:
+        now = datetime.datetime.now()
+        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+        log = logi + timnow + "\n╰ команда id"
+        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
+        await message.edit(f"Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
+
 
 # Айди
 @app.on_message(filters.command("id", prefix) & filters.me)
