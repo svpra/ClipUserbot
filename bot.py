@@ -443,7 +443,7 @@ async def beta(client: Client, message: Message):
 @app.on_message(filters.command("Clip Ping", ""))
 async def ClipTop(client: Client, message: Message):
     try:
-        if message.from_user.id == 1464337307 or 1084116847:
+        if message.from_user.id == 1464337307:
             cliptom = ['Bing', 'Sink', 'Pyng', 'Pong']
             clipTop = random.choice(cliptom)
             await message.reply_text(clipTop)
