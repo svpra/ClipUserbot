@@ -233,6 +233,7 @@ app = Client("my_account")
 with app:
     app.join_chat("ArturDestroyerBot")  # Прошу, не убирайте эту строку
     app.unblock_user("ClipUSERBOT_LOGGERbot")
+    app.unblock_user("ClipUSERBOT_NOTESbot")
     nowe = datetime.datetime.now()
     timnowe = nowe.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
     startlog = logi + timnowe + "\n╰ Юзербот был запущен"
@@ -252,10 +253,7 @@ with app:
                 )
         except:
             pass
-
-
     
-
 os.system("cls" if os.name == "nt" else "clear")
 print(logo)
 print(f"\033[32m[√] {me.first_name} - ({me.id}) Запущен")
@@ -276,6 +274,7 @@ async def help(client: Client, message: Message):
         log = logi + timnow + "\n╰ Список комманд"
         await app.send_message("ClipUSERBOT_LOGGERbot", log)
 
+        await message.edit("Загрузка...")
         telegraph = Telegraph()
         telegraph.create_account(short_name='ClipUserbot')
         help = """
@@ -298,6 +297,8 @@ async def help(client: Client, message: Message):
 ⇛ <code>beta</code> - Обновить юзербота на Бета версию<br>
 ⇛ <code>online</code> - Вечный онлайн (В сети/Стабильное подключение к интернету)<br>
 ⇛ <code>offline</code> - Отключение вечного онлайна<br>
+⇛ <code>mnotes</code> [Ответ] - Сохранить сообщение <br>
+⇛ <code>notes</code> [Число] - Вывести сообщение<br>
 ⇛ <code>.sp</code> [Символ] - Смена префикса (знака в начале для комманд)<br>
 <h3>Мало временни</h3>
 ⇛ <code>afk</code> [Причина] - Ввойти в АФК [Не в сети]<br>
@@ -554,6 +555,24 @@ async def repPlus(client: Client, message: Message):
             await app.send_message("ClipUSERBOT_LOGGERbot", log)
     except:
         pass
+
+# Прогресс бар
+@app.on_message(filters.command("progressbar", prefix) & filters.me)
+async def Progressbar(client: Client, message: Message):
+    try:
+        now = datetime.datetime.now()
+        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+        log = logi + timnow + "\n╰ Прогресс бар"
+        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
+        
+    except Exception as erryr:
+        now = datetime.datetime.now()
+        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+        log = logi + timnow + "\n╰ Прогресс бар"
+        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
+        await message.edit(f"Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
+
 
 # Прогресс бар
 @app.on_message(filters.command("progressbar", prefix) & filters.me)
@@ -1094,8 +1113,8 @@ async def quotly(client: Client, message: Message):
     await message.delete()
     await app.forward_messages(message.chat.id, "QuotLyBot", iii[0].message_id)
 
-# ГС в текст
-@app.on_message(filters.command("text", prefix) & filters.me)
+# Нотес
+@app.on_message(filters.command("mnotes", prefix) & filters.me)
 async def gstotext(client: Client, message: Message):
     try:
         if not message.reply_to_message:
@@ -1106,13 +1125,12 @@ async def gstotext(client: Client, message: Message):
         log = logi + timnow + "\n╰ Переведено голосовое в текст"
         await app.send_message("ClipUSERBOT_LOGGERbot", log)
 
-        await app.unblock_user("VoiceMsgBot")
-        await message.edit("Пишу текстом...")
-        await message.reply_to_message.forward("VoiceMsgBot")
-        await asyncio.sleep(5)
-        iii = await app.get_history("VoiceMsgBot")
-        await message.edit("Отправка текста...")
-        await app.forward_messages(message.chat.id, "VoiceMsgBot", iii[0].message_id)
+        await message.edit("Сохранение...")
+        await app.unblock_user("ClipUSERBOT_NOTESbot")
+        await message.reply_to_message.forward("ClipUSERBOT_NOTESbot")
+        await asyncio.sleep(1)
+        iii = await app.get_history("ClipUSERBOT_NOTESbot")
+        await message.edit(f"Сообщение сохранено!\nДля вывода сообщения напишите {prefix}notes {iii[0].message_id}")
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -1120,6 +1138,18 @@ async def gstotext(client: Client, message: Message):
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit("Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
 
+@app.on_message(filters.command("notes", prefix) & filters.me)
+async def gstotext(client: Client, message: Message):
+    now = datetime.datetime.now()
+    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    log = logi + timnow + "\n╰ Команда notes"
+    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
+    numbermess = int(message.command[1])
+    await message.edit("Вывод сообщения...")
+    await app.unblock_user("ClipUSERBOT_NOTESbot")
+    await app.forward_messages(message.chat.id, "ClipUSERBOT_NOTESbot", numbermess)
+    await message.delete()
 
 # Ограничения
 @app.on_message(filters.command("spamban", prefix) & filters.me)
