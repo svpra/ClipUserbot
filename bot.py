@@ -239,7 +239,6 @@ with app:
     app.send_message("ClipUSERBOT_LOGGERbot", startlog)
     me = app.get_me()
     app.add_contact("artur_destroyer", "Артур (Создатель Clip Userbot)")
-
     if len(sys.argv) == 4:
         try:
             restart_type = sys.argv[3]
