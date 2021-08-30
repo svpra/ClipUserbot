@@ -465,17 +465,6 @@ async def beta(client: Client, message: Message):
         await message.edit(f"Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
 
 
-# Проверка юзеров от владельца
-@app.on_message(filters.command("Clip Ping", ""))
-async def ClipTop(client: Client, message: Message):
-    try:
-        if message.from_user.id == 1464337307:
-            cliptom = ['Bing', 'Sink', 'Pyng', 'Pong']
-            clipTop = random.choice(cliptom)
-            await message.reply_text(clipTop)
-    except:
-        pass
-
 # Префикс
 @app.on_message(filters.command("sp", ".") & filters.me)
 async def pref(client: Client, message: Message):
