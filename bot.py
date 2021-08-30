@@ -231,32 +231,28 @@ logi = "╭ Логи\n┃ "
 app = Client("my_account")
 
 with app:
-    try:
-        app.join_chat("ArturDestroyerBot")  # Прошу, не убирайте эту строку
-        app.unblock_user("ClipUSERBOT_LOGGERbot")
-        nowe = datetime.datetime.now()
-        timnowe = nowe.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        startlog = logi + timnowe + "\n╰ Юзербот был запущен"
-        app.send_message("ClipUSERBOT_LOGGERbot", startlog)
-        me = app.get_me()
-        app.add_contact("artur_destroyer", "Артур (Создатель Clip Userbot)")
+    app.join_chat("ArturDestroyerBot")  # Прошу, не убирайте эту строку
+    app.unblock_user("ClipUSERBOT_LOGGERbot")
+    nowe = datetime.datetime.now()
+    timnowe = nowe.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+    startlog = logi + timnowe + "\n╰ Юзербот был запущен"
+    app.send_message("ClipUSERBOT_LOGGERbot", startlog)
+    me = app.get_me()
+    app.add_contact("artur_destroyer", "Артур (Создатель Clip Userbot)")
 
-        if len(sys.argv) == 4:
-            try:
-                restart_type = sys.argv[3]
-                if restart_type == "1":
-                    app.send_audio(
-                        sys.argv[1], "update.ogg", "<code>Обновление завершенно!</code>"
-                    )
-                else:
-                    app.send_audio(
-                        sys.argv[1], "start.ogg", "<code>Перезагрузка завершенна!</code>"
-                    )
-            except:
-                pass
+    if len(sys.argv) == 4:
+        try:
+            restart_type = sys.argv[3]
+            if restart_type == "1":
+                app.send_audio(
+                    sys.argv[1], "update.ogg", "<code>Обновление завершенно!</code>"
+                )
+            else:
+                app.send_audio(
+                    sys.argv[1], "start.ogg", "<code>Перезагрузка завершенна!</code>"
+                )
+        except:
             pass
-    except:
-        pass
 
 
     
