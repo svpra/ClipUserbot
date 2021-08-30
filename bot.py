@@ -1099,7 +1099,6 @@ async def quotly(client: Client, message: Message):
     if not message.reply_to_message:
         await message.edit("Ответь на сообщение")
         return
-
     now = datetime.datetime.now()
     timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
     log = logi + timnow + "\n╰ Создана цитата"
@@ -1115,14 +1114,14 @@ async def quotly(client: Client, message: Message):
 
 # Нотес
 @app.on_message(filters.command("mnotes", prefix) & filters.me)
-async def gstotext(client: Client, message: Message):
+async def mnotes(client: Client, message: Message):
     try:
         if not message.reply_to_message:
             await message.edit("Ответь на сообщение")
             return
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Переведено голосовое в текст"
+        log = logi + timnow + "\n╰ Сохранение в Notes"
         await app.send_message("ClipUSERBOT_LOGGERbot", log)
 
         await message.edit("Сохранение...")
@@ -1134,22 +1133,29 @@ async def gstotext(client: Client, message: Message):
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Команда text"
+        log = logi + timnow + "\n╰ Сохранение в Notes"
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit("Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
 
 @app.on_message(filters.command("notes", prefix) & filters.me)
-async def gstotext(client: Client, message: Message):
-    now = datetime.datetime.now()
-    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-    log = logi + timnow + "\n╰ Команда notes"
-    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+async def notes(client: Client, message: Message):
+    try:
+        now = datetime.datetime.now()
+        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+        log = logi + timnow + "\n╰ Команда notes"
+        await app.send_message("ClipUSERBOT_LOGGERbot", log)
 
-    numbermess = int(message.command[1])
-    await message.edit("Вывод сообщения...")
-    await app.unblock_user("ClipUSERBOT_NOTESbot")
-    await app.forward_messages(message.chat.id, "ClipUSERBOT_NOTESbot", numbermess)
-    await message.delete()
+        numbermess = int(message.command[1])
+        await message.edit("Вывод сообщения...")
+        await app.unblock_user("ClipUSERBOT_NOTESbot")
+        await app.forward_messages(message.chat.id, "ClipUSERBOT_NOTESbot", numbermess)
+        await message.delete()
+    except Exception as erryr:
+        now = datetime.datetime.now()
+        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+        log = logi + timnow + "\n╰ Сохранение в Notes"
+        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
+        await message.edit("Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
 
 # Ограничения
 @app.on_message(filters.command("spamban", prefix) & filters.me)
