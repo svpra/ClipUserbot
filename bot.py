@@ -554,14 +554,20 @@ async def Progressbar(client: Client, message: Message):
         log = logi + timnow + "\n╰ Прогресс бар"
         await app.send_message("ClipUSERBOT_LOGGERbot", log)
 
-        
+        text = message.text.split(prefix + "progressbar ", maxsplit=1)[1]
+        import time
+        total = 100
+        bar_length = 20 
+        for i in range(total + 1):
+            percent = 100.0 * i / total
+            time.sleep(0.0001)
+            await message.edit(text + "\n[{:{}}] {:>3}%".format("█" * int(percent / (100.0 / bar_length)), bar_length, int(percent)))
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
         log = logi + timnow + "\n╰ Прогресс бар"
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit(f"Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
-
 
 # Прогресс бар
 @app.on_message(filters.command("progressbar", prefix) & filters.me)
