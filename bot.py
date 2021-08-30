@@ -1129,7 +1129,7 @@ async def mnotes(client: Client, message: Message):
         await message.reply_to_message.forward("ClipUSERBOT_NOTESbot")
         await asyncio.sleep(1)
         iii = await app.get_history("ClipUSERBOT_NOTESbot")
-        await message.edit(f"Сообщение сохранено!\nДля вывода сообщения напишите {prefix}notes <code>{iii[0].message_id}</code>")
+        await message.edit(f"Сообщение сохранено!\nДля вывода сообщения напишите <code>{prefix}notes {iii[0].message_id}</code>")
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
