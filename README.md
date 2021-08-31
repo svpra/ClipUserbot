@@ -1,6 +1,5 @@
 <p align="center"><a href="https://t.me/arturdestroyerbot"><img src="https://github.com/A9FM/filesUB/blob/main/logo.png" width="500"></a></p> 
-
-![Views](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://github.com/A9FM/ClipUserbot&title=Profile%20Views)
+<p align="center"><a href="https://github.com/A9FM/ClipUserbot"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://github.com/A9FM/ClipUserbot&title=Profile%20Views" width="100"></a></p> 
 
 ## Помощь 🚑
 <a href="https://t.me/arturdestroyerbot"><img src="https://github.com/A9FM/filesUB/blob/main/channel.png"></a>
