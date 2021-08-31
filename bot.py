@@ -434,17 +434,6 @@ async def beta(client: Client, message: Message):
         await message.edit(f"Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
 
 
-# Проверка юзеров от владельца
-@app.on_message(filters.command("Clip Ping", ""))
-async def ClipTop(client: Client, message: Message):
-    try:
-        if message.from_user.id == 1464337307 or 1084116847:
-            cliptom = ['Bing', 'Sink', 'Pyng', 'Pong']
-            clipTop = random.choice(cliptom)
-            await message.reply_text(clipTop)
-    except:
-        pass
-
 # Префикс
 @app.on_message(filters.command("sp", ".") & filters.me)
 async def pref(client: Client, message: Message):
@@ -524,23 +513,6 @@ async def repPlus(client: Client, message: Message):
             await app.send_message("ClipUSERBOT_LOGGERbot", log)
     except:
         pass
-
-# Прогресс бар
-@app.on_message(filters.command("progressbar", prefix) & filters.me)
-async def Progressbar(client: Client, message: Message):
-    try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Прогресс бар"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
-
-        
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Прогресс бар"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
 
 
 # Прогресс бар
