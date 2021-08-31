@@ -54,7 +54,7 @@ cd ClipUserbot ; termux-wake-lock ; python bot.py
 ### Установка
 Открываем терминал, и устанавливаем Python и также Git
 ```
-apt install python3 git
+apt install python3 git python3-pip
 ```
 
 Теперь мы клонируем репозиторий коммандой
