@@ -14,123 +14,92 @@ try:
     import alive_progress
     import wget
 except ModuleNotFoundError:
-    pip.main(["install", "alive_progress"])
-    pip.main(["install", "wget"])
+    os.system("pip3 install alive_progress")
+    os.system("pip3 install wget")
     os.execl(sys.executable, sys.executable, *sys.argv)
     quit()
 
 os.system("cls" if os.name == "nt" else "clear")
 import wget
 from alive_progress import alive_bar
-with alive_bar(24, bar='classic2', title='Подготовка', length=24) as bar:
-    bar()
-    try:
-        import random
-    except ModuleNotFoundError:
-        pip.main(["install", "random"])
-
-    bar()
-    try:
-        import time
-    except ModuleNotFoundError:
-         pip.main(["install", "time"])
-
+with alive_bar(19, bar='classic', title='Подготовка', length=20) as bar:
     bar()
     try:
         import datetime
     except ModuleNotFoundError:
-        pip.main(["install", "datetime"])
+        os.system("pip3 install datetime")
 
     bar()
     try:
         import asyncio
     except ModuleNotFoundError:
-        pip.main(["install", "asyncio"])
-
-    bar()
-    try:
-        import sys
-    except ModuleNotFoundError:
-        pip.main(["install", "sys"])
+        os.system("pip3 install asyncio")
 
     bar()
     try:
         import wikipedia
     except ModuleNotFoundError:
-        pip.main(["install", "wikipedia"])
+        os.system("pip3 install wikipedia")
 
     bar()
     try:
         import logging
     except ModuleNotFoundError:
-        pip.main(["install", "logging"])
+        os.system("pip3 install logging")
 
     bar()
     try:
         import aiohttp
     except ModuleNotFoundError:
-        pip.main(["install", "aiohttp"])
+        os.system("pip3 install aiohttp")
 
     bar()
     try:
         import pyrogram
     except ModuleNotFoundError:
-        pip.main(["install", "pyrogram"])
-
-    bar()
-    try:
-        import os
-    except ModuleNotFoundError:
-        pip.main(["install", "os"])
-
-    bar()
-    try:
-        import wget
-    except ModuleNotFoundError:
-        pip.main(["install", "wget"])
+        os.system("pip3 install pyrogram")
 
     bar()
     try:
         import requests
     except ModuleNotFoundError:
-        pip.main(["install", "requests"])
+        os.system("pip3 install requests")
 
     bar()
     try:
         import gtts
     except ModuleNotFoundError:
-        pip.main(["install", "gtts"])
+        os.system("pip3 install gtts")
 
     bar()
     try:
         import colorama
     except ModuleNotFoundError:
-        pip.main(["install", "colorama"])
+        os.system("pip3 install colorama")
 
     bar()
     try:
         import youtube_dl
     except ModuleNotFoundError:
-        pip.main(["install", "youtube_dl"])
+        os.system("pip3 install youtube_dl")
 
     bar()
     try:
         import db0mb3r
     except ModuleNotFoundError:
-        pip.main(["install", "db0mb3r"])
+        os.system("pip3 install db0mb3r")
 
     bar()
     try:
         import configparser
     except ModuleNotFoundError:
-        pip.main(["install", "configparser"])
+        os.system("pip3 install configparser")
 
     bar()
     try:
         import telegraph
     except ModuleNotFoundError:
-        pip.main(["install", "telegraph"])
-
+        os.system("pip3 install telegraph")
 
     bar()
     configuration = os.path.exists("config.ini")
@@ -181,7 +150,7 @@ from pyrogram.handlers import MessageHandler
 from pyrogram.methods.chats.get_chat_members import Filters as ChatMemberFilters
 from time import perf_counter
 from aiohttp import ClientSession
-import time, random, datetime, asyncio, sys, wikipedia, requests, youtube_dl, subprocess, configparser, shlex
+import time, random, datetime, asyncio, sys, wikipedia, requests, youtube_dl, subprocess, configparser
 from gtts import gTTS
 import colorama
 from telegraph import Telegraph
@@ -465,6 +434,17 @@ async def beta(client: Client, message: Message):
         await message.edit(f"Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
 
 
+# Проверка юзеров от владельца
+@app.on_message(filters.command("Clip Ping", ""))
+async def ClipTop(client: Client, message: Message):
+    try:
+        if message.from_user.id == 1464337307 or 1084116847:
+            cliptom = ['Bing', 'Sink', 'Pyng', 'Pong']
+            clipTop = random.choice(cliptom)
+            await message.reply_text(clipTop)
+    except:
+        pass
+
 # Префикс
 @app.on_message(filters.command("sp", ".") & filters.me)
 async def pref(client: Client, message: Message):
@@ -554,20 +534,14 @@ async def Progressbar(client: Client, message: Message):
         log = logi + timnow + "\n╰ Прогресс бар"
         await app.send_message("ClipUSERBOT_LOGGERbot", log)
 
-        text = message.text.split(prefix + "progressbar ", maxsplit=1)[1]
-        import time
-        total = 100
-        bar_length = 20 
-        for i in range(total + 1):
-            percent = 100.0 * i / total
-            time.sleep(0.0001)
-            await message.edit(text + "\n[{:{}}] {:>3}%".format("█" * int(percent / (100.0 / bar_length)), bar_length, int(percent)))
+        
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
         log = logi + timnow + "\n╰ Прогресс бар"
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit(f"Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
+
 
 # Прогресс бар
 @app.on_message(filters.command("progressbar", prefix) & filters.me)
