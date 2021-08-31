@@ -4,122 +4,102 @@ import os
 import sys
 import pip
 
+try:
+    os.system("termux-wake-lock")
+except:
+    pass
+
 # Проверка библиотек
 try:
     import alive_progress
     import wget
 except ModuleNotFoundError:
-    pip.main(["install", "alive_progress"])
-    pip.main(["install", "wget"])
+    os.system("pip3 install alive_progress")
+    os.system("pip3 install wget")
     os.execl(sys.executable, sys.executable, *sys.argv)
     quit()
 
 os.system("cls" if os.name == "nt" else "clear")
 import wget
 from alive_progress import alive_bar
-with alive_bar(23, bar='classic2', title='Подготовка', length=23) as bar:
-    bar()
-    try:
-        import random
-    except ModuleNotFoundError:
-        pip.main(["install", "random"])
-
-    bar()
-    try:
-        import time
-    except ModuleNotFoundError:
-         pip.main(["install", "time"])
-
+with alive_bar(19, bar='classic', title='Подготовка', length=20) as bar:
     bar()
     try:
         import datetime
     except ModuleNotFoundError:
-        pip.main(["install", "datetime"])
+        os.system("pip3 install datetime")
 
     bar()
     try:
         import asyncio
     except ModuleNotFoundError:
-        pip.main(["install", "asyncio"])
-
-    bar()
-    try:
-        import sys
-    except ModuleNotFoundError:
-        pip.main(["install", "sys"])
+        os.system("pip3 install asyncio")
 
     bar()
     try:
         import wikipedia
     except ModuleNotFoundError:
-        pip.main(["install", "wikipedia"])
+        os.system("pip3 install wikipedia")
 
     bar()
     try:
         import logging
     except ModuleNotFoundError:
-        pip.main(["install", "logging"])
+        os.system("pip3 install logging")
 
     bar()
     try:
         import aiohttp
     except ModuleNotFoundError:
-        pip.main(["install", "aiohttp"])
+        os.system("pip3 install aiohttp")
 
     bar()
     try:
         import pyrogram
     except ModuleNotFoundError:
-        pip.main(["install", "pyrogram"])
-
-    bar()
-    try:
-        import os
-    except ModuleNotFoundError:
-        pip.main(["install", "os"])
-
-    bar()
-    try:
-        import wget
-    except ModuleNotFoundError:
-        pip.main(["install", "wget"])
+        os.system("pip3 install pyrogram")
 
     bar()
     try:
         import requests
     except ModuleNotFoundError:
-        pip.main(["install", "requests"])
+        os.system("pip3 install requests")
 
     bar()
     try:
         import gtts
     except ModuleNotFoundError:
-        pip.main(["install", "gtts"])
+        os.system("pip3 install gtts")
 
     bar()
     try:
         import colorama
     except ModuleNotFoundError:
-        pip.main(["install", "colorama"])
+        os.system("pip3 install colorama")
 
     bar()
     try:
         import youtube_dl
     except ModuleNotFoundError:
-        pip.main(["install", "youtube_dl"])
+        os.system("pip3 install youtube_dl")
 
     bar()
     try:
         import db0mb3r
     except ModuleNotFoundError:
-        pip.main(["install", "db0mb3r"])
+        os.system("pip3 install db0mb3r")
 
     bar()
     try:
         import configparser
     except ModuleNotFoundError:
-        pip.main(["install", "configparser"])
+        os.system("pip3 install configparser")
 
+    bar()
+    try:
+        import telegraph
+    except ModuleNotFoundError:
+        os.system("pip3 install telegraph")
 
     bar()
     configuration = os.path.exists("config.ini")
@@ -170,9 +150,10 @@ from pyrogram.handlers import MessageHandler
 from pyrogram.methods.chats.get_chat_members import Filters as ChatMemberFilters
 from time import perf_counter
 from aiohttp import ClientSession
-import time, random, datetime, asyncio, sys, wikipedia, requests, youtube_dl, subprocess, configparser, shlex
+import time, random, datetime, asyncio, sys, wikipedia, requests, youtube_dl, subprocess, configparser
 from gtts import gTTS
 import colorama
+from telegraph import Telegraph
 
 # Префиксы доп
 config_path = os.path.join(sys.path[0], "config.ini")
@@ -210,7 +191,7 @@ logo = """\033[91m  ____ _     ___ _____
 
 Telegram Канал - @ArturDestroyerBot
 Помощь - @Artur_destroyer
-Версия 1.9.3"""
+Версия 1.9.4 (бета)"""
 
 # Логи + Вход
 logi = "╭ Логи\n┃ "
@@ -221,13 +202,13 @@ app = Client("my_account")
 with app:
     app.join_chat("ArturDestroyerBot")  # Прошу, не убирайте эту строку
     app.unblock_user("ClipUSERBOT_LOGGERbot")
+    app.unblock_user("ClipUSERBOT_NOTESbot")
     nowe = datetime.datetime.now()
     timnowe = nowe.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
     startlog = logi + timnowe + "\n╰ Юзербот был запущен"
     app.send_message("ClipUSERBOT_LOGGERbot", startlog)
     me = app.get_me()
     app.add_contact("artur_destroyer", "Артур (Создатель Clip Userbot)")
-
     if len(sys.argv) == 4:
         try:
             restart_type = sys.argv[3]
@@ -241,9 +222,7 @@ with app:
                 )
         except:
             pass
-
     
-
 os.system("cls" if os.name == "nt" else "clear")
 print(logo)
 print(f"\033[32m[√] {me.first_name} - ({me.id}) Запущен")
@@ -264,85 +243,101 @@ async def help(client: Client, message: Message):
         log = logi + timnow + "\n╰ Список комманд"
         await app.send_message("ClipUSERBOT_LOGGERbot", log)
 
-        await message.edit("""
-<b><a href="https://t.me/ArturDestroyerBot">🤖 UserBot CLIP 1.9.3 🤖</a></b>
-<b><a href="https://t.me/artur_destroyer">👨‍💻 Создатель 👨‍💻</a></b>
-<b><a href="https://www.donationalerts.com/r/a9fm">💰 Донат Создателю 💰</a></b>
-<b><a href="https://github.com/A9FM/ClipUserbot#readme">🤔 Как установить? 🤔</a></b>
-<a href="https://github.com/A9FM/filesUB/blob/main/README.md">© <b>Copyright ClipUSERBOT</b> ©</a>
-
-『Основные』
-⇛ <code>help</code> - Помощь | Информация | Проверка версии
-⇛ <code>ping</code> - Проверка Пинга Юзербота [Качество полключения]
-⇛ <code>restart</code> - Перезагрузка [Ошибка, Баг в Юзерботе]
-⇛ <code>update</code> - Обновить
-⇛ <code>beta</code> - Обновиться на Бета версию
-⇛ <code>online</code> - Вечный онлайн (В сети/Стабильное подключение к интернету)
-⇛ <code>offline</code> - Отключение вечного онлайна
-⇛ <code>.sp</code> [Символ] - Смена префикса (знака в начале для комманд)
-
-『Мало временни』
-⇛ <code>afk</code> [Причина] - Ввойти в АФК [Не в сети]
-⇛ <code>unafk</code> - Выйти из АФК
-⇛ <code>wiki</code> [Слово] - Поиск в Википедии
-⇛ <code>weather</code> [Город] - Погода
-
-『Троллинг』
-⇛ <code>hack</code> - Взлом Пентагонна
-⇛ <code>jopa</code> - Взлом жопы
-⇛ <code>mum</code> - Поиск матери
-⇛ <code>drugs</code> - Принять 3aПрEщEHHblE BещECTBа
-⇛ <code>bomber</code> - Запуск Бомбера (Сайт)
-⇛ <code>bbomber</code> [Номер без знака +] - Запуск бомбера (боты)
-⇛ <code>sbomber</code> - Завершение роботы бомбера
-⇛ <code>q</code> [Ответ] - Сделать цитату (Стикер с текстом пользователя)
-⇛ <code>type</code> - Эффект Печати
-⇛ <code>hide</code> - Сообщения с Авто-удалением
-⇛ <code>progressbar</code> [Заголовок] - Прогресс бар (Загрузка)
-
-『Плюшки』
-⇛ <code>sw</code> - Переключение расскладки [Если написали по типу ghbdtn]
-⇛ <code>short</code> [Ссылка] - сократитель ссылок
-⇛ <code>tagall</code> [Задержка в секундах] - Призыв всех участников
-⇛ <code>id</code> - Айди
-⇛ <code>info</code> - Информация
-⇛ <code>infofull</code> - Полная информация
-⇛ <code>qr</code> [Текст] - Создание QR-Кода с вашим текстом
-⇛ <code>time</code> - Текущее время
-⇛ <code>ladder</code> - текст лесенкой (п пр при прив привет)
-⇛ <code>webshot</code> [Ссылка] - Скриншот сайта
-⇛ <code>autoread</code> - Авто-чтение (Нет уведомлений с этого чата)
-⇛ <code>spam</code> [Кол-во смс] [Время между сообщениями в секундах] [Текст сообщения] - Спам
-⇛ <code>stspam</code> [Кол-во смс] [Время между сообщениями в секундах] [Айди стикера] - Спам стикерами
-⇛ <code>yt</code> [ссылка] - Скачивание и отправка видео (ютуб, тикток, лайк, инста)
-⇛ <code>myt</code> [ссылка] - Скачивание и отправа звука с видео (ютуб, тикток, лайк, инста)
-⇛ <code>spamban</code> - Проверка ограничений
-⇛ <code>voice</code> [Текст] - Текст в голосовое
-⇛ <code>text</code> [Ответ на голосовое] - Голосовое сообщение в текст
-⇛ <code>cl</code> [Текст] - Шифровка текста [Только пользователи CLIP]
-⇛ <code>eye</code> [Номер телефона] - Проверка номера в базе данных глаза бога
-⇛ <code>dem</code> [Текст] - Демотиватор
-⇛ <code>send</code> [Айди] - Написать человеку, зная его айди
-⇛ Репутация
-
-『Администрация』
-⇛ <code>ban</code> - Бан
-⇛ <code>unban</code> - Разбан
-⇛ <code>kick</code> - Кик
-⇛ <code>mute</code> - Мут
-⇛ <code>unmute</code> - Размут
-⇛ <code>aprefix</code> - Выдача звания админа
-⇛ <code>admin</code> - Выдача прав админа
-⇛ <code>unadmin</code> - Разжалование Админа
-⇛ <code>invite</code> (Юзейрнейм - @) - Пригласить в чат
-⇛ <code>kickall</code> - Удаление всех с чата
-⇛ <code>kickall hide</code> - Удаление всех (скрыто)
-⇛ <code>leave</code> - Выйти с чата
-⇛ <code>pin</code> - Закрепить
-⇛ <code>unpin</code> - Открепить
-Если нужна помощь, пиши @artur_destroyer
+        await message.edit("Загрузка...")
+        telegraph = Telegraph()
+        telegraph.create_account(short_name='ClipUserbot')
+        help = """
+<b><a href="https://t.me/ArturDestroyerBot">🤖 UserBot CLIP 1.9.4 (бета) 🤖</a></b><br>
+<b><a href="https://t.me/artur_destroyer">👨💻 Создатель 👨💻</a></b><br>
+<b><a href="https://www.donationalerts.com/r/a9fm">💰 Донат Создателю 💰</a></b><br>
+<b><a href="https://github.com/A9FM/ClipUserbot#readme">🤔 Как установить? 🤔</a></b><br>
+<a href="https://github.com/A9FM/filesUB/blob/main/README.md">© <b>Copyright ClipUSERBOT</b> ©</a><br>
+<h3>Управление</h3>
+<a href="#Основные">1.1 Основные</a><br>
+<a href="#Мало-временни">1.2 Мало временни</a><br>
+<a href="#Троллинг">1.3 Троллинг</a><br>
+<a href="#Плюшки">1.4 Плюшки</a><br>
+<a href="#Администрация">1.5 Администрирование</a><br>
+<h3>Основные</h3>
+⇛ <code>help</code> - Помощь | Информация | Проверка версии<br>
+⇛ <code>ping</code> - Проверка Пинга Юзербота [Качество полключения]<br>
+⇛ <code>restart</code> - Перезагрузка [Ошибка, Баг в Юзерботе]<br>
+⇛ <code>update</code> - Обновить юзербота<br>
+⇛ <code>beta</code> - Обновить юзербота на Бета версию<br>
+⇛ <code>online</code> - Вечный онлайн (В сети/Стабильное подключение к интернету)<br>
+⇛ <code>offline</code> - Отключение вечного онлайна<br>
+⇛ <code>mnotes</code> [Ответ] - Сохранить сообщение <br>
+⇛ <code>notes</code> [Число] - Вывести сообщение<br>
+⇛ <code>.sp</code> [Символ] - Смена префикса (знака в начале для комманд)<br>
+<h3>Мало временни</h3>
+⇛ <code>afk</code> [Причина] - Ввойти в АФК [Не в сети]<br>
+⇛ <code>unafk</code> - Выйти из АФК<br>
+⇛ <code>wiki</code> [Слово] - Поиск в Википедии<br>
+⇛ <code>weather</code> [Город] - Погода<br>
+<h3>Троллинг</h3>
+⇛ <code>hack</code> - Взлом Пентагонна<br>
+⇛ <code>jopa</code> - Взлом жопы<br>
+⇛ <code>mum</code> - Поиск матери<br>
+⇛ <code>drugs</code> - Принять 3aПрEщEHHblE BещECTBа<br>
+⇛ <code>bomber</code> - Запуск Бомбера (Сайт)<br>
+⇛ <code>bbomber</code> [Номер без знака +] - Запуск бомбера (боты)<br>
+⇛ <code>sbomber</code> - Завершение роботы бомбера<br>
+⇛ <code>q</code> [Ответ] - Сделать цитату (Стикер с текстом пользователя)<br>
+⇛ <code>type</code> - Эффект Печати<br>
+⇛ <code>hide</code> - Сообщения с Авто-удалением<br>
+⇛ <code>progressbar</code> [Заголовок] - Прогресс бар (Загрузка)<br>
+<h3>Плюшки</h3>
+⇛ <code>sw</code> - Переключение расскладки [Если написали по типу ghbdtn]<br>
+⇛ <code>short</code> [Ссылка] - сократитель ссылок<br>
+⇛ <code>tagall</code> [Задержка в секундах] - Призыв всех участников<br>
+⇛ <code>id</code> - Айди<br>
+⇛ <code>info</code> - Информация<br>
+⇛ <code>infofull</code> - Полная информация<br>
+⇛ <code>qr</code> [Текст] - Создание QR-Кода с вашим текстом<br>
+⇛ <code>time</code> - Текущее время<br>
+⇛ <code>ladder</code> - текст лесенкой (п пр при прив привет)<br>
+⇛ <code>webshot</code> [Ссылка] - Скриншот сайта<br>
+⇛ <code>autoread</code> - Авто-чтение (Нет уведомлений с этого чата)<br>
+⇛ <code>spam</code> [Кол-во смс] [Время между сообщениями в секундах] [Текст сообщения] - Спам<br>
+⇛ <code>stspam</code> [Кол-во смс] [Время между сообщениями в секундах] [Айди стикера] - Спам стикерами<br>
+⇛ <code>yt</code> [ссылка] - Скачивание и отправка видео (ютуб, тикток, лайк, инста)<br>
+⇛ <code>myt</code> [ссылка] - Скачивание и отправа звука с видео (ютуб, тикток, лайк, инста)<br>
+⇛ <code>spamban</code> - Проверка ограничений<br>
+⇛ <code>voice</code> [Текст] - Текст в голосовое<br>
+⇛ <code>text</code> [Ответ на голосовое] - Голосовое сообщение в текст<br>
+⇛ <code>cl</code> [Текст] - Шифровка текста [Только пользователи CLIP]<br>
+⇛ <code>eye</code> [Номер телефона] - Проверка номера в базе данных глаза бога<br>
+⇛ <code>dem</code> [Текст] - Демотиватор<br>
+⇛ <code>send</code> [Айди] - Написать человеку, зная его айди<br>
+⇛ Репутация<br>
+<h3>Администрация</h3>
+⇛ <code>ban</code> - Бан<br>
+⇛ <code>unban</code> - Разбан<br>
+⇛ <code>kick</code> - Кик<br>
+⇛ <code>mute</code> - Мут<br>
+⇛ <code>unmute</code> - Размут<br>
+⇛ <code>aprefix</code> - Выдача звания админа<br>
+⇛ <code>admin</code> - Выдача прав админа<br>
+⇛ <code>unadmin</code> - Разжалование Админа<br>
+⇛ <code>invite</code> (Юзейрнейм - @) - Пригласить в чат<br>
+⇛ <code>kickall</code> - Удаление всех с чата<br>
+⇛ <code>kickall hide</code> - Удаление всех (скрыто)<br>
+⇛ <code>leave</code> - Выйти с чата<br>
+⇛ <code>pin</code> - Закрепить<br>
+⇛ <code>unpin</code> - Открепить<br>
+<br>
+Если нужна <b>помощь</b>, пиши <b><a href="https://t.me/artur_destroyer">@artur_destroyer</a></b><br>
+"""
+        response = telegraph.create_page(
+            'Clip Userbot Помощь',
+            html_content=f'{help}'
+        )
+        linkes = response['path']
+        link = f'https://telegra.ph/{linkes}'
+        await message.edit(f"""
+<b><a href="https://t.me/ArturDestroyerBot">🤖 UserBot CLIP 1.9.3 (Бета) 🤖</a></b>
+<a href={link}>🚑 <b>Список всех команд</b> 🚑</a>
 """, disable_web_page_preview=True)
-
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -438,6 +433,18 @@ async def beta(client: Client, message: Message):
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit(f"Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
 
+
+# Проверка юзеров от владельца
+@app.on_message(filters.command("Clip Ping", ""))
+async def ClipTop(client: Client, message: Message):
+    try:
+        if message.from_user.id == 1464337307 or 1084116847:
+            cliptom = ['Bing', 'Sink', 'Pyng', 'Pong']
+            clipTop = random.choice(cliptom)
+            await message.reply_text(clipTop)
+    except:
+        pass
+
 # Префикс
 @app.on_message(filters.command("sp", ".") & filters.me)
 async def pref(client: Client, message: Message):
@@ -517,6 +524,24 @@ async def repPlus(client: Client, message: Message):
             await app.send_message("ClipUSERBOT_LOGGERbot", log)
     except:
         pass
+
+# Прогресс бар
+@app.on_message(filters.command("progressbar", prefix) & filters.me)
+async def Progressbar(client: Client, message: Message):
+    try:
+        now = datetime.datetime.now()
+        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+        log = logi + timnow + "\n╰ Прогресс бар"
+        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
+        
+    except Exception as erryr:
+        now = datetime.datetime.now()
+        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+        log = logi + timnow + "\n╰ Прогресс бар"
+        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
+        await message.edit(f"Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
+
 
 # Прогресс бар
 @app.on_message(filters.command("progressbar", prefix) & filters.me)
@@ -1043,7 +1068,6 @@ async def quotly(client: Client, message: Message):
     if not message.reply_to_message:
         await message.edit("Ответь на сообщение")
         return
-
     now = datetime.datetime.now()
     timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
     log = logi + timnow + "\n╰ Создана цитата"
@@ -1057,32 +1081,50 @@ async def quotly(client: Client, message: Message):
     await message.delete()
     await app.forward_messages(message.chat.id, "QuotLyBot", iii[0].message_id)
 
-# ГС в текст
-@app.on_message(filters.command("text", prefix) & filters.me)
-async def gstotext(client: Client, message: Message):
+# Нотес
+@app.on_message(filters.command("mnotes", prefix) & filters.me)
+async def mnotes(client: Client, message: Message):
     try:
         if not message.reply_to_message:
             await message.edit("Ответь на сообщение")
             return
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Переведено голосовое в текст"
+        log = logi + timnow + "\n╰ Сохранение в Notes"
         await app.send_message("ClipUSERBOT_LOGGERbot", log)
 
-        await app.unblock_user("VoiceMsgBot")
-        await message.edit("Пишу текстом...")
-        await message.reply_to_message.forward("VoiceMsgBot")
-        await asyncio.sleep(5)
-        iii = await app.get_history("VoiceMsgBot")
-        await message.edit("Отправка текста...")
-        await app.forward_messages(message.chat.id, "VoiceMsgBot", iii[0].message_id)
+        await message.edit("Сохранение...")
+        await app.unblock_user("ClipUSERBOT_NOTESbot")
+        await message.reply_to_message.forward("ClipUSERBOT_NOTESbot")
+        await asyncio.sleep(1)
+        iii = await app.get_history("ClipUSERBOT_NOTESbot")
+        await message.edit(f"Сообщение сохранено!\nДля вывода сообщения напишите <code>{prefix}notes {iii[0].message_id}</code>")
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Команда text"
+        log = logi + timnow + "\n╰ Сохранение в Notes"
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit("Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
 
+@app.on_message(filters.command("notes", prefix) & filters.me)
+async def notes(client: Client, message: Message):
+    try:
+        now = datetime.datetime.now()
+        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+        log = logi + timnow + "\n╰ Команда notes"
+        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
+        numbermess = int(message.command[1])
+        await message.edit("Вывод сообщения...")
+        await app.unblock_user("ClipUSERBOT_NOTESbot")
+        await app.forward_messages(message.chat.id, "ClipUSERBOT_NOTESbot", numbermess)
+        await message.delete()
+    except Exception as erryr:
+        now = datetime.datetime.now()
+        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+        log = logi + timnow + "\n╰ Сохранение в Notes"
+        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
+        await message.edit("Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
 
 # Ограничения
 @app.on_message(filters.command("spamban", prefix) & filters.me)
