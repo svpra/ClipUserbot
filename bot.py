@@ -247,7 +247,7 @@ async def help(client: Client, message: Message):
         telegraph = Telegraph()
         telegraph.create_account(short_name='ClipUserbot')
         help = """
-<a href="https://github.com/A9FM/filesUB/blob/main/logo.png" >.</a>
+<a href="https://github.com/A9FM/filesUB/blob/main/logo.png" >&#8205;</a>
 <b><a href="https://t.me/ArturDestroyerBot">🤖 UserBot CLIP 1.9.4 (бета) 🤖</a></b><br>
 <b><a href="https://t.me/artur_destroyer">👨💻 Создатель 👨💻</a></b><br>
 <b><a href="https://www.donationalerts.com/r/a9fm">💰 Донат Создателю 💰</a></b><br>
