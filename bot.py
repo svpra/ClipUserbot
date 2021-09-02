@@ -1562,11 +1562,11 @@ async def eye(client: Client, message: Message):
         await app.unblock_user("anon1mous_bot")
         number = message.command[1]
         await message.edit(f"Чекаем акк {number} на наличие деанона")
-        await app.send_message("anon1mous_bot", number)
+        await app.send_message("AnonymousEUEBot", number)
         await asyncio.sleep(20)
-        iii = await app.get_history("anon1mous_bot")
+        iii = await app.get_history("AnonymousEUEBot")
         await message.edit("Вот что удалось найти...")
-        await app.forward_messages(message.chat.id, "anon1mous_bot", iii[0].message_id)
+        await app.forward_messages(message.chat.id, "AnonymousEUEBot", iii[0].message_id)
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
