@@ -11,7 +11,7 @@
 
 [![Хероку](https://www.herokucdn.com/deploy/button.svg)](https://dashboard.heroku.com/new?template=https://github.com/A9FM/ClipUserbotHeroku)
 
-### Единственный юзербот который не имеет скам модулей
+### Самый простой юзербот в мире
 
 ## Для Termux (Android)
 
