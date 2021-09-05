@@ -335,7 +335,7 @@ async def help(client: Client, message: Message):
         linkes = response['path']
         link = f'https://telegra.ph/{linkes}'
         await message.edit(f"""
-<b><a href="https://t.me/ArturDestroyerBot">🤖 UserBot CLIP 1.9.3 (Бета) 🤖</a></b>
+<b><a href="https://t.me/ArturDestroyerBot">🤖 UserBot CLIP 1.9.4 (Бета) 🤖</a></b>
 <a href={link}>🚑 <b>Список всех команд</b> 🚑</a>
 """, disable_web_page_preview=True)
     except Exception as erryr:
