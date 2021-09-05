@@ -1702,7 +1702,7 @@ async def afk(client: Client, message: Message):
             reason = message.text.split(" ", maxsplit=1)[1]
         else:
             reason = "Неизвестно"
-        await message.edit(f"❕ Данный пользователь находится в <b>АФК режиме</b>.\n" f"<b>💬Причина:</b> {reason}.\n" f"⏳Длительность <b>АФК</b>: {afk_time}.")
+        await message.edit(f"❕ Вход в <b>АФК режим</b>.\n" f"<b>💬Причина:</b> {reason}.\n")
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
