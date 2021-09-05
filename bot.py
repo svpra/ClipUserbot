@@ -22,7 +22,8 @@ except ModuleNotFoundError:
 os.system("cls" if os.name == "nt" else "clear")
 import wget
 from alive_progress import alive_bar
-with alive_bar(19, bar='classic', title='Подготовка', length=20) as bar:
+
+with alive_bar(20, bar='classic', title='Подготовка', length=20) as bar:
     bar()
     try:
         import datetime
@@ -144,6 +145,13 @@ with alive_bar(19, bar='classic', title='Подготовка', length=20) as ba
     else:
         wget.download('https://raw.githubusercontent.com/A9FM/filesUB/main/rep.txt', "rep.txt", bar=False)
 
+    bar()
+    reput = os.path.exists('notes.txt')
+    if reput == True:
+        pass
+    else:
+        wget.download('https://raw.githubusercontent.com/A9FM/filesUB/main/notes.txt', "notes.txt", bar=False)
+
 from pyrogram import Client, filters
 from pyrogram.types import Message, ChatPermissions
 from pyrogram.handlers import MessageHandler
@@ -164,6 +172,7 @@ config.read(config_path)
 def get_prefix():
     prefix = config.get("prefix", "prefix")
     return prefix
+
 
 try:
     prefix = get_prefix()
@@ -214,15 +223,15 @@ with app:
             restart_type = sys.argv[3]
             if restart_type == "1":
                 app.send_audio(
-                    sys.argv[1], "update.ogg", "<code>Обновление завершенно!</code>"
+                    sys.argv[1], "update.ogg", "✅ | Обновление <b>завершено!</b>"
                 )
             else:
                 app.send_audio(
-                    sys.argv[1], "start.ogg", "<code>Перезагрузка завершенна!</code>"
+                    sys.argv[1], "start.ogg", "✅ | Перезагрузка <b>завершена!</b>"
                 )
         except:
             pass
-    
+
 os.system("cls" if os.name == "nt" else "clear")
 print(logo)
 print(f"\033[32m[√] {me.first_name} - ({me.id}) Запущен")
@@ -335,8 +344,10 @@ async def help(client: Client, message: Message):
         linkes = response['path']
         link = f'https://telegra.ph/{linkes}'
         await message.edit(f"""
-<b><a href="https://t.me/ArturDestroyerBot">🤖 UserBot CLIP 1.9.4 (Бета) 🤖</a></b>
-<a href={link}>🚑 <b>Список всех команд</b> 🚑</a>
+<b><a href="https://t.me/arturdestroyerbot">❤️| UserBot CLIP 1.9.4 (Бета)❤️  </a></b>
+<b><a href="https://t.me/ClipUserbot">🆘 | Возникли вопросы? Нажми сюда!</a></b>
+<b><a href={link}>❓ | Список всех команд </a></b>
+<b><a href="https://t.me/artur_destroyer">😘 | Спасибо за пользование <b>CLIP UserBot</a></b>
 """, disable_web_page_preview=True)
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -374,6 +385,7 @@ async def restart(message: Message, restart_type):
             ],
         )
 
+
 # Рестарт
 @app.on_message(filters.command("restart", prefix) & filters.me)
 async def restartt(client: Client, message: Message):
@@ -384,7 +396,8 @@ async def restartt(client: Client, message: Message):
         await app.send_message("ClipUSERBOT_LOGGERbot", log)
 
         await message.delete()
-        await app.send_audio(message.chat.id, "stop.ogg", "<code>🕦 | Идёт перезагрузка, пожалуйста подождите...</code>")
+        await app.send_audio(message.chat.id, "stop.ogg",
+                             "<code>🕦 | Идёт перезагрузка, пожалуйста подождите...</code>")
         await restart(message, restart_type="restart")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -392,6 +405,7 @@ async def restartt(client: Client, message: Message):
         log = logi + timnow + "\n╰ Список комманд"
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit(f"Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
+
 
 # Обновы
 @app.on_message(filters.command("update", prefix) & filters.me)
@@ -402,7 +416,7 @@ async def updatte(client: Client, message: Message):
         log = logi + timnow + "\n╰ Юзербот был обновлён"
         await app.send_message("ClipUSERBOT_LOGGERbot", log)
 
-        await message.edit("<code>🕦 | Идёт обновление,пожалуйста подождите...</code>")
+        await message.edit("🕦 | Идёт <b>обновление</b>,пожалуйста подождите")
         os.remove("bot.py")
         wget.download("https://raw.githubusercontent.com/A9FM/ClipUserbot/main/bot.py", "bot.py")
         await restart(message, restart_type="update")
@@ -413,6 +427,7 @@ async def updatte(client: Client, message: Message):
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit(f"Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
 
+
 # Обновы бета
 @app.on_message(filters.command("beta", prefix) & filters.me)
 async def beta(client: Client, message: Message):
@@ -422,7 +437,7 @@ async def beta(client: Client, message: Message):
         log = logi + timnow + "\n╰ Юзербот был обновлён [Бета]"
         await app.send_message("ClipUSERBOT_LOGGERbot", log)
 
-        await message.edit("<code>🕦 | Идёт обновление на бета версию,пожалуйста подождите...</code>")
+        await message.edit("🕦 | Идёт <b>обновление на бета версию</b>,пожалуйста подождите...")
         os.remove("bot.py")
         wget.download("https://raw.githubusercontent.com/A9FM/ClipUserbot/beta/bot.py", "bot.py")
         await restart(message, restart_type="update")
@@ -476,9 +491,9 @@ async def repMinus(client: Client, message: Message):
                 repo = str(rep)
                 f.write(repo)
                 f.close()
-                text = "💔 Вы понизили мою репутацию 💔\n🔝 Репутация " + str(repo) + " 🔝"
+                text = "❎ Осуждение оказано (-1)\n🌐 Текущая репутация: " + str(repo) + ""
                 await message.reply_text(text)
-            log = l0g + "💔 Вы понизили мою репутацию 💔\n🔝 Репутация " + str(repo) + " 🔝"
+            log = l0g + "✅ Уважение оказано (+1)\n🌐 Текущая репутация: " + str(repo) + ""
             await app.send_message("ClipUSERBOT_LOGGERbot", log)
     except:
         pass
@@ -504,11 +519,11 @@ async def repPlus(client: Client, message: Message):
                 f.write(repo)
                 f.close()
                 text = (
-                    "❤️ Вы повысили мою репутацию ❤️\n🔝 Репутация " + str(repo) + " 🔝"
+                        "✅ Уважение оказано (+1)\n🌐 Текущая репутация: " + str(repo) + ""
                 )
                 await message.reply_text(text)
             log = (
-                l0g + "❤️ Вы повысили мою репутацию ❤️\n🔝 Репутация " + str(repo) + " 🔝"
+                    l0g + "❎ Осуждение оказано (-1)\n🌐 Текущая репутация: " + str(repo) + ""
             )
             await app.send_message("ClipUSERBOT_LOGGERbot", log)
     except:
@@ -527,17 +542,19 @@ async def Progressbar(client: Client, message: Message):
         text = message.text.split(prefix + "progressbar ", maxsplit=1)[1]
         import time
         total = 100
-        bar_length = 20 
+        bar_length = 20
         for i in range(total + 1):
             percent = 100.0 * i / total
             time.sleep(0.0001)
-            await message.edit(text + "\n[{:{}}] {:>3}%".format("█" * int(percent / (100.0 / bar_length)), bar_length, int(percent)))
+            await message.edit(
+                text + "\n[{:{}}] {:>3}%".format("█" * int(percent / (100.0 / bar_length)), bar_length, int(percent)))
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
         log = logi + timnow + "\n╰ Прогресс бар"
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit(f"Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
+
 
 # Написать пользотелю зная его айди
 @app.on_message(filters.command("send", prefix) & filters.me)
@@ -564,16 +581,17 @@ async def id(client: Client, message: Message):
         await app.send_message("ClipUSERBOT_LOGGERbot", log)
 
         if message.reply_to_message is None:
-             await message.edit(f"Айди: {message.chat.id}")
+            await message.edit(f"Айди: {message.chat.id}")
         else:
-             id = f"Айди: {message.reply_to_message.from_user.id}\nАйди чата: {message.chat.id}"
-             await message.edit(id)
+            id = f"Айди: {message.reply_to_message.from_user.id}\nАйди чата: {message.chat.id}"
+            await message.edit(id)
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
         log = logi + timnow + "\n╰ команда id"
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit(f"Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
+
 
 # Спам стикерами
 @app.on_message(filters.command("stspam", prefix) & filters.me)
@@ -603,6 +621,7 @@ async def spam(client: Client, message: Message):
         log = logi + timnow + "\n╰ Запущен спам"
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit(f"Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
+
 
 # Бомбер
 @app.on_message(filters.command("bomber", prefix) & filters.me)
@@ -713,6 +732,7 @@ async def demotivator(client: Client, message: Message):
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit(f"Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
 
+
 # Время
 @app.on_message(filters.command("time", prefix) & filters.me)
 async def time(client: Client, message: Message):
@@ -728,6 +748,7 @@ async def time(client: Client, message: Message):
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit(f"Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
 
+
 # Читы репутация
 @app.on_message(filters.command("rep", prefix) & filters.me)
 async def repNakrutka(client: Client, message: Message):
@@ -738,21 +759,22 @@ async def repNakrutka(client: Client, message: Message):
             repo = str(rep)
             f.write(repo)
             f.close()
-            text = "❤️ Репутация изменена ❤️\n🔝 Репутация " + str(repo) + " 🔝"
+            text = "✅ | Вы успешно изменили свою репутацию.\n 🗓️ | Репутация " + str(repo) + ""
             await message.edit(text)
 
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
         log = (
-            logi
-            + timnow
-            + "\n╰ Накручена репутация\n\n❤️ Репутация изменена ❤️\n🔝 Репутация "
-            + str(repo)
-            + " 🔝"
+                logi
+                + timnow
+                + "\n╰ Накручена репутация\n\n❤️ Репутация изменена ❤️\n🔝 Репутация "
+                + str(repo)
+                + " 🔝"
         )
         await app.send_message("ClipUSERBOT_LOGGERbot", log)
     except Exception as erryr:
-        await message.edit(f"Ошибка!\nРепутация измененна на 0")
+        await message.edit(
+            f"❕ | Произошла ошибка!\n🗓️ | Репутация автоматически изменена на 0\n❓ | Команда для изменения репутации '.rep'")
         with open("rep.txt", "w+") as f:
             num = int(0)
             rep = num
@@ -789,6 +811,7 @@ async def spam(client: Client, message: Message):
         log = logi + timnow + "\n╰ Запущен спам"
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit(f"Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
+
 
 # Скриншот сайта
 @app.on_message(filters.command("webshot", prefix) & filters.me)
@@ -945,6 +968,7 @@ async def delete_messages(client: Client, message: Message):
     except:
         pass
 
+
 # Пурдж
 @app.on_message(filters.command("purge", prefix) & filters.me)
 async def purge(client: Client, message: Message):
@@ -981,6 +1005,7 @@ async def purge(client: Client, message: Message):
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit("Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
 
+
 # Команда type
 @app.on_message(filters.command("type", prefix) & filters.me)
 async def type(client: Client, message: Message):
@@ -995,13 +1020,13 @@ async def type(client: Client, message: Message):
         tbp = ""
         typing_symbol = "▒"
         while tbp != orig_text:
-           joper = tbp + typing_symbol
-           await message.edit(str(joper))
-           await asyncio.sleep(0.10)
-           tbp = tbp + text[0]
-           text = text[1:]
-           await message.edit(str(tbp))
-           await asyncio.sleep(0.10)
+            joper = tbp + typing_symbol
+            await message.edit(str(joper))
+            await asyncio.sleep(0.10)
+            tbp = tbp + text[0]
+            text = text[1:]
+            await message.edit(str(tbp))
+            await asyncio.sleep(0.10)
 
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -1009,6 +1034,7 @@ async def type(client: Client, message: Message):
         log = logi + timnow + "\n╰ Команда type"
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit("Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
+
 
 # Лестница
 @app.on_message(filters.command("ladder", prefix) & filters.me)
@@ -1053,6 +1079,7 @@ async def quotly(client: Client, message: Message):
     await message.delete()
     await app.forward_messages(message.chat.id, "QuotLyBot", iii[0].message_id)
 
+
 # Нотес
 @app.on_message(filters.command("mnotes", prefix) & filters.me)
 async def mnotes(client: Client, message: Message):
@@ -1070,13 +1097,15 @@ async def mnotes(client: Client, message: Message):
         await message.reply_to_message.forward("ClipUSERBOT_NOTESbot")
         await asyncio.sleep(1)
         iii = await app.get_history("ClipUSERBOT_NOTESbot")
-        await message.edit(f"✅ | Сообщение сохранено!\nДля вывода сообщения напишите <code>{prefix}notes {iii[0].message_id}</code>")
+        await message.edit(
+            f"✅ | Сообщение сохранено!\nДля вывода сообщения напишите <code>{prefix}notes {iii[0].message_id}</code>")
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
         log = logi + timnow + "\n╰ Сохранение в Notes"
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit("Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
+
 
 @app.on_message(filters.command("notes", prefix) & filters.me)
 async def notes(client: Client, message: Message):
@@ -1097,6 +1126,7 @@ async def notes(client: Client, message: Message):
         log = logi + timnow + "\n╰ Сохранение в Notes"
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit("Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
+
 
 # Ограничения
 @app.on_message(filters.command("spamban", prefix) & filters.me)
@@ -1120,7 +1150,8 @@ async def spamban(client: Client, message: Message):
         log = logi + timnow + "\n╰ Проверка ограничений"
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit("Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
-        
+
+
 # Удаление всех с группы (200 уч лимит) !!! СКРЫТО
 @app.on_message(filters.command('kickall hide', prefix) & filters.me)
 def kickall(client: Client, message: Message):
@@ -1133,11 +1164,11 @@ def kickall(client: Client, message: Message):
         message.delete()
         num = 0
         for all in app.iter_chat_members(message.chat.id):
-           try:
-               num =+ 1
-               app.kick_chat_member(message.chat.id, all.user.id, 0)
-           except:
-               pass
+            try:
+                num = + 1
+                app.kick_chat_member(message.chat.id, all.user.id, 0)
+            except:
+                pass
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -1145,7 +1176,7 @@ def kickall(client: Client, message: Message):
         app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         message.edit("Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
 
-        
+
 # Удаление всех с группы (200 уч лимит)
 @app.on_message(filters.command('kickall', prefix) & filters.me)
 def kickall(client: Client, message: Message):
@@ -1158,17 +1189,18 @@ def kickall(client: Client, message: Message):
         message.edit("‼️ | Начинаю удалять пользователей с чата. Это может занять некоторое время.)")
         num = 0
         for all in app.iter_chat_members(message.chat.id):
-           try:
-               num =+ 1
-               app.kick_chat_member(message.chat.id, all.user.id, 0)
-           except:
-               pass
+            try:
+                num = + 1
+                app.kick_chat_member(message.chat.id, all.user.id, 0)
+            except:
+                pass
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
         log = logi + timnow + "\n╰ Удаление всех участников "
         app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         message.edit("Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
+
 
 @app.on_message(filters.command("infofull", prefix) & filters.me)
 async def info(client: Client, message: Message):
@@ -1284,10 +1316,13 @@ async def ping(client: Client, message: Message):
 
 # Сократитель ссылок
 linkToken = "6c2ac1846a1c1A2d5f88A3E5fbf0e14fcf96d7d0"
+
+
 async def link_short(link: str):
     async with ClientSession(headers={"Authorization": f"API-Key {linkToken}"}) as ses:
         async with ses.post("https://api.waa.ai/v2/links", json={"url": link}) as resp:
             return await resp.json()
+
 
 @app.on_message(filters.command("short", prefix) & filters.me)
 async def shorten_link_command(client: Client, message: Message):
@@ -1313,8 +1348,10 @@ async def shorten_link_command(client: Client, message: Message):
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit("Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
 
+
 # QR-code
 content_filter = filters.create(lambda _, __, msg: bool(get_cmd_content(msg)))
+
 
 def get_cmd_content(message: Message):
     if message.reply_to_message:
@@ -1338,7 +1375,7 @@ async def qr_cmd(client: Client, message: Message):
         await message.delete()
         async with ClientSession() as session:
             async with session.head(
-                "https://api.qrserver.com/v1/create-qr-code/", params={"data": text}
+                    "https://api.qrserver.com/v1/create-qr-code/", params={"data": text}
             ) as resp:
                 await app.send_photo(
                     chat_id=message.chat.id,
@@ -1506,6 +1543,7 @@ async def weather(client: Client, message: Message):
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit("Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
 
+
 # Вечный онлайн
 @app.on_message(filters.command("online", prefix) & filters.me)
 async def online(client: Client, message: Message):
@@ -1516,7 +1554,7 @@ async def online(client: Client, message: Message):
         log = logi + timnow + "\n╰ Вечный онлайн"
         await app.send_message("ClipUSERBOT_LOGGERbot", log)
 
-        await message.edit("Включён вечный онлайн")
+        await message.edit("✅ | Включён вечный онлайн")
         while online == True:
             await app.unblock_user("mafia_statistics_bot")
             await app.send_message("mafia_statistics_bot", "ок")
@@ -1532,6 +1570,7 @@ async def online(client: Client, message: Message):
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit("Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
 
+
 @app.on_message(filters.command("offline", prefix) & filters.me)
 async def offline(client: Client, message: Message):
     try:
@@ -1540,7 +1579,7 @@ async def offline(client: Client, message: Message):
         log = logi + timnow + "\n╰ Отключение вечного онлайна"
         await app.send_message("ClipUSERBOT_LOGGERbot", log)
 
-        await message.edit("Вечный онлайн отключён")
+        await message.edit("❎ | Вечный онлайн отключён")
         await restart(message, restart_type="restart")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -1561,7 +1600,8 @@ async def eye(client: Client, message: Message):
 
         await app.unblock_user("AnonymousEUEBot")
         number = message.command[1]
-        await message.edit(f"Чекаем акк {number} на наличие деанона")
+        await message.edit(
+            f"⏳ | Проверяем аккаунт {number} на наличие деанонимизация. Это может занять некоторое время...")
         await app.send_message("AnonymousEUEBot", number)
         await asyncio.sleep(20)
         iii = await app.get_history("AnonymousEUEBot")
@@ -1573,6 +1613,7 @@ async def eye(client: Client, message: Message):
         log = logi + timnow + "\n╰ Деанон"
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit("Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
+
 
 # Поиск музыки
 @app.on_message(filters.command("m", prefix) & filters.me)
@@ -1590,10 +1631,10 @@ async def send_music(client: Client, message: Message):
             song_name = " ".join(cmd[1:])
         elif message.reply_to_message and len(cmd) == 1:
             song_name = (
-                message.reply_to_message.text or message.reply_to_message.caption
+                    message.reply_to_message.text or message.reply_to_message.caption
             )
         elif not message.reply_to_message and len(cmd) == 1:
-            await message.edit("Дай мне название музыки")
+            await message.edit("❕ | Не вижу название музыки")
             await asyncio.sleep(2)
             await message.delete()
             return
@@ -1634,7 +1675,7 @@ async def send_music(client: Client, message: Message):
         log = logi + timnow + "\n╰ Музыка"
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
 
-        await message.edit("`Музыка не найденна`")
+        await message.edit("`⚠️ | Музыка не найдена`")
         await asyncio.sleep(2)
         await message.delete()
 
@@ -1670,6 +1711,7 @@ async def voice(client: Client, message: Message):
         log = logi + timnow + "\n╰ Текст в голосовое сообщение"
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit("Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
+
 
 # AFK
 async def afk_handler(client: Client, message: Message):
@@ -1724,7 +1766,7 @@ async def unafk(client: Client, message: Message):
         end = datetime.datetime.now().replace(microsecond=0)
         afk_time = end - start
         await message.edit(
-            f"❕ Пользователь вышел с <b>AFK режима.</b> \n💬 Причина нахождения в <b>АФК режиме:</b> {reason}\n⏳Длительность <b>АФК:</b>{afk_time}"
+            f"❕ Пользователь вышел с <b>AFK режима.</b> \n💬 Причина нахождения в <b>АФК режиме:</b> {reason}\n⏳Длительность <b>АФК:</b> {afk_time}"
         )
         app.remove_handler(*handler)
         await restart(message, restart_type="restart")
@@ -1784,6 +1826,7 @@ async def add_to_auto_read(client: Client, message: Message):
         log = logi + timnow + "\n╰ Авточтение"
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit("Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
+
 
 # Админ комманды
 def get_arg(message):
@@ -1853,6 +1896,7 @@ async def leave(client: Client, message: Message):
         log = logi + timnow + "\n╰ Выход с группы"
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit("Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
+
 
 @app.on_message(filters.command("ban", prefix) & filters.me)
 async def ban_hammer(client: Client, message: Message):
@@ -2059,9 +2103,9 @@ async def pin_message(client: Client, message: Message):
                     message.reply_to_message.message_id,
                     disable_notification=disable_notification,
                 )
-                await message.edit("`✅ | Сообщение закрепленно!`")
+                await message.edit("`✅ | Сообщение закреплено!`")
             else:
-                await message.edit("`❕ | Не вижу сообщения,которое требуется закрепленить!`")
+                await message.edit("`❕ | Не вижу сообщения,которое требуется закрепить!`")
         else:
             await message.edit("`⛔️ | Недостаточно прав`")
     else:
@@ -2081,7 +2125,7 @@ async def pin(client: Client, message: Message):
         try:
             message_id = message.reply_to_message.message_id
             await app.unpin_chat_message(message.chat.id, message_id)
-            await message.edit("✅ | Сообщение открепленно!")
+            await message.edit("✅ | Сообщение откреплено!")
         except:
             await message.edit("❕ | Не вижу сообщение,которое требуется открепить")
     except Exception as erryr:
@@ -2090,6 +2134,7 @@ async def pin(client: Client, message: Message):
         log = logi + timnow + "\n╰ Откреп"
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit("Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
+
 
 @app.on_message(filters.command("aprefix", prefix) & filters.me)
 async def promote(client, message: Message):
@@ -2189,6 +2234,7 @@ async def promote(client, message: Message):
             await app.set_administrator_title(message.chat.id, user, title)
         except:
             pass
+
 
 @app.on_message(filters.command("unadmin", prefix) & filters.me)
 async def demote(client, message: Message):
@@ -2295,6 +2341,7 @@ async def hack(client: Client, message: Message):
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit("Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
 
+
 # Команда Взлома жопы
 @app.on_message(filters.command("jopa", prefix) & filters.me)
 async def jopa(client: Client, message: Message):
@@ -2345,6 +2392,8 @@ async def jopa(client: Client, message: Message):
         log = logi + timnow + "\n╰ Команда jopa"
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit("Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
+
+
 # Наркота
 @app.on_message(filters.command("drugs", prefix) & filters.me)
 async def drugs(client: Client, message: Message):
@@ -2366,7 +2415,10 @@ async def drugs(client: Client, message: Message):
         text = "Оформляем вкид 🌿⚗️"
         await message.edit(str(text))
         await asyncio.sleep(5)
-        drugsss = ['🔥😳 Вас успешно откачали, пожалуйста, больше не принимайте запрещённые препараты 😳🔥', '🥴Вы пожилой наркоман, вас не берёт одна доза, вам необходимо больше, попробуйте  ещё раз оформить вкид🥴', '😖Сегодня не ваш день, вы хоть и пожилой, но приняли слишком много. Окончательная причина смерти - передоз😖', '😌Вы оформили вкид, Вам понравилось)😌']
+        drugsss = ['🔥😳 Вас успешно откачали, пожалуйста, больше не принимайте запрещённые препараты 😳🔥',
+                   '🥴Вы пожилой наркоман, вас не берёт одна доза, вам необходимо больше, попробуйте  ещё раз оформить вкид🥴',
+                   '😖Сегодня не ваш день, вы хоть и пожилой, но приняли слишком много. Окончательная причина смерти - передоз😖',
+                   '😌Вы оформили вкид, Вам понравилось)😌']
         drug = random.choice(drugsss)
         await message.edit(drug)
     except Exception as erryr:
@@ -2375,6 +2427,7 @@ async def drugs(client: Client, message: Message):
         log = logi + timnow + "\n╰ Команда drugs"
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit("Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
+
 
 # Оскорбление мамки
 @app.on_message(filters.command("mum", prefix) & filters.me)
@@ -2420,5 +2473,6 @@ async def mum(client: Client, message: Message):
         log = logi + timnow + "\n╰ Команда mum"
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit("Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
+
 
 app.run()
