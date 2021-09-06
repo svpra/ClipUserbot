@@ -158,7 +158,7 @@ from pyrogram.handlers import MessageHandler
 from pyrogram.methods.chats.get_chat_members import Filters as ChatMemberFilters
 from time import perf_counter
 from aiohttp import ClientSession
-import time, random, datetime, asyncio, sys, wikipedia, requests, youtube_dl, subprocess, configparser
+import time, random, datetime, asyncio, sys, wikipedia, requests, youtube_dl, subprocess, configparser, types
 from gtts import gTTS
 import colorama
 from telegraph import Telegraph
