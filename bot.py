@@ -1103,7 +1103,7 @@ async def mnotes(client: Client, message: Message):
         with open("notes.txt", "w+") as f:
             name = message.text.split(prefix + "mnotes ", maxsplit=1)[1]
             notess = notesss + "\n" + name + f" - {prefix}notes {iii[0].message_id}"
-            f.write(repo)
+            f.write(notess)
             f.close()
 
         await message.edit(f"✅ | Сообщение сохранено!\nДля вывода сообщения напишите <code>{prefix}notes {iii[0].message_id}</code>\nПолный список <code>.mynotes</code>")
