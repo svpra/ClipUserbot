@@ -1101,8 +1101,8 @@ async def mnotes(client: Client, message: Message):
             notesss = str(notes)
             f.close()
         with open("notes.txt", "w+") as f:
-            name = message.text.split(prefix + "mnotes ", maxsplit=1)[1]
-            notess = notesss + "\n" + name + f" - {prefix}notes {iii[0].message_id}"
+            name1 = message.text.split(prefix + "mnotes ", maxsplit=1)[1]
+            notess = f"{notesss}\n{name1} - {prefix}notes {iii[0].message_id}"
             f.write(notess)
             f.close()
 
