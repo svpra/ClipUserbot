@@ -397,7 +397,7 @@ async def restartt(client: Client, message: Message):
 
         await message.delete()
         await app.send_audio(message.chat.id, "stop.ogg",
-                             "<code>🕦 | Идёт перезагрузка, пожалуйста подождите...</code>")
+                             "🕦 | Идёт <b>перезагрузка</b>, пожалуйста подождите...")
         await restart(message, restart_type="restart")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -415,7 +415,7 @@ async def updatte(client: Client, message: Message):
         log = logi + timnow + "\n╰ Юзербот был обновлён"
         await app.send_message("ClipUSERBOT_LOGGERbot", log)
 
-        await message.edit("🕦 | Идёт <b>обновление</b>,пожалуйста подождите")
+        await message.edit("🕦 | Идёт <b>обновление</b>, пожалуйста подождите")
         os.remove("bot.py")
         wget.download("https://raw.githubusercontent.com/A9FM/ClipUserbot/main/bot.py", "bot.py")
         await restart(message, restart_type="update")
@@ -436,7 +436,7 @@ async def beta(client: Client, message: Message):
         log = logi + timnow + "\n╰ Юзербот был обновлён [Бета]"
         await app.send_message("ClipUSERBOT_LOGGERbot", log)
 
-        await message.edit("🕦 | Идёт <b>обновление на бета версию</b>,пожалуйста подождите...")
+        await message.edit("🕦 | Идёт <b>обновление на бета версию</b>, пожалуйста подождите...")
         os.remove("bot.py")
         wget.download("https://raw.githubusercontent.com/A9FM/ClipUserbot/beta/bot.py", "bot.py")
         await restart(message, restart_type="update")
@@ -492,7 +492,7 @@ async def repMinus(client: Client, message: Message):
                 f.close()
                 text = "❎ Осуждение оказано (-1)\n🌐 Текущая репутация: " + str(repo) + ""
                 await message.reply_text(text)
-            log = l0g + "✅ Уважение оказано (+1)\n🌐 Текущая репутация: " + str(repo) + ""
+            log = l0g + "❎ Осуждение оказано (-1)\n🌐 Текущая репутация: " + str(repo) + ""
             await app.send_message("ClipUSERBOT_LOGGERbot", log)
     except:
         pass
@@ -522,7 +522,7 @@ async def repPlus(client: Client, message: Message):
                 )
                 await message.reply_text(text)
             log = (
-                    l0g + "❎ Осуждение оказано (-1)\n🌐 Текущая репутация: " + str(repo) + ""
+                    l0g + "✅ Уважение оказано (+1)\n🌐 Текущая репутация: " + str(repo) + ""
             )
             await app.send_message("ClipUSERBOT_LOGGERbot", log)
     except:
@@ -1071,13 +1071,12 @@ async def quotly(client: Client, message: Message):
     await app.send_message("ClipUSERBOT_LOGGERbot", log)
 
     await app.unblock_user("QuotLyBot")
-    await message.edit("Создаю цитату....")
+    await message.edit("⌛️ | Создаю цитату. На это может потребоваться немного вашего драгоценного времени.")
     await message.reply_to_message.forward("QuotLyBot")
     await asyncio.sleep(5)
     iii = await app.get_history("QuotLyBot")
     await message.delete()
     await app.forward_messages(message.chat.id, "QuotLyBot", iii[0].message_id)
-
 
 # Нотес
 @app.on_message(filters.command("mnotes", prefix) & filters.me)
@@ -1090,11 +1089,23 @@ async def mnotes(client: Client, message: Message):
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
         log = logi + timnow + "\n╰ Сохранение в Notes"
         await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
         await message.edit("Сохранение...")
         await app.unblock_user("ClipUSERBOT_NOTESbot")
         await message.reply_to_message.forward("ClipUSERBOT_NOTESbot")
         await asyncio.sleep(1)
         iii = await app.get_history("ClipUSERBOT_NOTESbot")
+
+        with open("notes.txt", "r+") as f:
+            notes = f.read()
+            notesss = str(notes)
+            f.close()
+        with open("notes.txt", "w+") as f:
+            name = message.text.split(prefix + "mnotes ", maxsplit=1)[1]
+            notess = notesss + "\n" + name + f" - {prefix}notes {iii[0].message_id}"
+            f.write(repo)
+            f.close()
+
         await message.edit(f"✅ | Сообщение сохранено!\nДля вывода сообщения напишите <code>{prefix}notes {iii[0].message_id}</code>\nПолный список <code>.mynotes</code>")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -1122,18 +1133,23 @@ async def notes(client: Client, message: Message):
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit("Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
 
-@app.on_message(filters.command("notes", prefix) & filters.me)
+@app.on_message(filters.command("mynotes", prefix) & filters.me)
 async def notes(client: Client, message: Message):
     try:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
         log = logi + timnow + "\n╰ Команда mynotes"
         await app.send_message("ClipUSERBOT_LOGGERbot", log)
-        await message.edit("Еще не готово)))")
+
+        with open("notes.txt", "r+") as f:
+            notesi = f.read()
+            notesssssss = str(notesi)
+            await message.edit(notesssssss)
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Сохранение в Notes"
+        log = logi + timnow + "\n╰ Команда mynotes"
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit("Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
 
@@ -1730,7 +1746,7 @@ async def afk_handler(client: Client, message: Message):
         afk_time = end - start
         if message.from_user.is_bot is False:
             await message.reply_text(
-                f"❕ Данный пользователь находится в <b>АФК режиме</b>.\n" f"<b>💬Причина:</b> {reason}.\n" f"⏳Длительность <b>АФК</b>: {afk_time}."
+                f"❕ Данный пользователь <b>АФК</b>.\n" f"<b>💬Причина:</b> {reason}.\n" f"<b>⏳Длительность</b>: {afk_time}."
             )
     except NameError:
         pass
@@ -1753,7 +1769,7 @@ async def afk(client: Client, message: Message):
             reason = message.text.split(" ", maxsplit=1)[1]
         else:
             reason = "Неизвестно"
-        await message.edit(f"❕ Вход в <b>АФК режим</b>.\n" f"<b>💬Причина:</b> {reason}.\n")
+        await message.edit(f"❕ Вход в <b>АФК режим</b>.\n<b>💬Причина:</b> {reason}.\n")
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -1775,10 +1791,9 @@ async def unafk(client: Client, message: Message):
         end = datetime.datetime.now().replace(microsecond=0)
         afk_time = end - start
         await message.edit(
-            f"❕ Пользователь вышел с <b>AFK режима.</b> \n💬 Причина нахождения в <b>АФК режиме:</b> {reason}\n⏳Длительность <b>АФК:</b> {afk_time}"
+            f"❕ Вышел с <b>AFK режима.</b> \n💬 Причина <b>АФК режима:</b> {reason}\n⏳ Длительность <b>АФК:</b> {afk_time}"
         )
         app.remove_handler(*handler)
-        await restart(message, restart_type="restart")
 
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -1875,7 +1890,7 @@ async def CheckAdmin(message: Message):
     )
 
     if SELF.status not in ranks:
-        await message.edit("__Я не админ!__")
+        await message.edit("⚠️ | Я не вижу права администратора. (Я вообще администратор?👀)")
         await asyncio.sleep(2)
         await message.delete()
 
@@ -1883,7 +1898,7 @@ async def CheckAdmin(message: Message):
         if SELF.status is not admin or SELF.can_restrict_members:
             return True
         else:
-            await message.edit("__недостаточно прав__")
+            await message.edit("⚠️ | Недостаточно прав администратора.")
             await asyncio.sleep(2)
             await message.delete()
 
@@ -1921,7 +1936,7 @@ async def ban_hammer(client: Client, message: Message):
         else:
             user = get_arg(message)
             if not user:
-                await message.edit("**Я должен кого то забанить?**")
+                await message.edit("👀 | Не вижу пользователя, которого требуется **заблокировать.**")
                 return
         try:
             reply = message.reply_to_message
@@ -1929,12 +1944,12 @@ async def ban_hammer(client: Client, message: Message):
                 message.chat.id, reply.from_user.id, int(time.time() + 31536000)
             )
             await message.edit(
-                f'<a href="tg://user?id={reply.from_user.id}">{reply.from_user.first_name}</a> был <b>заблокирован в данном чате.</b>'
+                f'📢 | <a href="tg://user?id={reply.from_user.id}">{reply.from_user.first_name}</a> был <b>заблокирован в данном чате.</b>'
             )
         except:
-            await message.edit("**❗️ | Я не могу забанить этого пользователя.**")
+            await message.edit("⚠️ | Я не могу **заблокировать этого пользователя.**")
     else:
-        await message.edit("**❗️ | Вы не администратор. **")
+        await message.edit("⚠️ | Права администратора **отсутствуют.**")
 
 
 @app.on_message(filters.command("unban", prefix) & filters.me)
@@ -1951,16 +1966,16 @@ async def unban(client: Client, message: Message):
         else:
             user = get_arg(message)
             if not user:
-                await message.edit("**Я должен кого то разбанить?**")
+                await message.edit("👀 | Не вижу пользователя, которого требуется **разблокировать**")
                 return
         try:
             get_user = await app.get_users(user)
             await app.unban_chat_member(chat_id=message.chat.id, user_id=get_user.id)
-            await message.edit(f"**✅ | Пользователь {get_user.first_name} был разбанен.**")
+            await message.edit(f"✅ | Пользователь {get_user.first_name} был **разблокирован**")
         except:
-            await message.edit("**❗️ | Я не могу разбанить.**")
+            await message.edit("⚠️ | Я не могу **разблокировать.**")
     else:
-        await message.edit("**❗️ | Вы не администратор.**")
+        await message.edit("⚠️ | Права администратора **отсутствуют.**")
 
 
 mute_permission = ChatPermissions(
@@ -1992,7 +2007,7 @@ async def mute_hammer(client: Client, message: Message):
         else:
             user = get_arg(message)
             if not user:
-                await message.edit("**Я должен кого то замутить?**")
+                await message.edit("👀 | Не вижу пользователя, которого требуется **ограничить в отправке сообщений.**")
                 return
         try:
             get_user = await app.get_users(user)
@@ -2001,11 +2016,11 @@ async def mute_hammer(client: Client, message: Message):
                 user_id=get_user.id,
                 permissions=mute_permission,
             )
-            await message.edit(f"🤐 | {get_user.first_name} получил **блокировку чата.**")
+            await message.edit(f"🤐 | {get_user.first_name} был **ограничен в отправке сообщений**.")
         except:
-            await message.edit("**❗️ | Я не могу замутить.**")
+            await message.edit("⚠️ | Я не могу **ограничить этого пользователя.**")
     else:
-        await message.edit("**❗️ | Вы не администратор. **")
+        await message.edit("⚠️ | Права администратора **отсутствуют.**")
 
 
 unmute_permissions = ChatPermissions(
@@ -2037,7 +2052,7 @@ async def unmute(client: Client, message: Message):
         else:
             user = get_arg(message)
             if not user:
-                await message.edit("**Я должен кого то размутить?**")
+                await message.edit("👀 | Не вижу пользователя, которому требуется **снять ограничения.** ")
                 return
         try:
             get_user = await app.get_users(user)
@@ -2046,11 +2061,11 @@ async def unmute(client: Client, message: Message):
                 user_id=get_user.id,
                 permissions=unmute_permissions,
             )
-            await message.edit(f"✅ | Пользователь {get_user.first_name} получил **снятие блокировки чата.**")
+            await message.edit(f"✅ | Пользователь {get_user.first_name} больше **не ограничен в отправке сообщений.**")
         except:
-            await message.edit("**❗️ | Я не могу размутить.**")
+            await message.edit("⚠️ | Я не могу снять **ограничения с пользователя**")
     else:
-        await message.edit("**❗️ | Вы не администратор**")
+        await message.edit("⚠️ | Права администратора **отсутствуют.**")
 
 
 @app.on_message(filters.command("kick", prefix) & filters.me)
@@ -2067,7 +2082,7 @@ async def kick_user(client: Client, message: Message):
         else:
             user = get_arg(message)
             if not user:
-                await message.edit("**Я должен кого то кикнуть?**")
+                await message.edit("👀 | Я не вижу пользователя, которого требуется **исключить из чата.**")
                 return
         try:
             get_user = await app.get_users(user)
@@ -2077,9 +2092,9 @@ async def kick_user(client: Client, message: Message):
             )
             await message.edit(f"✅ | Пользователь {get_user.first_name} был **исключён из чата.**")
         except:
-            await message.edit("**Я не могу кикать.**")
+            await message.edit("⚠️ | Я не могу **исключить этого пользователя**")
     else:
-        await message.edit("**Я админ?**")
+        await message.edit("⚠️ | Права администратора **отсутствуют.**")
 
 
 @app.on_message(filters.command("pin", prefix) & filters.me)
