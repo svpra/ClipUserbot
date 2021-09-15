@@ -162,7 +162,7 @@ from gtts import gTTS
 import colorama
 from telegraph import Telegraph
 
-version = "1.9.4" # Версия юзербота
+version = "1.9.4 (Фикс баг)" # Версия юзербота
 
 # Префиксы доп
 config_path = os.path.join(sys.path[0], "config.ini")
@@ -204,7 +204,7 @@ with app:
     app.send_message("ClipUSERBOT_LOGGERbot", startlog)
     me = app.get_me()
     app.add_contact("artur_destroyer", "Артур (Создатель Clip Userbot)")
-    app.add_contact("irov666", "irov666 (Помощник в разработке)")
+    app.add_contact("dontcryplzs", "dontcryplzs (Помощник в разработке)")
     if len(sys.argv) == 4:
         try:
             restart_type = sys.argv[3]
@@ -358,7 +358,7 @@ async def help(client: Client, message: Message):
 <b><a href={link}>❓ | Список всех команд </a></b>
 
 <b><a href="https://t.me/artur_destroyer">⛔️ | Ссылка на создателя CLIP</a></b>
-<b><a href="https://t.me/irov666">❕ | Ссылка на помощника в разработке CLIP</a></b>
+<b><a href="https://t.me/dontcryplzs">❕ | Ссылка на помощника в разработке CLIP</a></b>
 
 ❤️ | Мы очень благодарны за использование нашего бота и желаем хорошего дня.
 ❤️ | Если вы нашли баги,можете написать создателю, помощнику, либо же в чат поддержки.
