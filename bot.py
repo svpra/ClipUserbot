@@ -22,18 +22,12 @@ os.system("cls" if os.name == "nt" else "clear")
 import wget
 from alive_progress import alive_bar
 
-with alive_bar(20, bar='classic', title='Подготовка', length=20) as bar:
+with alive_bar(19, bar='classic', title='Подготовка', length=19) as bar:
     bar()
     try:
         import datetime
     except ModuleNotFoundError:
         os.system("pip3 install datetime")
-
-    bar()
-    try:
-        import asyncio
-    except ModuleNotFoundError:
-        os.system("pip3 install asyncio")
 
     bar()
     try:
