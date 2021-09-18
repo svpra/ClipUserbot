@@ -152,12 +152,13 @@ from pyrogram.methods.chats.get_chat_members import Filters as ChatMemberFilters
 from pyrogram.errors import FloodWait
 from time import perf_counter
 from aiohttp import ClientSession
-import time, random, datetime, asyncio, sys, wikipedia, requests, youtube_dl, subprocess, configparser, types
+import random, datetime, asyncio, sys, wikipedia, requests, youtube_dl, subprocess, configparser, types
 from gtts import gTTS
 import colorama
 from telegraph import Telegraph
+import time
 
-version = "1.9.4 (Фикс баг)" # Версия юзербота
+version = "1.9.5 (Бета)" # Версия юзербота
 
 # Префиксы доп
 config_path = os.path.join(sys.path[0], "config.ini")
