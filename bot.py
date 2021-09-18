@@ -22,18 +22,12 @@ os.system("cls" if os.name == "nt" else "clear")
 import wget
 from alive_progress import alive_bar
 
-with alive_bar(20, bar='classic', title='Подготовка', length=20) as bar:
+with alive_bar(19, bar='classic', title='Подготовка', length=19) as bar:
     bar()
     try:
         import datetime
     except ModuleNotFoundError:
         os.system("pip3 install datetime")
-
-    bar()
-    try:
-        import asyncio
-    except ModuleNotFoundError:
-        os.system("pip3 install asyncio")
 
     bar()
     try:
@@ -155,7 +149,6 @@ from pyrogram import Client, filters
 from pyrogram.types import Message, ChatPermissions
 from pyrogram.handlers import MessageHandler
 from pyrogram.methods.chats.get_chat_members import Filters as ChatMemberFilters
-from pyrogram import errors
 from time import perf_counter
 from aiohttp import ClientSession
 import time, random, datetime, asyncio, sys, wikipedia, requests, youtube_dl, subprocess, configparser, types
@@ -163,16 +156,18 @@ from gtts import gTTS
 import colorama
 from telegraph import Telegraph
 
-version = "1.9.4 (Фикс баг)" # Версия юзербота
+version = "1.9.5 (Бета)" # Версия юзербота
 
 # Префиксы доп
 config_path = os.path.join(sys.path[0], "config.ini")
 config = configparser.ConfigParser()
 config.read(config_path)
 
+
 def get_prefix():
     prefix = config.get("prefix", "prefix")
     return prefix
+
 
 try:
     prefix = get_prefix()
@@ -184,10 +179,15 @@ except Exception as e:
         config.write(config_file)
     prefix = "."
 
+# Очистка терминала
 os.system("cls" if os.name == "nt" else "clear")
+
+# Логи + Вход
 logi = "╭ Логи\n┃ "
 
+# Перезагрузка, обновы
 app = Client("my_account")
+
 with app:
     app.join_chat("ArturDestroyerBot")  # Прошу, не убирайте эту строку
     app.unblock_user("ClipUSERBOT_LOGGERbot")
@@ -214,6 +214,7 @@ with app:
             pass
 
 os.system("cls" if os.name == "nt" else "clear")
+
 with open("news.txt", "r+", encoding="utf-8") as f:
     data = f.read()
     news = str(data)
@@ -241,6 +242,7 @@ Telegram Канал - @ArturDestroyerBot
 | {timnowe}
 """)
     f.close()
+
 
 try:
     # Помощь | Инфа про Юзербота
@@ -2586,6 +2588,7 @@ try:
             await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
             await message.edit(
                 f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+
 except FloodWait as e:
     mylastname = me.last_name
     app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
