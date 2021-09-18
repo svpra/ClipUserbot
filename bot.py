@@ -22,7 +22,7 @@ os.system("cls" if os.name == "nt" else "clear")
 import wget
 from alive_progress import alive_bar
 
-with alive_bar(19, bar='classic', title='Подготовка', length=19) as bar:
+with alive_bar(20, bar='classic', title='Подготовка', length=20) as bar:
     bar()
     try:
         import datetime
@@ -144,6 +144,14 @@ with alive_bar(19, bar='classic', title='Подготовка', length=19) as ba
         pass
     else:
         wget.download('https://raw.githubusercontent.com/A9FM/filesUB/main/notes.txt', "notes.txt", bar=False)
+
+    bar()
+    floodw = os.path.exists('floodwait.txt')
+    if floodw == True:
+        pass
+    else:
+        wget.download('https://raw.githubusercontent.com/A9FM/filesUB/main/floodwait.txt', "floodwait.txt", bar=False)
+
 
 from pyrogram import Client, filters
 from pyrogram.types import Message, ChatPermissions
@@ -357,10 +365,15 @@ async def help(client: Client, message: Message):
 ❤️ | Если вы нашли баги,можете написать создателю, помощнику, либо же в чат поддержки.
 """, disable_web_page_preview=True)
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -413,10 +426,18 @@ async def restartt(client: Client, message: Message):
                              "🕦 | Идёт <b>перезагрузка</b>, пожалуйста подождите...")
         await restart(message, restart_type="restart")
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+            
+            
+            
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -439,10 +460,15 @@ async def updatte(client: Client, message: Message):
         wget.download("https://raw.githubusercontent.com/A9FM/ClipUserbot/main/bot.py", "bot.py")
         await restart(message, restart_type="update")
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -465,10 +491,15 @@ async def beta(client: Client, message: Message):
         wget.download("https://raw.githubusercontent.com/A9FM/ClipUserbot/beta/bot.py", "bot.py")
         await restart(message, restart_type="update")
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -575,10 +606,15 @@ async def Progressbar(client: Client, message: Message):
             await message.edit(
                 text + "\n[{:{}}] {:>3}%".format("█" * int(percent / (100.0 / bar_length)), bar_length, int(percent)))
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -595,10 +631,15 @@ async def sendtoid(client: Client, message: Message):
         await message.edit(f"💬 | Отправлено сообщение пользователю {message.command[1]}")
         await app.send_message(message.command[1], "Привет!")
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -622,10 +663,15 @@ async def id(client: Client, message: Message):
             id = f"👤 | Айди пользователя: {message.reply_to_message.from_user.id}\n📢 | Айди чата: {message.chat.id}"
             await message.edit(id)
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -657,10 +703,15 @@ async def spam(client: Client, message: Message):
             await app.send_sticker(message.chat.id, sticker)
             await asyncio.sleep(slep)
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -693,10 +744,15 @@ async def b0mb3r(client: Client, message: Message):
         await asyncio.sleep(5)
         await message.edit("Бомбер запущен!\nСсылка: 127.0.0.1:8080")
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -716,10 +772,15 @@ async def sbomber(client: Client, message: Message):
         bombe.terminate()
         await message.edit("Бомбер завершил свою роботу...")
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -750,10 +811,15 @@ async def bbomber(client: Client, message: Message):
         result = "Бомбер запущен на номер " + message.command[1]
         await message.edit(result)
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -787,10 +853,15 @@ async def demotivator(client: Client, message: Message):
         else:
             await message.edit("❗️ | Сделайте реплай на изображение для создания демотиватора")
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -808,10 +879,15 @@ async def time(client: Client, message: Message):
         timenow = "Текущая дата : " + timnow
         await message.edit(timenow)
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -844,10 +920,15 @@ async def repNakrutka(client: Client, message: Message):
         )
         await app.send_message("ClipUSERBOT_LOGGERbot", log)
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         await message.edit(
             f"❕ | Произошла ошибка!\n🗓️ | Репутация автоматически изменена на 0\n❓ | Команда для изменения репутации '.rep'")
@@ -882,10 +963,15 @@ async def spam(client: Client, message: Message):
             await app.send_message(message.chat.id, text)
             await asyncio.sleep(slep)
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -937,10 +1023,15 @@ async def webshot(client: Client, message: Message):
             log = logi + timnow + "\n╰ Скриншот сайта"
             await app.send_message("ClipUSERBOT_LOGGERbot", log)
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -972,10 +1063,15 @@ async def yt(client: Client, message: Message):
         await message.delete()
         os.remove("video.mp4")
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -1005,10 +1101,15 @@ async def myt(client: Client, message: Message):
         os.remove("music.m4a")
 
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
 
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -1053,10 +1154,15 @@ async def tagall(client: Client, message: Message):
                 string = ""
                 await asyncio.sleep(slep)
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -1122,10 +1228,15 @@ async def purge(client: Client, message: Message):
         else:
             await message.edit("<i>❗️ | Не могу найти реплай.</i>")
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -1157,10 +1268,15 @@ async def type(client: Client, message: Message):
             await asyncio.sleep(0.10)
 
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -1186,10 +1302,15 @@ async def ladder(client: Client, message: Message):
         ot = "\n".join(output)
         await message.edit(ot)
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -1249,10 +1370,15 @@ async def mnotes(client: Client, message: Message):
         await message.edit(
             f"✅ | Сообщение сохранено!\nДля вывода сообщения напишите <code>{prefix}notes {iii[0].message_id}</code>\nПолный список <code>.mynotes</code>")
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -1274,10 +1400,15 @@ async def notes(client: Client, message: Message):
         await app.forward_messages(message.chat.id, "ClipUSERBOT_NOTESbot", numbermess)
         await message.delete()
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -1300,10 +1431,15 @@ async def notes(client: Client, message: Message):
             await message.edit(notesssssss)
             f.close()
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -1329,10 +1465,15 @@ async def spamban(client: Client, message: Message):
         await message.delete()
         await app.forward_messages(message.chat.id, "spamBot", iii[0].message_id)
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -1358,10 +1499,15 @@ async def kickall(client: Client, message: Message):
             except:
                 pass
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -1386,10 +1532,15 @@ async def kickall(client: Client, message: Message):
             except:
                 pass
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -1431,10 +1582,15 @@ async def info(client: Client, message: Message):
 """
         await message.edit(text, parse_mode="HTML")
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -1468,10 +1624,15 @@ async def info(client: Client, message: Message):
 ╰ Ссылка: {user_link}"""
         await message.edit(text, parse_mode="HTML")
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -1511,10 +1672,15 @@ async def ping(client: Client, message: Message):
                 f"<b>🏓 Понг\n📶</b> {round(ping)} мс\n⚠ Перепады связи"
             )
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -1550,10 +1716,15 @@ async def shorten_link_command(client: Client, message: Message):
         output = (await link_short(link))["data"]
         await message.edit(f'Сокращенная ссылка: {output["link"]}')
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -1596,10 +1767,15 @@ async def qr_cmd(client: Client, message: Message):
                     parse_mode=None,
                 )
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -1643,10 +1819,15 @@ async def wiki(client: Client, message: Message):
 <code>{exc}</code>"""
             )
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -1682,10 +1863,15 @@ async def switch(client: Client, message: Message):
             text = str.translate(text, change)
             await message.edit(text)
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -1721,10 +1907,15 @@ async def switch(client: Client, message: Message):
             text = str.translate(text, change)
             await message.edit(text)
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -1770,10 +1961,15 @@ async def weather(client: Client, message: Message):
         )
         os.remove(f"{city}.png")
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -1802,10 +1998,15 @@ async def online(client: Client, message: Message):
         else:
             await app.block_user("mafia_statistics_bot")
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -1825,10 +2026,15 @@ async def offline(client: Client, message: Message):
         await message.edit("❎ | Вечный онлайн отключён")
         await restart(message, restart_type="restart")
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -1856,10 +2062,15 @@ async def eye(client: Client, message: Message):
         await message.edit("Вот что удалось найти...")
         await app.forward_messages(message.chat.id, "AnonymousEUEBot", iii[0].message_id)
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -1923,10 +2134,15 @@ async def send_music(client: Client, message: Message):
             await asyncio.sleep(2)
         await message.delete()
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -1964,10 +2180,15 @@ async def voice(client: Client, message: Message):
         await app.send_chat_action(message.chat.id, action="cancel")
         os.remove("voice.mp3")
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -2009,10 +2230,15 @@ async def afk(client: Client, message: Message):
             reason = "Неизвестно"
         await message.edit(f"❕ Вход в <b>AFK режим</b>.\n<b>💬 Причина:</b> {reason}.\n")
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -2039,10 +2265,15 @@ async def unafk(client: Client, message: Message):
         app.remove_handler(*handler)
 
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -2093,10 +2324,15 @@ async def add_to_auto_read(client: Client, message: Message):
             f.add(message.chat.id)
             await message.edit("✅ | Авточтение включено")
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -2168,10 +2404,15 @@ async def leave(client: Client, message: Message):
         await asyncio.sleep(2)
         await app.leave_chat(chat_id=message.chat.id)
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -2411,10 +2652,15 @@ async def pin(client: Client, message: Message):
         except:
             await message.edit("❕ | Не вижу сообщение,которое требуется открепить")
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -2455,10 +2701,15 @@ async def promote(client, message: Message):
             f"✅ | Пользователь {get_user.first_name} получил префикс администратора с текстом: **[{title}]**"
         )
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -2516,10 +2767,15 @@ async def promote(client, message: Message):
             f"✅ | Пользователь {get_user.first_name} получил полного администратора с префиксом **[{title}]**"
         )
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -2568,10 +2824,15 @@ async def demote(client, message: Message):
         )
         await message.edit(f"❎ | Пользователь {get_user.first_name} больше не **администратор!**")
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -2602,10 +2863,15 @@ async def invite(client: Client, message: Message):
             f"✅ | Пользователь {get_user.first_name} **приглашён в этот чат!**"
         )
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -2642,10 +2908,15 @@ async def hack(client: Client, message: Message):
         text = "🐓Нашли файты что ты петух!"
         await message.edit(text)
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -2699,10 +2970,15 @@ async def jopa(client: Client, message: Message):
         text = "💸 Вы заработали " + str(bal) + " ₽"
         await message.edit(text)
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -2739,10 +3015,15 @@ async def drugs(client: Client, message: Message):
         drug = random.choice(drugsss)
         await message.edit(drug)
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -2790,10 +3071,15 @@ async def mum(client: Client, message: Message):
         text = "✅ Мамка найдена... Она в канаве"
         await message.edit(str(text))
     except FloodWait as e:
-        mylastname = me.last_name
-        await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-        sleep(e.x)
-        await app.update_profile(last_name=f"{mylastname}")
+        with open("floodwait.txt", "w+") as f:
+            f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
