@@ -198,8 +198,6 @@ with app:
     startlog = logi + timnowe + "\n╰ Юзербот был запущен"
     app.send_message("ClipUSERBOT_LOGGERbot", startlog)
     me = app.get_me()
-    app.add_contact("artur_destroyer", "Артур (Создатель Clip Userbot)")
-    app.add_contact("dontcryplzs", "dontcryplzs (Помощник в разработке)")
     if len(sys.argv) == 4:
         try:
             restart_type = sys.argv[3]
@@ -258,7 +256,7 @@ async def help(client: Client, message: Message):
         telegraph.create_account(short_name='ClipUserbot')
         help = f"""
 <b><a href="https://t.me/ArturDestroyerBot">🤖 UserBot CLIP {version} 🤖</a></b><br>
-<b><a href="https://t.me/artur_destroyer">👨💻 Создатель 👨💻</a></b><br>
+<b><a href="https://t.me/artur_destroyer">👨 Создатель 💻</a></b><br>
 <b><a href="https://www.donationalerts.com/r/a9fm">💰 Донат Создателю 💰</a></b><br>
 <b><a href="https://github.com/A9FM/ClipUserbot#readme">🤔 Как установить? 🤔</a></b><br>
 <a href="https://github.com/A9FM/filesUB/blob/main/README.md">© <b>Copyright ClipUSERBOT</b> ©</a><br>
