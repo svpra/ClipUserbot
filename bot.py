@@ -371,7 +371,7 @@ async def help(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -432,7 +432,7 @@ async def restartt(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
             
@@ -466,7 +466,7 @@ async def updatte(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -497,7 +497,7 @@ async def beta(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -602,7 +602,7 @@ async def Progressbar(client: Client, message: Message):
         bar_length = 20
         for i in range(total + 1):
             percent = 100.0 * i / total
-            time.sleep(0.0001)
+            time.asyncio.sleep(0.0001)
             await message.edit(
                 text + "\n[{:{}}] {:>3}%".format("█" * int(percent / (100.0 / bar_length)), bar_length, int(percent)))
     except FloodWait as e:
@@ -612,7 +612,7 @@ async def Progressbar(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -637,7 +637,7 @@ async def sendtoid(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -669,7 +669,7 @@ async def id(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -701,7 +701,7 @@ async def spam(client: Client, message: Message):
 
         for _ in range(count):
             await app.send_sticker(message.chat.id, sticker)
-            await asyncio.sleep(slep)
+            await asyncio.asyncio.sleep(slep)
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             f.write(me.last_name)
@@ -709,7 +709,7 @@ async def spam(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -741,7 +741,7 @@ async def b0mb3r(client: Client, message: Message):
 """)
 
         bombe = subprocess.Popen(["bomber"], stdout=subprocess.PIPE)
-        await asyncio.sleep(5)
+        await asyncio.asyncio.sleep(5)
         await message.edit("Бомбер запущен!\nСсылка: 127.0.0.1:8080")
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
@@ -750,7 +750,7 @@ async def b0mb3r(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -778,7 +778,7 @@ async def sbomber(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -801,10 +801,10 @@ async def bbomber(client: Client, message: Message):
         await app.unblock_user("couldboombot")
         await app.unblock_user("TNT_Robot")
         await message.edit("Запуск ботов")
-        await asyncio.sleep(2)
+        await asyncio.asyncio.sleep(2)
         await app.send_message("couldboombot", "⚡️Запустить Spam")
         await app.send_message("TNT_Robot", "🧨 Бомбить")
-        await asyncio.sleep(2)
+        await asyncio.asyncio.sleep(2)
         await app.send_message("BomberFree_bot", bomber)
         await app.send_message("couldboombot", bomber)
         await app.send_message("TNT_Robot", bomber + " 15")
@@ -817,7 +817,7 @@ async def bbomber(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -844,7 +844,7 @@ async def demotivator(client: Client, message: Message):
             tuxt = message.text.split(prefix + "dem ", maxsplit=1)[1]
             text = "1. " + tuxt
             await app.send_photo(chat_id="memegeneration_bot", photo=donwloads, caption=text)
-            await asyncio.sleep(4)
+            await asyncio.asyncio.sleep(4)
             iii = await app.get_history("memegeneration_bot")
             donwloads = await app.download_media(iii[0].photo.file_id)
             await app.send_photo(chat_id=message.chat.id, photo=donwloads)
@@ -859,7 +859,7 @@ async def demotivator(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -885,7 +885,7 @@ async def time(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -926,7 +926,7 @@ async def repNakrutka(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -961,7 +961,7 @@ async def spam(client: Client, message: Message):
 
         for _ in range(count):
             await app.send_message(message.chat.id, text)
-            await asyncio.sleep(slep)
+            await asyncio.asyncio.sleep(slep)
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             f.write(me.last_name)
@@ -969,7 +969,7 @@ async def spam(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -1029,7 +1029,7 @@ async def webshot(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -1069,7 +1069,7 @@ async def yt(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -1107,7 +1107,7 @@ async def myt(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
 
@@ -1152,7 +1152,7 @@ async def tagall(client: Client, message: Message):
                 await app.send_message(chat_id, text, disable_web_page_preview=True)
                 limit = 1
                 string = ""
-                await asyncio.sleep(slep)
+                await asyncio.asyncio.sleep(slep)
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             f.write(me.last_name)
@@ -1160,7 +1160,7 @@ async def tagall(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -1187,7 +1187,7 @@ async def delete_messages(client: Client, message: Message):
             except FloodWait as e:
                 mylastname = me.last_name
                 await app.update_profile(last_name=f"{mylastname} | Флудвейт")
-                sleep(e.x)
+                asyncio.sleep(e.x)
                 await app.update_profile(last_name=f"{mylastname}")
             except Exception as erryr:
                 now = datetime.datetime.now()
@@ -1234,7 +1234,7 @@ async def purge(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -1261,11 +1261,11 @@ async def type(client: Client, message: Message):
         while tbp != orig_text:
             joper = tbp + typing_symbol
             await message.edit(str(joper))
-            await asyncio.sleep(0.10)
+            await asyncio.asyncio.sleep(0.10)
             tbp = tbp + text[0]
             text = text[1:]
             await message.edit(str(tbp))
-            await asyncio.sleep(0.10)
+            await asyncio.asyncio.sleep(0.10)
 
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
@@ -1274,7 +1274,7 @@ async def type(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -1308,7 +1308,7 @@ async def ladder(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -1333,7 +1333,7 @@ async def quotly(client: Client, message: Message):
     await app.unblock_user("QuotLyBot")
     await message.edit("⌛️ | Создаю цитату. На это может потребоваться немного вашего драгоценного времени.")
     await message.reply_to_message.forward("QuotLyBot")
-    await asyncio.sleep(5)
+    await asyncio.asyncio.sleep(5)
     iii = await app.get_history("QuotLyBot")
     await message.delete()
     await app.forward_messages(message.chat.id, "QuotLyBot", iii[0].message_id)
@@ -1354,7 +1354,7 @@ async def mnotes(client: Client, message: Message):
         await message.edit("Сохранение...")
         await app.unblock_user("ClipUSERBOT_NOTESbot")
         await message.reply_to_message.forward("ClipUSERBOT_NOTESbot")
-        await asyncio.sleep(1)
+        await asyncio.asyncio.sleep(1)
         iii = await app.get_history("ClipUSERBOT_NOTESbot")
 
         with open("notes.txt", "r+") as f:
@@ -1376,7 +1376,7 @@ async def mnotes(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -1406,7 +1406,7 @@ async def notes(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -1437,7 +1437,7 @@ async def notes(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -1460,7 +1460,7 @@ async def spamban(client: Client, message: Message):
         await message.edit("⏳ | Проверяю твой аккаунт на наличие спам-бана. Это может занять некоторое время...")
         await app.unblock_user("spambot")
         await app.send_message("spambot", "/start")
-        await asyncio.sleep(1)
+        await asyncio.asyncio.sleep(1)
         iii = await app.get_history("spambot")
         await message.delete()
         await app.forward_messages(message.chat.id, "spamBot", iii[0].message_id)
@@ -1471,7 +1471,7 @@ async def spamban(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -1505,7 +1505,7 @@ async def kickall(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -1538,7 +1538,7 @@ async def kickall(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -1588,7 +1588,7 @@ async def info(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -1630,7 +1630,7 @@ async def info(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -1678,7 +1678,7 @@ async def ping(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -1722,7 +1722,7 @@ async def shorten_link_command(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -1773,7 +1773,7 @@ async def qr_cmd(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -1825,7 +1825,7 @@ async def wiki(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -1856,7 +1856,7 @@ async def switch(client: Client, message: Message):
                 await message.edit(reply_text)
             else:
                 await message.edit("Текст отсутствует")
-                await asyncio.sleep(3)
+                await asyncio.asyncio.sleep(3)
                 await message.delete()
         else:
             change = str.maketrans(ru_keys + en_keys, en_keys + ru_keys)
@@ -1869,7 +1869,7 @@ async def switch(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -1900,7 +1900,7 @@ async def switch(client: Client, message: Message):
                 await message.edit(reply_text)
             else:
                 await message.edit("Текст отсутствует")
-                await asyncio.sleep(3)
+                await asyncio.asyncio.sleep(3)
                 await message.delete()
         else:
             change = str.maketrans(ru_keys + en_keys, en_keys + ru_keys)
@@ -1913,7 +1913,7 @@ async def switch(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -1967,7 +1967,7 @@ async def weather(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -1994,7 +1994,7 @@ async def online(client: Client, message: Message):
             await app.send_message("mafia_statistics_bot", "ок")
             iii = await app.get_history("mafia_statistics_bot")
             await app.delete_messages("mafia_statistics_bot", iii[0].message_id)
-            await asyncio.sleep(60)
+            await asyncio.asyncio.sleep(60)
         else:
             await app.block_user("mafia_statistics_bot")
     except FloodWait as e:
@@ -2004,7 +2004,7 @@ async def online(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -2032,7 +2032,7 @@ async def offline(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -2057,7 +2057,7 @@ async def eye(client: Client, message: Message):
         await message.edit(
             f"⏳ | Проверяем аккаунт {number} на наличие деанонимизация. Это может занять некоторое время...")
         await app.send_message("AnonymousEUEBot", number)
-        await asyncio.sleep(20)
+        await asyncio.asyncio.sleep(20)
         iii = await app.get_history("AnonymousEUEBot")
         await message.edit("Вот что удалось найти...")
         await app.forward_messages(message.chat.id, "AnonymousEUEBot", iii[0].message_id)
@@ -2068,7 +2068,7 @@ async def eye(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -2099,7 +2099,7 @@ async def send_music(client: Client, message: Message):
             )
         elif not message.reply_to_message and len(cmd) == 1:
             await message.edit("👀 | Не вижу название музыки,которое должен найти")
-            await asyncio.sleep(2)
+            await asyncio.asyncio.sleep(2)
             await message.delete()
             return
 
@@ -2131,7 +2131,7 @@ async def send_music(client: Client, message: Message):
             await app.delete_messages("me", saved.message_id)
         except TimeoutError:
             await message.edit("That didn't work out")
-            await asyncio.sleep(2)
+            await asyncio.asyncio.sleep(2)
         await message.delete()
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
@@ -2140,7 +2140,7 @@ async def send_music(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -2150,7 +2150,7 @@ async def send_music(client: Client, message: Message):
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
 
         await message.edit("`⚠️ | Музыка не найдена\n❕ | Проверьте правильность названия трека.`")
-        await asyncio.sleep(2)
+        await asyncio.asyncio.sleep(2)
         await message.delete()
 
 
@@ -2186,7 +2186,7 @@ async def voice(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -2236,7 +2236,7 @@ async def afk(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -2271,7 +2271,7 @@ async def unafk(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -2280,7 +2280,7 @@ async def unafk(client: Client, message: Message):
         log = logi + timnow + "\n╰ Выход с АФК режима"
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit("<b>Я не был в АФК</b>")
-        await asyncio.sleep(3)
+        await asyncio.asyncio.sleep(3)
         await message.delete()
 
 
@@ -2294,7 +2294,7 @@ async def hide(client: Client, message: Message):
 
     orig_text = message.text.split(prefix + "hide ", maxsplit=1)[1]
     await message.edit(orig_text)
-    await asyncio.sleep(2)
+    await asyncio.asyncio.sleep(2)
     await message.delete()
 
 
@@ -2330,7 +2330,7 @@ async def add_to_auto_read(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -2380,7 +2380,7 @@ async def CheckAdmin(message: Message):
 
     if SELF.status not in ranks:
         await message.edit("⚠️ | Я не вижу права администратора. (Я вообще администратор?👀)")
-        await asyncio.sleep(2)
+        await asyncio.asyncio.sleep(2)
         await message.delete()
 
     else:
@@ -2388,7 +2388,7 @@ async def CheckAdmin(message: Message):
             return True
         else:
             await message.edit("⚠️ | Недостаточно прав администратора.")
-            await asyncio.sleep(2)
+            await asyncio.asyncio.sleep(2)
             await message.delete()
 
 
@@ -2401,7 +2401,7 @@ async def leave(client: Client, message: Message):
         await app.send_message("ClipUSERBOT_LOGGERbot", log)
 
         m = await message.edit("<code>Всем пока... [Пользователь вышел с чата]</code>")
-        await asyncio.sleep(2)
+        await asyncio.asyncio.sleep(2)
         await app.leave_chat(chat_id=message.chat.id)
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
@@ -2410,7 +2410,7 @@ async def leave(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -2633,7 +2633,7 @@ async def pin_message(client: Client, message: Message):
             await message.edit("`⛔️ | Недостаточно прав`")
     else:
         await message.edit("`❗️ | Вы не администратор.`")
-    await asyncio.sleep(3)
+    await asyncio.asyncio.sleep(3)
     await message.delete()
 
 
@@ -2658,7 +2658,7 @@ async def pin(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -2707,7 +2707,7 @@ async def promote(client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -2773,7 +2773,7 @@ async def promote(client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -2830,7 +2830,7 @@ async def demote(client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -2869,7 +2869,7 @@ async def invite(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -2894,17 +2894,17 @@ async def hack(client: Client, message: Message):
             text = "👮 Взлом пентагона в процессе ..." + str(perc) + "%"
             await message.edit(str(text))
             perc += random.randint(1, 3)
-            await asyncio.sleep(0.1)
+            await asyncio.asyncio.sleep(0.1)
         text = "✅ Пентагон успешно взломан!"
         await message.edit(str(text))
-        await asyncio.sleep(3)
+        await asyncio.asyncio.sleep(3)
         perc = 0
         while perc < 100:
             text = "⬇️ Скачивание данных ..." + str(perc) + "%"
             await message.edit(str(text))
             perc += random.randint(1, 5)
-            await asyncio.sleep(0.15)
-        await asyncio.sleep(1)
+            await asyncio.asyncio.sleep(0.15)
+        await asyncio.asyncio.sleep(1)
         text = "🐓Нашли файты что ты петух!"
         await message.edit(text)
     except FloodWait as e:
@@ -2914,7 +2914,7 @@ async def hack(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -2939,32 +2939,32 @@ async def jopa(client: Client, message: Message):
             text = "🍑 Взлом жопы в процессе ..." + str(perc) + "%"
             await message.edit(str(text))
             perc += random.randint(1, 3)
-            await asyncio.sleep(0.1)
+            await asyncio.asyncio.sleep(0.1)
         text = "✅ Жопа взломана"
         await message.edit(str(text))
-        await asyncio.sleep(3)
+        await asyncio.asyncio.sleep(3)
         text = "🔍 Поиск Сливов ..."
         await message.edit(str(text))
         perc = 0
-        await asyncio.sleep(3)
+        await asyncio.asyncio.sleep(3)
         while perc < 100:
             text = "⬇️ Скачивание сливов ..." + str(perc) + "%"
             await message.edit(str(text))
             perc += random.randint(1, 4)
-            await asyncio.sleep(0.15)
+            await asyncio.asyncio.sleep(0.15)
         text = "✅ Сливы были найдены"
         await message.edit(str(text))
         perc = 0
-        await asyncio.sleep(5)
+        await asyncio.asyncio.sleep(5)
         while perc < 100:
             text = "⬆️ Продажа сливов барыге..." + str(perc) + "%"
             await message.edit(str(text))
             perc += random.randint(1, 5)
-            await asyncio.sleep(0.15)
+            await asyncio.asyncio.sleep(0.15)
 
         text = "✅ Проданно"
         await message.edit(str(text))
-        await asyncio.sleep(2)
+        await asyncio.asyncio.sleep(2)
         rand += random.randint(100, 5000)
         bal = rand
         text = "💸 Вы заработали " + str(bal) + " ₽"
@@ -2976,7 +2976,7 @@ async def jopa(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -3001,13 +3001,13 @@ async def drugs(client: Client, message: Message):
             text = "🍁Поиск запрещённых препаратов " + str(perc) + "%"
             await message.edit(str(text))
             perc += random.randint(1, 3)
-            await asyncio.sleep(0.1)
+            await asyncio.asyncio.sleep(0.1)
         text = "Найдено 3 кг шпекса🍪💨"
         await message.edit(str(text))
-        await asyncio.sleep(3)
+        await asyncio.asyncio.sleep(3)
         text = "Оформляем вкид 🌿⚗️"
         await message.edit(str(text))
-        await asyncio.sleep(5)
+        await asyncio.asyncio.sleep(5)
         drugsss = ['🔥😳 Вас успешно откачали, пожалуйста, больше не принимайте запрещённые препараты 😳🔥',
                    '🥴Вы пожилой наркоман, вас не берёт одна доза, вам необходимо больше, попробуйте  ещё раз оформить вкид🥴',
                    '😖Сегодня не ваш день, вы хоть и пожилой, но приняли слишком много. Окончательная причина смерти - передоз😖',
@@ -3021,7 +3021,7 @@ async def drugs(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
@@ -3043,22 +3043,22 @@ async def mum(client: Client, message: Message):
 
         text = "🔍 Поиск твоей мамки начался..."
         await message.edit(str(text))
-        await asyncio.sleep(3.0)
+        await asyncio.asyncio.sleep(3.0)
         perc = 0
         while perc < 100:
             text = "🔍 Ищем твою мамашу на Авито... " + str(perc) + "%"
             await message.edit(str(text))
             perc += random.randint(1, 3)
-            await asyncio.sleep(0.75)
+            await asyncio.asyncio.sleep(0.75)
         text = "❌ Мамаша не найденна"
         await message.edit(str(text))
-        await asyncio.sleep(3.0)
+        await asyncio.asyncio.sleep(3.0)
         perc = 0
         while perc < 100:
             text = "🔍 Поиск твоей мамаши на свалке... " + str(perc) + "%"
             await message.edit(str(text))
             perc += random.randint(1, 5)
-            await asyncio.sleep(0.75)
+            await asyncio.asyncio.sleep(0.75)
         text = "❌ Мамаша не найденна"
         await message.edit(str(text))
 
@@ -3067,7 +3067,7 @@ async def mum(client: Client, message: Message):
             text = "🔍 Поиск твоей мамки в канаве... " + str(perc) + "%"
             await message.edit(str(text))
             perc += random.randint(1, 5)
-            await asyncio.sleep(0.75)
+            await asyncio.asyncio.sleep(0.75)
         text = "✅ Мамка найдена... Она в канаве"
         await message.edit(str(text))
     except FloodWait as e:
@@ -3077,7 +3077,7 @@ async def mum(client: Client, message: Message):
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
             await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            sleep(e.x)
+            asyncio.sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
     except Exception as erryr:
