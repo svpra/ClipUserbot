@@ -22,18 +22,12 @@ os.system("cls" if os.name == "nt" else "clear")
 import wget
 from alive_progress import alive_bar
 
-with alive_bar(20, bar='classic', title='Подготовка', length=20) as bar:
+with alive_bar(19, bar='classic', title='Подготовка', length=19) as bar:
     bar()
     try:
         import datetime
     except ModuleNotFoundError:
         os.system("pip3 install datetime")
-
-    bar()
-    try:
-        import asyncio
-    except ModuleNotFoundError:
-        os.system("pip3 install asyncio")
 
     bar()
     try:
@@ -1018,7 +1012,8 @@ async def myt(client: Client, message: Message):
         time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
 
-        noexcept Exception as erryr:w = datetime.datetime.now()
+    except Exception as erryr:
+        now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
         log = logi + timnow + "\n╰ Запрос на скачивания звука с видео"
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
@@ -1128,7 +1123,6 @@ async def purge(client: Client, message: Message):
             await app.send_message(message.chat.id, f"<b>✅ | Удалено > {v} сообщений!</b>")
         else:
             await message.edit("<i>❗️ | Не могу найти реплай.</i>")
-
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
