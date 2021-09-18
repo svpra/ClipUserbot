@@ -150,13 +150,12 @@ from pyrogram.types import Message, ChatPermissions
 from pyrogram.handlers import MessageHandler
 from pyrogram.methods.chats.get_chat_members import Filters as ChatMemberFilters
 from pyrogram.errors import FloodWait
-from time import perf_counter
+from time import perf_counter, sleep
 from aiohttp import ClientSession
 import random, datetime, asyncio, sys, wikipedia, requests, youtube_dl, subprocess, configparser, types
 from gtts import gTTS
 import colorama
 from telegraph import Telegraph
-import time as t
 
 version = "1.9.5 (Бета)" # Версия юзербота
 
@@ -362,7 +361,7 @@ async def help(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -418,7 +417,7 @@ async def restartt(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -444,7 +443,7 @@ async def updatte(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -470,7 +469,7 @@ async def beta(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -580,7 +579,7 @@ async def Progressbar(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -600,7 +599,7 @@ async def sendtoid(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -627,7 +626,7 @@ async def id(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -662,7 +661,7 @@ async def spam(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -698,7 +697,7 @@ async def b0mb3r(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -721,7 +720,7 @@ async def sbomber(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -755,7 +754,7 @@ async def bbomber(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -792,7 +791,7 @@ async def demotivator(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -813,7 +812,7 @@ async def time(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -849,7 +848,7 @@ async def repNakrutka(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         await message.edit(
@@ -887,7 +886,7 @@ async def spam(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -942,7 +941,7 @@ async def webshot(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -977,7 +976,7 @@ async def yt(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -1010,7 +1009,7 @@ async def myt(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
 
     except Exception as erryr:
@@ -1058,7 +1057,7 @@ async def tagall(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -1084,7 +1083,7 @@ async def delete_messages(client: Client, message: Message):
             except FloodWait as e:
                 mylastname = me.last_name
                 app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-                t.sleep(e.x)
+                time.sleep(e.x)
                 app.update_profile(last_name=f"{mylastname}")
             except Exception as erryr:
                 now = datetime.datetime.now()
@@ -1127,7 +1126,7 @@ async def purge(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -1162,7 +1161,7 @@ async def type(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -1191,7 +1190,7 @@ async def ladder(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -1254,7 +1253,7 @@ async def mnotes(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -1279,7 +1278,7 @@ async def notes(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -1305,7 +1304,7 @@ async def notes(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -1334,7 +1333,7 @@ async def spamban(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -1363,7 +1362,7 @@ def kickall(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -1391,7 +1390,7 @@ def kickall(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -1436,7 +1435,7 @@ async def info(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -1473,7 +1472,7 @@ async def info(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -1516,7 +1515,7 @@ async def ping(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -1555,7 +1554,7 @@ async def shorten_link_command(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -1601,7 +1600,7 @@ async def qr_cmd(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -1648,7 +1647,7 @@ async def wiki(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -1687,7 +1686,7 @@ async def switch(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -1726,7 +1725,7 @@ async def switch(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -1775,7 +1774,7 @@ async def weather(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -1807,7 +1806,7 @@ async def online(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -1830,7 +1829,7 @@ async def offline(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -1861,7 +1860,7 @@ async def eye(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -1928,7 +1927,7 @@ async def send_music(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -1969,7 +1968,7 @@ async def voice(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -2014,7 +2013,7 @@ async def afk(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -2044,7 +2043,7 @@ async def unafk(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -2098,7 +2097,7 @@ async def add_to_auto_read(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -2173,7 +2172,7 @@ async def leave(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -2416,7 +2415,7 @@ async def pin(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -2460,7 +2459,7 @@ async def promote(client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -2521,7 +2520,7 @@ async def promote(client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -2573,7 +2572,7 @@ async def demote(client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -2607,7 +2606,7 @@ async def invite(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -2647,7 +2646,7 @@ async def hack(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -2704,7 +2703,7 @@ async def jopa(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -2744,7 +2743,7 @@ async def drugs(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
@@ -2795,7 +2794,7 @@ async def mum(client: Client, message: Message):
     except FloodWait as e:
         mylastname = me.last_name
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        t.sleep(e.x)
+        time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
     except Exception as erryr:
         now = datetime.datetime.now()
