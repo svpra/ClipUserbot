@@ -1017,8 +1017,8 @@ async def myt(client: Client, message: Message):
         app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
         time.sleep(e.x)
         app.update_profile(last_name=f"{mylastname}")
-    except Exception as erryr:
-        now = datetime.datetime.now()
+
+        noexcept Exception as erryr:w = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
         log = logi + timnow + "\n╰ Запрос на скачивания звука с видео"
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
@@ -1082,16 +1082,15 @@ async def delete_messages(client: Client, message: Message):
                 timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
                 log = logi + timnow + "\n╰ Удалено сообщение"
                 await app.send_message("ClipUSERBOT_LOGGERbot", log)
-
                 message_id = message.reply_to_message.message_id
-                await message.delete()
                 await app.delete_messages(message.chat.id, message_id)
+                await message.delete()
             except FloodWait as e:
-        mylastname = me.last_name
-        app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
-        time.sleep(e.x)
-        app.update_profile(last_name=f"{mylastname}")
-    except Exception as erryr:
+                mylastname = me.last_name
+                app.update_profile(last_name=f"{mylastname} | FLOODWAIT")
+                time.sleep(e.x)
+                app.update_profile(last_name=f"{mylastname}")
+            except Exception as erryr:
                 now = datetime.datetime.now()
                 timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
                 log = logi + timnow + "\n╰ Удаление сообщения"
