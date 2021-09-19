@@ -2497,7 +2497,7 @@ async def ban_hammer(client: Client, message: Message):
         try:
             reply = message.reply_to_message
             await app.kick_chat_member(
-                message.chat.id, reply.from_user.id, int(time() + 31536000)
+                message.chat.id, reply.from_user.id, int(datetime.datetime.now() + 31536000)
             )
             await message.edit(
                 f'📢 | Пользователь <a href="tg://user?id={reply.from_user.id}">{reply.from_user.first_name}</a> был <b>заблокирован в данном чате.</b>'
