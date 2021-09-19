@@ -366,9 +366,11 @@ async def help(client: Client, message: Message):
 """, disable_web_page_preview=True)
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -430,7 +432,10 @@ async def restartt(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -465,7 +470,10 @@ async def updatte(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -497,7 +505,10 @@ async def beta(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -615,7 +626,10 @@ async def Progressbar(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -641,7 +655,10 @@ async def sendtoid(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -674,7 +691,10 @@ async def id(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -715,7 +735,10 @@ async def spam(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -757,7 +780,10 @@ async def b0mb3r(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -786,7 +812,10 @@ async def sbomber(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -826,7 +855,10 @@ async def bbomber(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -869,7 +901,10 @@ async def demotivator(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -896,7 +931,10 @@ async def time(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -938,7 +976,10 @@ async def repNakrutka(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -982,7 +1023,10 @@ async def spam(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -1043,7 +1087,10 @@ async def webshot(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -1085,7 +1132,10 @@ async def yt(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -1124,7 +1174,10 @@ async def myt(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -1178,7 +1231,10 @@ async def tagall(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -1254,7 +1310,10 @@ async def purge(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -1295,7 +1354,10 @@ async def type(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -1330,7 +1392,10 @@ async def ladder(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -1399,7 +1464,10 @@ async def mnotes(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -1430,7 +1498,10 @@ async def notes(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -1462,7 +1533,10 @@ async def notes(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -1497,7 +1571,10 @@ async def spamban(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -1533,7 +1610,10 @@ async def kickall(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -1568,7 +1648,10 @@ async def kickall(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -1620,7 +1703,10 @@ async def info(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -1664,7 +1750,10 @@ async def info(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -1714,7 +1803,10 @@ async def ping(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -1760,7 +1852,10 @@ async def shorten_link_command(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -1812,7 +1907,10 @@ async def qr_cmd(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -1865,7 +1963,10 @@ async def wiki(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -1910,7 +2011,10 @@ async def switch(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -1955,7 +2059,10 @@ async def switch(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -2010,7 +2117,10 @@ async def weather(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -2048,7 +2158,10 @@ async def online(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -2077,7 +2190,10 @@ async def offline(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -2114,7 +2230,10 @@ async def eye(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -2187,7 +2306,10 @@ async def send_music(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -2234,7 +2356,10 @@ async def voice(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -2285,7 +2410,10 @@ async def afk(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -2321,7 +2449,10 @@ async def unafk(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -2381,7 +2512,10 @@ async def add_to_auto_read(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -2462,7 +2596,10 @@ async def leave(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -2711,7 +2848,10 @@ async def pin(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -2761,7 +2901,10 @@ async def promote(client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -2828,7 +2971,10 @@ async def promote(client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -2886,7 +3032,10 @@ async def demote(client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -2926,7 +3075,10 @@ async def invite(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -2972,7 +3124,10 @@ async def hack(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -3028,14 +3183,17 @@ async def jopa(client: Client, message: Message):
         text = "✅ Проданно"
         await message.edit(str(text))
         await asyncio.sleep(2)
-        rand = random.randint(100, 5000)
+        rand += random.randint(100, 5000)
         bal = rand
         text = "💸 Вы заработали " + str(bal) + " ₽"
         await message.edit(text)
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -3081,7 +3239,10 @@ async def drugs(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
@@ -3138,7 +3299,10 @@ async def mum(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
-            f.write(me.last_name)
+            if me.last_name == None:
+                f.write("")
+            else:
+                f.write(me.last_name)
             f.close()
         with open("floodwait.txt", "r+") as f:
             opisanie = f.read()
