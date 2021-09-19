@@ -3183,7 +3183,7 @@ async def jopa(client: Client, message: Message):
         text = "✅ Проданно"
         await message.edit(str(text))
         await asyncio.sleep(2)
-        rand += random.randint(100, 5000)
+        rand = random.randint(100, 5000)
         bal = rand
         text = "💸 Вы заработали " + str(bal) + " ₽"
         await message.edit(text)
