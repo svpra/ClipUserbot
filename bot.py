@@ -368,7 +368,7 @@ async def help(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -433,7 +433,7 @@ async def restartt(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -471,7 +471,7 @@ async def updatte(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -506,7 +506,7 @@ async def beta(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -627,7 +627,7 @@ async def Progressbar(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -656,7 +656,7 @@ async def sendtoid(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -692,7 +692,7 @@ async def id(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -736,7 +736,7 @@ async def spam(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -781,7 +781,7 @@ async def b0mb3r(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -813,7 +813,7 @@ async def sbomber(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -856,7 +856,7 @@ async def bbomber(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -902,7 +902,7 @@ async def demotivator(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -932,7 +932,7 @@ async def time(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -977,7 +977,7 @@ async def repNakrutka(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -1024,7 +1024,7 @@ async def spam(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -1088,7 +1088,7 @@ async def webshot(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -1133,7 +1133,7 @@ async def yt(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -1175,7 +1175,7 @@ async def myt(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -1232,7 +1232,7 @@ async def tagall(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -1311,7 +1311,7 @@ async def purge(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -1355,7 +1355,7 @@ async def type(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -1393,7 +1393,7 @@ async def ladder(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -1465,7 +1465,7 @@ async def mnotes(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -1499,7 +1499,7 @@ async def notes(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -1534,7 +1534,7 @@ async def notes(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -1572,7 +1572,7 @@ async def spamban(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -1611,7 +1611,7 @@ async def kickall(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -1649,7 +1649,7 @@ async def kickall(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -1704,7 +1704,7 @@ async def info(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -1751,7 +1751,7 @@ async def info(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -1804,7 +1804,7 @@ async def ping(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -1853,7 +1853,7 @@ async def shorten_link_command(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -1908,7 +1908,7 @@ async def qr_cmd(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -1964,7 +1964,7 @@ async def wiki(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -2012,7 +2012,7 @@ async def switch(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -2060,7 +2060,7 @@ async def switch(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -2118,7 +2118,7 @@ async def weather(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -2159,7 +2159,7 @@ async def online(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -2191,7 +2191,7 @@ async def offline(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -2231,7 +2231,7 @@ async def eye(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -2307,7 +2307,7 @@ async def send_music(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -2357,7 +2357,7 @@ async def voice(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -2411,7 +2411,7 @@ async def afk(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -2450,7 +2450,7 @@ async def unafk(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -2513,7 +2513,7 @@ async def add_to_auto_read(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -2597,7 +2597,7 @@ async def leave(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -2849,7 +2849,7 @@ async def pin(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -2902,7 +2902,7 @@ async def promote(client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -2972,7 +2972,7 @@ async def promote(client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -3033,7 +3033,7 @@ async def demote(client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -3076,7 +3076,7 @@ async def invite(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -3125,7 +3125,7 @@ async def hack(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -3190,8 +3190,10 @@ async def jopa(client: Client, message: Message):
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
+            
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
+            
             else:
                 f.write(me.last_name)
             f.close()
@@ -3240,7 +3242,7 @@ async def drugs(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
@@ -3300,7 +3302,7 @@ async def mum(client: Client, message: Message):
         with open("floodwait.txt", "w+") as f:
             me = app.get_me()
             if me.last_name == None:
-                f.write("")
+                f.write("᠋")
             else:
                 f.write(me.last_name)
             f.close()
