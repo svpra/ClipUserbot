@@ -157,7 +157,7 @@ from pyrogram.types import Message, ChatPermissions
 from pyrogram.handlers import MessageHandler
 from pyrogram.methods.chats.get_chat_members import Filters as ChatMemberFilters
 from pyrogram.errors import FloodWait
-from time import perf_counter, sleep
+from time import perf_counter, sleep, time
 from aiohttp import ClientSession
 import random, datetime, asyncio, sys, wikipedia, requests, youtube_dl, subprocess, configparser, types
 from gtts import gTTS
@@ -2450,7 +2450,7 @@ async def ban_hammer(client: Client, message: Message):
         try:
             reply = message.reply_to_message
             await app.kick_chat_member(
-                message.chat.id, reply.from_user.id, int(time.time() + 31536000)
+                message.chat.id, reply.from_user.id, int(time() + 31536000)
             )
             await message.edit(
                 f'📢 | Пользователь <a href="tg://user?id={reply.from_user.id}">{reply.from_user.first_name}</a> был <b>заблокирован в данном чате.</b>'
