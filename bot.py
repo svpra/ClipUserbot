@@ -1218,9 +1218,9 @@ async def tagall(client: Client, message: Message):
             tag = member.user.username
             if limit <= 10:
                 if tag != None:
-                    string += f"<a href='https://t.me/{tag}'>.</a> "
+                    string += f"<a href='https://t.me/{tag}'>᠋</a> "
                 else:
-                    string += f"<a href='tg://user?id={member.user.id}'>.</a> "
+                    string += f"<a href='tg://user?id={member.user.id}'>᠋</a> "
                 limit += 1
             else:
                 text = f"{args} |{string}"
