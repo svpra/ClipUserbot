@@ -3,13 +3,9 @@
 import os
 import sys
 
-try:
-    os.system("termux-wake-lock")
-except:
-    pass
-
 # Проверка библиотек
 try:
+    os.system("termux-wake-lock")
     import alive_progress
     import wget
 except ModuleNotFoundError:
@@ -97,14 +93,12 @@ with alive_bar(20, bar='classic', title='Подготовка', length=20) as ba
 
     bar()
     configuration = os.path.exists("config.ini")
-    if configuration == True:
-        pass
-    else:
+    if not configuration:
         wget.download("https://raw.githubusercontent.com/A9FM/filesUB/main/config.ini", "config.ini", bar=False)
 
     bar()
     news = os.path.exists("news.txt")
-    if news == True:
+    if news:
         os.remove("news.txt")
         wget.download("https://raw.githubusercontent.com/A9FM/filesUB/main/news.txt", "news.txt", bar=False)
     else:
@@ -112,44 +106,32 @@ with alive_bar(20, bar='classic', title='Подготовка', length=20) as ba
 
     bar()
     stop = os.path.exists('stop.ogg')
-    if stop == True:
-        pass
-    else:
+    if not stop:
         wget.download('https://github.com/A9FM/filesUB/blob/main/stop.ogg?raw=true', "stop.ogg", bar=False)
 
     bar()
     update = os.path.exists("update.ogg")
-    if update == True:
-        pass
-    else:
+    if not update:
         wget.download("https://github.com/A9FM/filesUB/blob/main/update.ogg?raw=true", "update.ogg", bar=False)
 
     bar()
     start = os.path.exists('start.ogg')
-    if start == True:
-        pass
-    else:
+    if not start:
         wget.download('https://github.com/A9FM/filesUB/blob/main/start.ogg?raw=true', "start.ogg", bar=False)
 
     bar()
     reput = os.path.exists('rep.txt')
-    if reput == True:
-        pass
-    else:
+    if not reput:
         wget.download('https://raw.githubusercontent.com/A9FM/filesUB/main/rep.txt', "rep.txt", bar=False)
 
     bar()
     reput = os.path.exists('notes.txt')
-    if reput == True:
-        pass
-    else:
+    if not reput:
         wget.download('https://raw.githubusercontent.com/A9FM/filesUB/main/notes.txt', "notes.txt", bar=False)
 
     bar()
     floodw = os.path.exists('floodwait.txt')
-    if floodw == True:
-        pass
-    else:
+    if not floodw:
         wget.download('https://raw.githubusercontent.com/A9FM/filesUB/main/floodwait.txt', "floodwait.txt", bar=False)
 
 from pyrogram import Client, filters
@@ -159,7 +141,16 @@ from pyrogram.methods.chats.get_chat_members import Filters as ChatMemberFilters
 from pyrogram.errors import FloodWait
 from time import perf_counter, sleep, time
 from aiohttp import ClientSession
-import random, datetime, asyncio, sys, wikipedia, requests, youtube_dl, subprocess, configparser, types
+import random
+import datetime
+import asyncio
+import sys
+import wikipedia
+import requests
+import youtube_dl
+import subprocess
+import configparser
+import types
 from gtts import gTTS
 import colorama
 from telegraph import Telegraph
@@ -176,11 +167,9 @@ def get_prefix():
     prefix = config.get("prefix", "prefix")
     return prefix
 
-
 try:
     prefix = get_prefix()
-
-except Exception as e:
+except:
     config.add_section("prefix")
     config.set("prefix", "prefix", ".")
     with open(config_path, "w") as config_file:
@@ -224,35 +213,27 @@ os.system("cls" if os.name == "nt" else "clear")
 with open("news.txt", "r+", encoding="utf-8") as f:
     data = f.read()
     news = str(data)
-    print(f"""\033[91m
-  ____ _     ___ _____
- / ___| |   |_ _|  _  |
-| |   | |    | || |_) |
-| |___| |___ | ||  ___|
- \____|_____|___|_|
-    _       ___            _____   __  __
-   / \     / _ \          |  ___| |  \/  |
-  / _ \   | (_) |  _____  | |_    | |\/| |
- / ___ \   \__, | |_____| |  _|   | |  | |
-/_/   \_\    /_/          |_|     |_|  |_|
-Telegram Канал - @ArturDestroyerBot
+    print(f"""\033[32m╔═╗╦  ╦╔═╗
+║  ║  ║╠═╝
+╚═╝╩═╝╩╩
+\033[91m╦ ╦╔═╗╔═╗╦═╗╔╗ ╔═╗╔╦╗
+\033[91m║ ║╚═╗║╣ ╠╦╝╠╩╗║ ║ ║ 
+\033[91m╚═╝╚═╝╚═╝╩╚═╚═╝╚═╝ ╩
+\033[91mTelegram Канал - @ArturDestroyerBot
 Помощь - @Artur_destroyer
 Версия {version}
 \033[32m
 [√] {me.first_name} - ({me.id}) Запущен
+
 \033[34mСобытия:
 {news}
-
-\033[34mЛоги:
-| Юзербот Был запущен
-| {timnowe}
 """)
     f.close()
 
 
 # Помощь | Инфа про Юзербота
 @app.on_message(filters.command("help", prefix) & filters.me)
-async def help(client: Client, message: Message):
+async def helpp(client: Client, message: Message):
     try:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -262,9 +243,9 @@ async def help(client: Client, message: Message):
         await message.edit("🕐 Загрузка меню помощи. Пожалуйста подождите...")
         telegraph = Telegraph()
         telegraph.create_account(short_name='ClipUserbot')
-        help = f"""
+        helpp = f"""<p align="center"><a href="https://github.com/A9FM/ClipUserbot"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://github.com/A9FM/ClipUserbot&title=Profile%20Views"></a></p>
 <b><a href="https://t.me/ArturDestroyerBot">🤖 UserBot CLIP {version} 🤖</a></b><br>
-<b><a href="https://t.me/artur_destroyer">👨 Создатель 💻</a></b><br>
+<b><a href="https://9fm.github.io">👨 Создатель 💻</a></b><br>
 <b><a href="https://www.donationalerts.com/r/a9fm">💰 Донат Создателю 💰</a></b><br>
 <b><a href="https://github.com/A9FM/ClipUserbot#readme">🤔 Как установить? 🤔</a></b><br>
 <a href="https://github.com/A9FM/filesUB/blob/main/README.md">© <b>Copyright ClipUSERBOT</b> ©</a><br>
@@ -326,6 +307,8 @@ async def help(client: Client, message: Message):
 ⇛ <code>eye</code> [Номер телефона] - Проверка номера в базе данных глаза бога<br>
 ⇛ <code>dem</code> [Текст] - Демотиватор<br>
 ⇛ <code>send</code> [Айди] - Написать человеку, зная его айди<br>
+⇛ <code>link</code> [Ссылка] [Текст] - Ссылка в тексте<br>
+⇛ <code>chance</code> [Текст] - Проверить шансы (например "Клип топ? Шансы 100%)<br>
 ⇛ Репутация<br>
 <h3>Администрация</h3>
 ⇛ <code>ban</code> - Бан<br>
@@ -347,7 +330,7 @@ async def help(client: Client, message: Message):
 """
         response = telegraph.create_page(
             'Clip Userbot Помощь',
-            html_content=f'{help}'
+            html_content=f'{helpp}'
         )
         linkes = response['path']
         link = f'https://telegra.ph/{linkes}'
@@ -358,15 +341,15 @@ async def help(client: Client, message: Message):
 <b><a href="https://t.me/ClipUserbot">🙊 | Официальный чат поддержки пользователей CLIP.</a></b>
 <b><a href={link}>❓ | Список всех команд </a></b>
 
-<b><a href="https://t.me/artur_destroyer">⛔️ | Ссылка на создателя CLIP</a></b>
+<b><a href="https://a9fm.github.io">⛔️ | Ссылка на создателя CLIP</a></b>
 <b><a href="https://t.me/dontcryplzs">❕ | Ссылка на помощника в разработке CLIP</a></b>
 
-❤️ | Мы очень благодарны за использование нашего бота и желаем хорошего дня.
+❤️ | Мы очень благодарны за использование нашего юзербота и желаем хорошего дня.
 ❤️ | Если вы нашли баги,можете написать создателю, помощнику, либо же в чат поддержки.
 """, disable_web_page_preview=True)
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -431,7 +414,7 @@ async def restartt(client: Client, message: Message):
         await restart(message, restart_type="restart")
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -443,9 +426,6 @@ async def restartt(client: Client, message: Message):
             sleep(e.x)
             await app.update_profile(last_name=f"{opisanie}")
             f.close()
-
-
-
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -469,7 +449,7 @@ async def updatte(client: Client, message: Message):
         await restart(message, restart_type="update")
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -504,7 +484,7 @@ async def beta(client: Client, message: Message):
         await restart(message, restart_type="update")
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -604,6 +584,71 @@ async def repPlus(client: Client, message: Message):
     except:
         pass
 
+# Шансы
+@app.on_message(filters.command("chance", prefix) & filters.me)
+async def chance(client: Client, message: Message):
+    try:
+        now = datetime.datetime.now()
+        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+        log = logi + timnow + "\n╰ Шанс"
+        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        text = message.text.split(prefix + "chance ", maxsplit=1)[1]
+        await message.edit(f"{text}\nВероятность {random.randint(1, 100)}%")
+
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        now = datetime.datetime.now()
+        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+        log = logi + timnow + "\n╰ Проверка шанса"
+        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+
+# Ссылка в тексте
+
+@app.on_message(filters.command("link", prefix) & filters.me)
+async def chance(client: Client, message: Message):
+    try:
+        now = datetime.datetime.now()
+        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+        log = logi + timnow + "\n╰ Ссылка в тексте"
+        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+
+        link = message.command[1]
+        text = " ".join(message.command[2:])
+        await message.delete()
+        await app.send_message(message.chat.id, f'<a href="{link}">{text}</a>', disable_web_page_preview=True)
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        now = datetime.datetime.now()
+        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
+        log = logi + timnow + "\n╰ Ссылка"
+        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+
 
 # Прогресс бар
 @app.on_message(filters.command("progressbar", prefix) & filters.me)
@@ -625,7 +670,7 @@ async def Progressbar(client: Client, message: Message):
                 text + "\n[{:{}}] {:>3}%".format("█" * int(percent / (100.0 / bar_length)), bar_length, int(percent)))
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -654,7 +699,7 @@ async def sendtoid(client: Client, message: Message):
         await app.send_message(message.command[1], "Привет!")
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -690,7 +735,7 @@ async def id(client: Client, message: Message):
             await message.edit(id)
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -734,7 +779,7 @@ async def spam(client: Client, message: Message):
             await asyncio.sleep(slep)
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -779,7 +824,7 @@ async def b0mb3r(client: Client, message: Message):
         await message.edit("Бомбер запущен!\nСсылка: 127.0.0.1:8080")
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -811,7 +856,7 @@ async def sbomber(client: Client, message: Message):
         await message.edit("Бомбер завершил свою роботу...")
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -854,7 +899,7 @@ async def bbomber(client: Client, message: Message):
         await message.edit(result)
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -900,7 +945,7 @@ async def demotivator(client: Client, message: Message):
             await message.edit("❗️ | Сделайте реплай на изображение для создания демотиватора")
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -930,7 +975,7 @@ async def time(client: Client, message: Message):
         await message.edit(timenow)
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -975,7 +1020,7 @@ async def repNakrutka(client: Client, message: Message):
         await app.send_message("ClipUSERBOT_LOGGERbot", log)
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -1022,7 +1067,7 @@ async def spam(client: Client, message: Message):
             await asyncio.sleep(slep)
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -1086,7 +1131,7 @@ async def webshot(client: Client, message: Message):
             await app.send_message("ClipUSERBOT_LOGGERbot", log)
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -1131,7 +1176,7 @@ async def yt(client: Client, message: Message):
         os.remove("video.mp4")
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -1173,7 +1218,7 @@ async def myt(client: Client, message: Message):
 
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -1230,7 +1275,7 @@ async def tagall(client: Client, message: Message):
                 await asyncio.sleep(slep)
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -1309,7 +1354,7 @@ async def purge(client: Client, message: Message):
             await message.edit("<i>❗️ | Не могу найти реплай.</i>")
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -1353,7 +1398,7 @@ async def type(client: Client, message: Message):
 
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -1391,7 +1436,7 @@ async def ladder(client: Client, message: Message):
         await message.edit(ot)
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -1463,7 +1508,7 @@ async def mnotes(client: Client, message: Message):
             f"✅ | Сообщение сохранено!\nДля вывода сообщения напишите <code>{prefix}notes {iii[0].message_id}</code>\nПолный список <code>.mynotes</code>")
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -1497,7 +1542,7 @@ async def notes(client: Client, message: Message):
         await message.delete()
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -1532,7 +1577,7 @@ async def notes(client: Client, message: Message):
             f.close()
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -1570,7 +1615,7 @@ async def spamban(client: Client, message: Message):
         await app.forward_messages(message.chat.id, "spamBot", iii[0].message_id)
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -1609,7 +1654,7 @@ async def kickall(client: Client, message: Message):
                 pass
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -1647,7 +1692,7 @@ async def kickall(client: Client, message: Message):
                 pass
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -1702,7 +1747,7 @@ async def info(client: Client, message: Message):
         await message.edit(text, parse_mode="HTML")
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -1749,7 +1794,7 @@ async def info(client: Client, message: Message):
         await message.edit(text, parse_mode="HTML")
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -1802,7 +1847,7 @@ async def ping(client: Client, message: Message):
             )
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -1851,7 +1896,7 @@ async def shorten_link_command(client: Client, message: Message):
         await message.edit(f'Сокращенная ссылка: {output["link"]}')
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -1906,7 +1951,7 @@ async def qr_cmd(client: Client, message: Message):
                 )
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -1962,7 +2007,7 @@ async def wiki(client: Client, message: Message):
             )
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -2010,7 +2055,7 @@ async def switch(client: Client, message: Message):
             await message.edit(text)
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -2058,7 +2103,7 @@ async def switch(client: Client, message: Message):
             await message.edit(text)
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -2116,7 +2161,7 @@ async def weather(client: Client, message: Message):
         os.remove(f"{city}.png")
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -2157,7 +2202,7 @@ async def online(client: Client, message: Message):
             await app.block_user("mafia_statistics_bot")
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -2189,7 +2234,7 @@ async def offline(client: Client, message: Message):
         await restart(message, restart_type="restart")
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -2229,7 +2274,7 @@ async def eye(client: Client, message: Message):
         await app.forward_messages(message.chat.id, "AnonymousEUEBot", iii[0].message_id)
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -2305,7 +2350,7 @@ async def send_music(client: Client, message: Message):
         await message.delete()
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -2355,7 +2400,7 @@ async def voice(client: Client, message: Message):
         os.remove("voice.mp3")
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -2409,7 +2454,7 @@ async def afk(client: Client, message: Message):
         await message.edit(f"❕ Вход в <b>AFK режим</b>.\n<b>💬 Причина:</b> {reason}.\n")
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -2448,7 +2493,7 @@ async def unafk(client: Client, message: Message):
 
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -2511,7 +2556,7 @@ async def add_to_auto_read(client: Client, message: Message):
             await message.edit("✅ | Авточтение включено")
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -2595,7 +2640,7 @@ async def leave(client: Client, message: Message):
         await app.leave_chat(chat_id=message.chat.id)
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -2802,7 +2847,6 @@ async def pin_message(client: Client, message: Message):
             message.chat.id, filter=ChatMemberFilters.ADMINISTRATORS
         )
         admin_ids = [user.user.id for user in admins]
-        me = await app.get_me()
 
         if me.id in admin_ids:
             if message.reply_to_message:
@@ -2847,7 +2891,7 @@ async def pin(client: Client, message: Message):
             await message.edit("❕ | Не вижу сообщение,которое требуется открепить")
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -2900,7 +2944,7 @@ async def promote(client, message: Message):
         )
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -2970,7 +3014,7 @@ async def promote(client, message: Message):
         )
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -3031,7 +3075,7 @@ async def demote(client, message: Message):
         await message.edit(f"❎ | Пользователь {get_user.first_name} больше не **администратор!**")
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -3074,7 +3118,7 @@ async def invite(client: Client, message: Message):
         )
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -3123,7 +3167,7 @@ async def hack(client: Client, message: Message):
         await message.edit(text)
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -3189,11 +3233,10 @@ async def jopa(client: Client, message: Message):
         await message.edit(text)
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
-            
+
             if me.last_name == None:
                 f.write("᠋")
-            
+
             else:
                 f.write(me.last_name)
             f.close()
@@ -3240,7 +3283,7 @@ async def drugs(client: Client, message: Message):
         await message.edit(drug)
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -3300,7 +3343,7 @@ async def mum(client: Client, message: Message):
         await message.edit(str(text))
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
-            me = await app.get_me()
+
             if me.last_name == None:
                 f.write("᠋")
             else:
@@ -3318,5 +3361,6 @@ async def mum(client: Client, message: Message):
         log = logi + timnow + "\n╰ Команда mum"
         await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+
 
 app.run()
