@@ -153,7 +153,7 @@ from gtts import gTTS
 import colorama
 from telegraph import Telegraph
 
-version = "1.9.5 (Бета)"  # Версия юзербота
+version = "1.9.5 [BETA]"  # Версия юзербота
 
 # Префиксы доп
 config_path = os.path.join(sys.path[0], "config.ini")
@@ -1650,26 +1650,12 @@ async def kickall(client: Client, message: Message):
                 await app.kick_chat_member(message.chat.id, all.user.id, 0)
             except:
                 pass
-    except FloodWait as e:
-        with open("floodwait.txt", "w+") as f:
-
-            if me.last_name == None:
-                f.write("᠋")
-            else:
-                f.write(me.last_name)
-            f.close()
-        with open("floodwait.txt", "r+") as f:
-            opisanie = f.read()
-            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            await asyncio.sleep(e.x)
-            await app.update_profile(last_name=f"{opisanie}")
-            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
         log = logi + timnow + "\n╰ Удаление всех участников "
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit("Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
+        app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
+        message.edit("Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
 
 
 @app.on_message(filters.command('kickall hide', prefix) & filters.me)
@@ -1688,26 +1674,12 @@ async def kickall(client: Client, message: Message):
                 await app.kick_chat_member(message.chat.id, all.user.id, 0)
             except:
                 pass
-    except FloodWait as e:
-        with open("floodwait.txt", "w+") as f:
-
-            if me.last_name == None:
-                f.write("᠋")
-            else:
-                f.write(me.last_name)
-            f.close()
-        with open("floodwait.txt", "r+") as f:
-            opisanie = f.read()
-            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            await asyncio.sleep(e.x)
-            await app.update_profile(last_name=f"{opisanie}")
-            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
         log = logi + timnow + "\n╰ Удаление всех участников (Скрытно)"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit("Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
+        app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
+        message.edit("Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
 
 
 # Инфа
