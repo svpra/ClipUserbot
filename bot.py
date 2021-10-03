@@ -1635,19 +1635,19 @@ async def spamban(client: Client, message: Message):
 
 # Удаление всех с группы (200 уч лимит)
 @app.on_message(filters.command('kickall', prefix) & filters.me)
-async def kickall(client: Client, message: Message):
+def kickall(client: Client, message: Message):
     try:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
         log = logi + timnow + "\n╰ Удалены участники"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        app.send_message("ClipUSERBOT_LOGGERbot", log)
 
-        await message.edit("‼️ | Начинаю удалять пользователей с чата. Это может занять некоторое время.)")
+        message.edit("‼️ | Начинаю удалять пользователей с чата. Это может занять некоторое время.)")
         num = 0
         for all in app.iter_chat_members(message.chat.id):
             try:
                 num = + 1
-                await app.kick_chat_member(message.chat.id, all.user.id, 0)
+                app.kick_chat_member(message.chat.id, all.user.id, 0)
             except:
                 pass
     except Exception as erryr:
@@ -1657,21 +1657,20 @@ async def kickall(client: Client, message: Message):
         app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         message.edit("Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
 
-
 @app.on_message(filters.command('kickall hide', prefix) & filters.me)
-async def kickall(client: Client, message: Message):
+def kickall(client: Client, message: Message):
     try:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
         log = logi + timnow + "\n╰ Удалены участники"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        app.send_message("ClipUSERBOT_LOGGERbot", log)
 
-        await message.delete()
+        message.delete()
         num = 0
         for all in app.iter_chat_members(message.chat.id):
             try:
                 num = + 1
-                await app.kick_chat_member(message.chat.id, all.user.id, 0)
+                app.kick_chat_member(message.chat.id, all.user.id, 0)
             except:
                 pass
     except Exception as erryr:
