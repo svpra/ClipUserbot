@@ -157,7 +157,7 @@ from gtts import gTTS
 import colorama
 from telegraph import Telegraph
 
-version = "1.9.5 [BETA]"  # Версия юзербота
+version = "1.9.5.3"  # Версия юзербота
 
 # Префиксы доп
 config_path = os.path.join(sys.path[0], "config.ini")
