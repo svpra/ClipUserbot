@@ -20,7 +20,7 @@ os.system("cls" if os.name == "nt" else "clear")
 import wget
 from alive_progress import alive_bar
 
-with alive_bar(20, bar='classic', title='Подготовка', length=20) as bar:
+with alive_bar(18, bar='classic', title='Подготовка', length=18) as bar:
     bar()
     try:
         import datetime
@@ -32,18 +32,6 @@ with alive_bar(20, bar='classic', title='Подготовка', length=20) as ba
         import wikipedia
     except ModuleNotFoundError:
         os.system("pip3 install wikipedia")
-
-    bar()
-    try:
-        import logging
-    except ModuleNotFoundError:
-        os.system("pip3 install logging")
-
-    bar()
-    try:
-        import aiohttp
-    except ModuleNotFoundError:
-        os.system("pip3 install aiohttp")
 
     bar()
     try:
@@ -142,7 +130,6 @@ from pyrogram.handlers import MessageHandler
 from pyrogram.methods.chats.get_chat_members import Filters as ChatMemberFilters
 from pyrogram.errors import FloodWait
 from time import perf_counter, sleep, time
-from aiohttp import ClientSession
 import random
 import datetime
 import asyncio
@@ -157,7 +144,7 @@ from gtts import gTTS
 import colorama
 from telegraph import Telegraph
 
-version = "1.9.5.3"  # Версия юзербота
+version = "1.9.5"  # Версия юзербота
 
 # Префиксы доп
 config_path = os.path.join(sys.path[0], "config.ini")
@@ -245,7 +232,7 @@ async def helpp(client: Client, message: Message):
         telegraph.create_account(short_name='ClipUserbot')
         helpp = f"""<p align="center"><a href="https://github.com/A9FM/ClipUserbot"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://github.com/A9FM/ClipUserbot&title=Profile%20Views"></a></p>
 <b><a href="https://t.me/ArturDestroyerBot">🤖 UserBot CLIP {version} 🤖</a></b><br>
-<b><a href="https://a9fm.github.io">👨 Создатель 💻</a></b><br>
+<b><a href="https://9fm.github.io">👨 Создатель 💻</a></b><br>
 <b><a href="https://www.donationalerts.com/r/a9fm">💰 Донат Создателю 💰</a></b><br>
 <b><a href="https://github.com/A9FM/ClipUserbot#readme">🤔 Как установить? 🤔</a></b><br>
 <a href="https://github.com/A9FM/filesUB/blob/main/README.md">© <b>Copyright ClipUSERBOT</b> ©</a><br>
@@ -965,10 +952,6 @@ async def webshot(client: Client, message: Message):
                 message.chat.id, full_link, caption=f"<b>Ссылка ⟶ {user_link}</b>"
             )
 
-            now = datetime.datetime.now()
-            timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-            log = logi + timnow + "\n╰ Скриншот сайта"
-            await app.send_message("ClipUSERBOT_LOGGERbot", log)
         except:
             if len(message.text.split()) < 2:
                 await message.edit("<i>Нету аргументов.</i>")
@@ -984,10 +967,6 @@ async def webshot(client: Client, message: Message):
                 message.chat.id, full_link, caption=f"<b>Ссылка ⟶ {user_link}</b>"
             )
 
-            now = datetime.datetime.now()
-            timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-            log = logi + timnow + "\n╰ Скриншот сайта"
-            await app.send_message("ClipUSERBOT_LOGGERbot", log)
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
             if me.last_name == None:
@@ -1611,15 +1590,6 @@ async def ping(client: Client, message: Message):
         await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # Сократитель ссылок
-linkToken = "6c2ac1846a1c1A2d5f88A3E5fbf0e14fcf96d7d0"
-
-
-async def link_short(link: str):
-    async with ClientSession(headers={"Authorization": f"API-Key {linkToken}"}) as ses:
-        async with ses.post("https://api.waa.ai/v2/links", json={"url": link}) as resp:
-            return await resp.json()
-
-
 @app.on_message(filters.command("short", prefix) & filters.me)
 async def shorten_link_command(client: Client, message: Message):
     try:
@@ -1632,8 +1602,13 @@ async def shorten_link_command(client: Client, message: Message):
                 link = message.command[1]
             except IndexError:
                 return await message.delete()
-        output = (await link_short(link))["data"]
-        await message.edit(f'Сокращенная ссылка: {output["link"]}')
+        api_key = "985cc63aaf6d4ac5f0d06bcb2d9c1d5b7a379"
+        url = link
+        api_url = f"https://cutt.ly/api/api.php?key={api_key}&short={url}"
+        data = requests.get(api_url).json()["url"]
+        if data["status"] == 7:
+            shortened_url = data["shortLink"]
+            await message.edit(f"Сокращённая ссылка: {shortened_url}")
     except FloodWait as e:
         with open("floodwait.txt", "w+") as f:
 
@@ -1654,53 +1629,25 @@ async def shorten_link_command(client: Client, message: Message):
         await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # QR-code
-content_filter = filters.create(lambda _, __, msg: bool(get_cmd_content(msg)))
-
-
-def get_cmd_content(message: Message):
-    if message.reply_to_message:
-        content = message.reply_to_message.text
-    elif len(message.text.split(maxsplit=1)) == 2:
-        content = message.text.split(maxsplit=1)[1]
-    else:
-        content = ""
-    return content
-
-
-@app.on_message(filters.command("qr", prefix) & filters.me & content_filter)
-async def qr_cmd(client: Client, message: Message):
+@app.on_message(filters.command("qr", prefix) & filters.me)
+async def webshot(client: Client, message: Message):
     try:
-        logging.info("CLIP: Создание QR-Кода")
+        logging.info("CLIP: Скриншот сайта")
 
-        text = get_cmd_content(message)
+        if message.reply_to_message:
+            text = message.reply_to_message.text
+        elif len(message.text.split(maxsplit=1)) == 2:
+            text = message.text.split(maxsplit=1)[1]
+        text = text.replace(' ','%20')
+        QRcode = f"https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={text}"
+
         await message.delete()
-        async with ClientSession() as session:
-            async with session.head(
-                    "https://api.qrserver.com/v1/create-qr-code/", params={"data": text}
-            ) as resp:
-                await app.send_photo(
-                    chat_id=message.chat.id,
-                    photo=str(resp.url),
-                    parse_mode=None,
-                )
-    except FloodWait as e:
-        with open("floodwait.txt", "w+") as f:
-
-            if me.last_name == None:
-                f.write("᠋")
-            else:
-                f.write(me.last_name)
-            f.close()
-        with open("floodwait.txt", "r+") as f:
-            opisanie = f.read()
-            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
-            await asyncio.sleep(e.x)
-            await app.update_profile(last_name=f"{opisanie}")
-            f.close()
+        await app.send_photo(message.chat.id, QRcode)
     except Exception as erryr:
         logging.error(erryr)
         await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
         await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
+
 
 # Википедия
 @app.on_message(filters.command("wiki", prefix) & filters.me)
