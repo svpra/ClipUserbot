@@ -2,27 +2,25 @@
 # -*- coding: utf-8 -*-
 import os
 import sys
-
-try:
-    os.system("termux-wake-lock")
-except:
-    pass
+import logging
+ 
+# Логирование
+logging.basicConfig(filename="clip.log", filemode='w', format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', level=logging.INFO)
 
 # Проверка библиотек
 try:
+    os.system("termux-wake-lock")
     import alive_progress
     import wget
 except ModuleNotFoundError:
     os.system("pip3 install alive_progress")
     os.system("pip3 install wget")
-    os.execl(sys.executable, sys.executable, *sys.argv)
-    quit()
 
 os.system("cls" if os.name == "nt" else "clear")
 import wget
 from alive_progress import alive_bar
 
-with alive_bar(20, bar='classic', title='Подготовка', length=20) as bar:
+with alive_bar(18, bar='classic', title='Подготовка', length=18) as bar:
     bar()
     try:
         import datetime
@@ -31,27 +29,9 @@ with alive_bar(20, bar='classic', title='Подготовка', length=20) as ba
 
     bar()
     try:
-        import asyncio
-    except ModuleNotFoundError:
-        os.system("pip3 install asyncio")
-
-    bar()
-    try:
         import wikipedia
     except ModuleNotFoundError:
         os.system("pip3 install wikipedia")
-
-    bar()
-    try:
-        import logging
-    except ModuleNotFoundError:
-        os.system("pip3 install logging")
-
-    bar()
-    try:
-        import aiohttp
-    except ModuleNotFoundError:
-        os.system("pip3 install aiohttp")
 
     bar()
     try:
@@ -103,14 +83,12 @@ with alive_bar(20, bar='classic', title='Подготовка', length=20) as ba
 
     bar()
     configuration = os.path.exists("config.ini")
-    if configuration == True:
-        pass
-    else:
+    if not configuration:
         wget.download("https://raw.githubusercontent.com/A9FM/filesUB/main/config.ini", "config.ini", bar=False)
 
     bar()
     news = os.path.exists("news.txt")
-    if news == True:
+    if news:
         os.remove("news.txt")
         wget.download("https://raw.githubusercontent.com/A9FM/filesUB/main/news.txt", "news.txt", bar=False)
     else:
@@ -118,51 +96,55 @@ with alive_bar(20, bar='classic', title='Подготовка', length=20) as ba
 
     bar()
     stop = os.path.exists('stop.ogg')
-    if stop == True:
-        pass
-    else:
+    if not stop:
         wget.download('https://github.com/A9FM/filesUB/blob/main/stop.ogg?raw=true', "stop.ogg", bar=False)
 
     bar()
     update = os.path.exists("update.ogg")
-    if update == True:
-        pass
-    else:
+    if not update:
         wget.download("https://github.com/A9FM/filesUB/blob/main/update.ogg?raw=true", "update.ogg", bar=False)
 
     bar()
     start = os.path.exists('start.ogg')
-    if start == True:
-        pass
-    else:
+    if not start:
         wget.download('https://github.com/A9FM/filesUB/blob/main/start.ogg?raw=true', "start.ogg", bar=False)
 
     bar()
     reput = os.path.exists('rep.txt')
-    if reput == True:
-        pass
-    else:
+    if not reput:
         wget.download('https://raw.githubusercontent.com/A9FM/filesUB/main/rep.txt', "rep.txt", bar=False)
 
     bar()
     reput = os.path.exists('notes.txt')
-    if reput == True:
-        pass
-    else:
+    if not reput:
         wget.download('https://raw.githubusercontent.com/A9FM/filesUB/main/notes.txt', "notes.txt", bar=False)
+
+    bar()
+    floodw = os.path.exists('floodwait.txt')
+    if not floodw:
+        wget.download('https://raw.githubusercontent.com/A9FM/filesUB/main/floodwait.txt', "floodwait.txt", bar=False)
 
 from pyrogram import Client, filters
 from pyrogram.types import Message, ChatPermissions
 from pyrogram.handlers import MessageHandler
 from pyrogram.methods.chats.get_chat_members import Filters as ChatMemberFilters
-from time import perf_counter
-from aiohttp import ClientSession
-import time, random, datetime, asyncio, sys, wikipedia, requests, youtube_dl, subprocess, configparser, types
+from pyrogram.errors import FloodWait
+from time import perf_counter, sleep, time
+import random
+import datetime
+import asyncio
+import sys
+import wikipedia
+import requests
+import youtube_dl
+import subprocess
+import configparser
+import shlex
 from gtts import gTTS
 import colorama
 from telegraph import Telegraph
 
-version = "1.9.4 (Фикс баг)" # Версия юзербота
+version = "1.9.5"  # Версия юзербота
 
 # Префиксы доп
 config_path = os.path.join(sys.path[0], "config.ini")
@@ -174,11 +156,9 @@ def get_prefix():
     prefix = config.get("prefix", "prefix")
     return prefix
 
-
 try:
     prefix = get_prefix()
-
-except Exception as e:
+except:
     config.add_section("prefix")
     config.set("prefix", "prefix", ".")
     with open(config_path, "w") as config_file:
@@ -203,8 +183,6 @@ with app:
     startlog = logi + timnowe + "\n╰ Юзербот был запущен"
     app.send_message("ClipUSERBOT_LOGGERbot", startlog)
     me = app.get_me()
-    app.add_contact("artur_destroyer", "Артур (Создатель Clip Userbot)")
-    app.add_contact("dontcryplzs", "dontcryplzs (Помощник в разработке)")
     if len(sys.argv) == 4:
         try:
             restart_type = sys.argv[3]
@@ -224,46 +202,37 @@ os.system("cls" if os.name == "nt" else "clear")
 with open("news.txt", "r+", encoding="utf-8") as f:
     data = f.read()
     news = str(data)
-    print(f"""\033[91m
-  ____ _     ___ _____
- / ___| |   |_ _|  _  |
-| |   | |    | || |_) |
-| |___| |___ | ||  ___|
- \____|_____|___|_|
-    _       ___            _____   __  __
-   / \     / _ \          |  ___| |  \/  |
-  / _ \   | (_) |  _____  | |_    | |\/| |
- / ___ \   \__, | |_____| |  _|   | |  | |
-/_/   \_\    /_/          |_|     |_|  |_|
-Telegram Канал - @ArturDestroyerBot
+    print(f"""\033[32m
+╔═╗╦  ╦╔═╗
+║  ║  ║╠═╝
+╚═╝╩═╝╩╩
+\033[91m╦ ╦╔═╗╔═╗╦═╗╔╗ ╔═╗╔╦╗
+\033[91m║ ║╚═╗║╣ ╠╦╝╠╩╗║ ║ ║ 
+\033[91m╚═╝╚═╝╚═╝╩╚═╚═╝╚═╝ ╩
+\033[91mTelegram Канал - @ArturDestroyerBot
 Помощь - @Artur_destroyer
 Версия {version}
 \033[32m
 [√] {me.first_name} - ({me.id}) Запущен
+
 \033[34mСобытия:
 {news}
-
-\033[34mЛоги:
-| Юзербот Был запущен
-| {timnowe}
 """)
     f.close()
 
+
 # Помощь | Инфа про Юзербота
 @app.on_message(filters.command("help", prefix) & filters.me)
-async def help(client: Client, message: Message):
+async def helpp(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Список комманд"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Список комманд")
 
         await message.edit("🕐 Загрузка меню помощи. Пожалуйста подождите...")
         telegraph = Telegraph()
         telegraph.create_account(short_name='ClipUserbot')
-        help = f"""
+        helpp = f"""<p align="center"><a href="https://github.com/A9FM/ClipUserbot"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://github.com/A9FM/ClipUserbot&title=Profile%20Views"></a></p>
 <b><a href="https://t.me/ArturDestroyerBot">🤖 UserBot CLIP {version} 🤖</a></b><br>
-<b><a href="https://t.me/artur_destroyer">👨💻 Создатель 👨💻</a></b><br>
+<b><a href="https://9fm.github.io">👨 Создатель 💻</a></b><br>
 <b><a href="https://www.donationalerts.com/r/a9fm">💰 Донат Создателю 💰</a></b><br>
 <b><a href="https://github.com/A9FM/ClipUserbot#readme">🤔 Как установить? 🤔</a></b><br>
 <a href="https://github.com/A9FM/filesUB/blob/main/README.md">© <b>Copyright ClipUSERBOT</b> ©</a><br>
@@ -277,7 +246,7 @@ async def help(client: Client, message: Message):
 ⇛ <code>help</code> - Помощь | Информация | Проверка версии<br>
 ⇛ <code>ping</code> - Проверка Пинга Юзербота [Качество полключения]<br>
 ⇛ <code>restart</code> - Перезагрузка [Ошибка, Баг в Юзерботе]<br>
-⇛ <code>update</code> - Обновить ю зербота<br>
+⇛ <code>update</code> - Обновить юзербота<br>
 ⇛ <code>beta</code> - Обновить юзербота на Бета версию<br>
 ⇛ <code>online</code> - Вечный онлайн (В сети/Стабильное подключение к интернету)<br>
 ⇛ <code>offline</code> - Отключение вечного онлайна<br>
@@ -296,7 +265,6 @@ async def help(client: Client, message: Message):
 ⇛ <code>mum</code> - Поиск матери<br>
 ⇛ <code>drugs</code> - Принять 3aПрEщEHHblE BещECTBа<br>
 ⇛ <code>bomber</code> - Запуск Бомбера (Сайт)<br>
-⇛ <code>bbomber</code> [Номер без знака +] - Запуск бомбера (боты)<br>
 ⇛ <code>sbomber</code> - Завершение роботы бомбера<br>
 ⇛ <code>q</code> [Ответ] - Сделать цитату (Стикер с текстом пользователя)<br>
 ⇛ <code>type</code> - Эффект Печати<br>
@@ -325,6 +293,8 @@ async def help(client: Client, message: Message):
 ⇛ <code>eye</code> [Номер телефона] - Проверка номера в базе данных глаза бога<br>
 ⇛ <code>dem</code> [Текст] - Демотиватор<br>
 ⇛ <code>send</code> [Айди] - Написать человеку, зная его айди<br>
+⇛ <code>link</code> [Ссылка] [Текст] - Ссылка в тексте<br>
+⇛ <code>chance</code> [Текст] - Проверить шансы (например "Клип топ? Шансы 100%)<br>
 ⇛ Репутация<br>
 <h3>Администрация</h3>
 ⇛ <code>ban</code> - Бан<br>
@@ -342,35 +312,46 @@ async def help(client: Client, message: Message):
 ⇛ <code>pin</code> - Закрепить<br>
 ⇛ <code>unpin</code> - Открепить<br>
 <br>
-Если нужна <b>помощь</b>, пиши <b><a href="https://t.me/artur_destroyer">@artur_destroyer</a></b><br>
+Если нужна <b>помощь</b>, пиши <b><a href="https://t.me/a9_fm">@a9_fm</a></b><br>
 """
         response = telegraph.create_page(
             'Clip Userbot Помощь',
-            html_content=f'{help}'
+            html_content=f'{helpp}'
         )
         linkes = response['path']
         link = f'https://telegra.ph/{linkes}'
         await message.edit(f"""
 <b>🚑 | Меню помощи</b>
-<b>🔒 | Версия бота: {version}
+<b>🔒 | Версия бота: {version}</b>
 
 <b><a href="https://t.me/ClipUserbot">🙊 | Официальный чат поддержки пользователей CLIP.</a></b>
 <b><a href={link}>❓ | Список всех команд </a></b>
 
-<b><a href="https://t.me/artur_destroyer">⛔️ | Ссылка на создателя CLIP</a></b>
+<b><a href="https://a9fm.github.io">⛔️ | Ссылка на создателя CLIP</a></b>
 <b><a href="https://t.me/dontcryplzs">❕ | Ссылка на помощника в разработке CLIP</a></b>
 
-❤️ | Мы очень благодарны за использование нашего бота и желаем хорошего дня.
+❤️ | Мы очень благодарны за использование нашего юзербота и желаем хорошего дня.
 ❤️ | Если вы нашли баги,можете написать создателю, помощнику, либо же в чат поддержки.
 """, disable_web_page_preview=True)
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
+
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Список комманд"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
+        logging.error(erryr)
         await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
-
-
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
+        
 # Доп код на рестарт
 async def restart(message: Message, restart_type):
     if restart_type == "update":
@@ -405,64 +386,88 @@ async def restart(message: Message, restart_type):
 @app.on_message(filters.command("restart", prefix) & filters.me)
 async def restartt(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Юзербот был выключен"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Перезагрузка юзербота")
 
         await message.delete()
         await app.send_audio(message.chat.id, "stop.ogg",
                              "🕦 | Идёт <b>перезагрузка</b>, пожалуйста подождите...")
         await restart(message, restart_type="restart")
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Список комманд"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # Обновы
 @app.on_message(filters.command("update", prefix) & filters.me)
 async def updatte(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Юзербот был обновлён"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Обновление юзербота")
 
         await message.edit("🕦 | Идёт <b>обновление</b>, пожалуйста подождите")
         os.remove("bot.py")
         wget.download("https://raw.githubusercontent.com/A9FM/ClipUserbot/main/bot.py", "bot.py")
         await restart(message, restart_type="update")
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Список комманд"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # Обновы бета
 @app.on_message(filters.command("beta", prefix) & filters.me)
 async def beta(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Юзербот был обновлён [Бета]"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Обновление на Beta Версию")
 
         await message.edit("🕦 | Идёт <b>обновление на бета версию</b>, пожалуйста подождите...")
         os.remove("bot.py")
         wget.download("https://raw.githubusercontent.com/A9FM/ClipUserbot/beta/bot.py", "bot.py")
         await restart(message, restart_type="update")
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Список комманд"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # Префикс
 @app.on_message(filters.command("sp", ".") & filters.me)
@@ -485,15 +490,12 @@ async def pref(client: Client, message: Message):
     else:
         await message.edit("<b>⚠️ | Префикс не может быть пустым!</b>")
 
+
 # Репутация
 @app.on_message(filters.text & filters.incoming & filters.regex("^\-$") & filters.reply)
 async def repMinus(client: Client, message: Message):
     try:
         if message.reply_to_message.from_user.is_self:
-            now = datetime.datetime.now()
-            timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-            l0g = logi + timnow + "\n╰ Репутация была понижена\n\n"
-
             with open("rep.txt", "r+") as f:
                 data1 = f.read()
                 dat = int(data1)
@@ -507,19 +509,15 @@ async def repMinus(client: Client, message: Message):
                 f.close()
                 text = "❎ Осуждение оказано (-1)\n🌐 Текущая репутация: " + str(repo) + ""
                 await message.reply_text(text)
-            log = l0g + "❎ Осуждение оказано (-1)\n🌐 Текущая репутация: " + str(repo) + ""
-            await app.send_message("ClipUSERBOT_LOGGERbot", log)
+            logging.info("CLIP: Понижение репутации")
     except:
         pass
+
 
 @app.on_message(filters.text & filters.incoming & filters.regex("^\+$") & filters.reply)
 async def repPlus(client: Client, message: Message):
     try:
         if message.reply_to_message.from_user.is_self:
-            now = datetime.datetime.now()
-            timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-            l0g = logi + timnow + "\n╰ Репутация была повышена\n\n"
-
             with open("rep.txt", "r+") as f:
                 data = f.read()
                 data = int(data)
@@ -531,26 +529,71 @@ async def repPlus(client: Client, message: Message):
                 repo = str(rep)
                 f.write(repo)
                 f.close()
-                text = (
-                        "✅ Уважение оказано (+1)\n🌐 Текущая репутация: " + str(repo) + ""
-                )
+                text = "✅ Уважение оказано (+1)\n🌐 Текущая репутация: " + str(repo)
                 await message.reply_text(text)
-            log = (
-                    l0g + "✅ Уважение оказано (+1)\n🌐 Текущая репутация: " + str(repo) + ""
-            )
-            await app.send_message("ClipUSERBOT_LOGGERbot", log)
+            logging.info("CLIP: Повышение репутации")
     except:
         pass
+
+# Шансы
+@app.on_message(filters.command("chance", prefix) & filters.me)
+async def chance(client: Client, message: Message):
+    try:
+        logging.info("CLIP: Шанс")
+        text = message.text.split(prefix + "chance ", maxsplit=1)[1]
+        await message.edit(f"{text}\nВероятность {random.randint(1, 100)}%")
+
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
+# Ссылка в тексте
+@app.on_message(filters.command("link", prefix) & filters.me)
+async def chance(client: Client, message: Message):
+    try:
+        logging.info("CLIP: Ссылка в тексте")
+
+        link = message.command[1]
+        text = " ".join(message.command[2:])
+        await message.delete()
+        await app.send_message(message.chat.id, f'<a href="{link}">{text}</a>', disable_web_page_preview=True)
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error("CLIP: Нет заданых аргументов")
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 
 # Прогресс бар
 @app.on_message(filters.command("progressbar", prefix) & filters.me)
 async def Progressbar(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Прогресс бар"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Прогресс бар")
 
         text = message.text.split(prefix + "progressbar ", maxsplit=1)[1]
         import time
@@ -561,50 +604,82 @@ async def Progressbar(client: Client, message: Message):
             time.sleep(0.0001)
             await message.edit(
                 text + "\n[{:{}}] {:>3}%".format("█" * int(percent / (100.0 / bar_length)), bar_length, int(percent)))
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Прогресс бар"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # Написать пользотелю зная его айди
 @app.on_message(filters.command("send", prefix) & filters.me)
 async def sendtoid(client: Client, message: Message):
     try:
+        logging.info("CLIP: Отправка текста SEND")
+
         await app.unblock_user(message.command[1])
         await message.edit(f"💬 | Отправлено сообщение пользователю {message.command[1]}")
         await app.send_message(message.command[1], "Привет!")
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Отправка сообщения через айди"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # Айди
 @app.on_message(filters.command("id", prefix) & filters.me)
 async def id(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Команда id"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Получение ID")
 
         if message.reply_to_message is None:
-            await message.edit(f"👤 | Айди пользователя: {message.chat.id}")
+            await message.edit(f"👤 | Айди Чата: {message.chat.id}")
         else:
             id = f"👤 | Айди пользователя: {message.reply_to_message.from_user.id}\n📢 | Айди чата: {message.chat.id}"
             await message.edit(id)
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ команда id"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # Спам стикерами
 @app.on_message(filters.command("stspam", prefix) & filters.me)
@@ -612,7 +687,7 @@ async def spam(client: Client, message: Message):
     try:
         if not message.text.split(prefix + "stspam", maxsplit=1)[1]:
             await message.edit("<i>Команда была введена неправильно</i>")
-            return
+
         count = message.command[1]
         slep = message.command[2]
         sticker = message.command[3]
@@ -620,31 +695,36 @@ async def spam(client: Client, message: Message):
         slep = int(slep)
         await message.delete()
 
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Запущен спам"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Спам стикерами")
 
         for _ in range(count):
             await app.send_sticker(message.chat.id, sticker)
             await asyncio.sleep(slep)
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Запущен спам"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # Бомбер
 @app.on_message(filters.command("bomber", prefix) & filters.me)
 async def b0mb3r(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Запущен бомбер"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
-
+        logging.info("CLIP: Запуск Бомбера")
+        
         await message.edit("Запускаем бомбер")
         global bombe
         print("""
@@ -659,13 +739,24 @@ async def b0mb3r(client: Client, message: Message):
         bombe = subprocess.Popen(["bomber"], stdout=subprocess.PIPE)
         await asyncio.sleep(5)
         await message.edit("Бомбер запущен!\nСсылка: 127.0.0.1:8080")
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Список комманд"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 @app.on_message(filters.command("sbomber", prefix) & filters.me)
 async def sbomber(client: Client, message: Message):
@@ -677,52 +768,31 @@ async def sbomber(client: Client, message: Message):
 
         bombe.terminate()
         await message.edit("Бомбер завершил свою роботу...")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
+
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Список комманд"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
+        logging.error(erryr)
         await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
-
-
-@app.on_message(filters.command("bbomber", prefix) & filters.me)
-async def bbomber(client: Client, message: Message):
-    try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ bbomber включён"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
-        bomber = message.command[1]
-        await app.unblock_user("BomberFree_bot")
-        await app.unblock_user("couldboombot")
-        await app.unblock_user("TNT_Robot")
-        await message.edit("Запуск ботов")
-        await asyncio.sleep(2)
-        await app.send_message("couldboombot", "⚡️Запустить Spam")
-        await app.send_message("TNT_Robot", "🧨 Бомбить")
-        await asyncio.sleep(2)
-        await app.send_message("BomberFree_bot", bomber)
-        await app.send_message("couldboombot", bomber)
-        await app.send_message("TNT_Robot", bomber + " 15")
-        result = "Бомбер запущен на номер " + message.command[1]
-        await message.edit(result)
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Список комманд"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
-
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # Демотиватор
 @app.on_message(filters.command("dem", prefix) & filters.me)
 async def demotivator(client: Client, message: Message):
     await message.edit("⏳ | Создаю демотиватор, это может занять некоторое время...")
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Демотиватор"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Создание демотиватора")
 
         if message.reply_to_message.photo:
             await app.unblock_user("memegeneration_bot")
@@ -738,29 +808,51 @@ async def demotivator(client: Client, message: Message):
             os.rmdir("/downloads/")
         else:
             await message.edit("❗️ | Сделайте реплай на изображение для создания демотиватора")
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Демотиватор"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # Время
 @app.on_message(filters.command("time", prefix) & filters.me)
 async def time(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("%d.%m.%Y\nВремя %H:%M:%S")
-        timenow = "Текущая дата : " + timnow
-        await message.edit(timenow)
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Список комманд"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        logging.info("CLIP: Вывод времени")
 
+        timesnow = datetime.datetime.now().strftime('%d.%m.%Y\nВремя %H:%M:%S')
+        await message.edit(f"Текущая дата: {timesnow}")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
+
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # Читы репутация
 @app.on_message(filters.command("rep", prefix) & filters.me)
@@ -775,16 +867,21 @@ async def repNakrutka(client: Client, message: Message):
             text = "✅ | Вы успешно изменили свою репутацию.\n 🗓️ | Репутация " + str(repo) + ""
             await message.edit(text)
 
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = (
-                logi
-                + timnow
-                + "\n╰ Накручена репутация\n\n❤️ Репутация изменена ❤️\n🔝 Репутация "
-                + str(repo)
-                + " 🔝"
-        )
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Накручена репутация")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
+
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         await message.edit(
             f"❕ | Произошла ошибка!\n🗓️ | Репутация автоматически изменена на 0\n❓ | Команда для изменения репутации '.rep'")
@@ -810,26 +907,36 @@ async def spam(client: Client, message: Message):
         slep = int(slep)
         await message.delete()
 
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Запущен спам"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Спам в чат")
 
         for _ in range(count):
             await app.send_message(message.chat.id, text)
             await asyncio.sleep(slep)
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Запущен спам"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # Скриншот сайта
 @app.on_message(filters.command("webshot", prefix) & filters.me)
 async def webshot(client: Client, message: Message):
     try:
+        logging.info("CLIP: Скриншот сайта")
+
         try:
             if len(message.text.split()) < 2:
                 await message.edit("<i>Нету аргументов.</i>")
@@ -837,7 +944,7 @@ async def webshot(client: Client, message: Message):
             user_link = message.command[1]
             await message.delete()
             full_link = (
-                "https://mini.s-shot.ru/1366x768/JPEG/1024/Z100/?{}".format(
+                "https://mini.s-shot.ru/1920x1080/JPEG/1024/Z100/?{}".format(
                     user_link
                 )
             )
@@ -845,10 +952,6 @@ async def webshot(client: Client, message: Message):
                 message.chat.id, full_link, caption=f"<b>Ссылка ⟶ {user_link}</b>"
             )
 
-            now = datetime.datetime.now()
-            timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-            log = logi + timnow + "\n╰ Скриншот сайта"
-            await app.send_message("ClipUSERBOT_LOGGERbot", log)
         except:
             if len(message.text.split()) < 2:
                 await message.edit("<i>Нету аргументов.</i>")
@@ -864,24 +967,29 @@ async def webshot(client: Client, message: Message):
                 message.chat.id, full_link, caption=f"<b>Ссылка ⟶ {user_link}</b>"
             )
 
-            now = datetime.datetime.now()
-            timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-            log = logi + timnow + "\n╰ Скриншот сайта"
-            await app.send_message("ClipUSERBOT_LOGGERbot", log)
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Скриншот сайта"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # Видео с ютуб
 @app.on_message(filters.command("yt", prefix) & filters.me)
 async def yt(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Запрос на скачивания видео"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Скачивание видео")
 
         linked = message.command[1]
         await message.edit("⏳ | Скачивание видео. Это займёт некоторое время... (зависит от размера видео)")
@@ -898,21 +1006,29 @@ async def yt(client: Client, message: Message):
         )
         await message.delete()
         os.remove("video.mp4")
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Запрос на скачивания видео"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 @app.on_message(filters.command("myt", prefix) & filters.me)
 async def myt(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Запрос на скачивание звука"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Скачивание звука с видео")
 
         myth = "youtube-dl -f 140 " + message.command[1] + " -o music.m4a"
         await message.edit("⏳ | Скачивание аудиодорожки. Это займёт некоторое время (зависит от размера аудиодорожки)")
@@ -926,22 +1042,30 @@ async def myt(client: Client, message: Message):
         await message.delete()
         os.remove("music.m4a")
 
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Запрос на скачивания звука с видео"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # Призыв всех
 @app.on_message(filters.command("tagall", prefix) & filters.me)
 async def tagall(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Отмечены все участники"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Тегнуты все участники чата")
 
         slep = message.command[1]
         slep = int(slep)
@@ -958,9 +1082,9 @@ async def tagall(client: Client, message: Message):
             tag = member.user.username
             if limit <= 10:
                 if tag != None:
-                    string += f"<a href='https://t.me/{tag}'>.</a> "
+                    string += f"<a href='https://t.me/{tag}'>᠋</a> "
                 else:
-                    string += f"<a href='tg://user?id={member.user.id}'>.</a> "
+                    string += f"<a href='tg://user?id={member.user.id}'>᠋</a> "
                 limit += 1
             else:
                 text = f"{args} |{string}"
@@ -968,13 +1092,24 @@ async def tagall(client: Client, message: Message):
                 limit = 1
                 string = ""
                 await asyncio.sleep(slep)
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Отмечены все участники"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # Удалить смс
 @app.on_message(filters.command("del", prefix) & filters.me)
@@ -982,33 +1117,25 @@ async def delete_messages(client: Client, message: Message):
     try:
         if message.reply_to_message:
             try:
-                now = datetime.datetime.now()
-                timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-                log = logi + timnow + "\n╰ Удалено сообщение"
-                await app.send_message("ClipUSERBOT_LOGGERbot", log)
+                logging.info("CLIP: Удаление сообщения")
 
                 message_id = message.reply_to_message.message_id
-                await message.delete()
                 await app.delete_messages(message.chat.id, message_id)
-            except Exception as erryr:
-                now = datetime.datetime.now()
-                timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-                log = logi + timnow + "\n╰ Удаление сообщения"
-                await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-                await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+                await message.delete()
+            except FloodWait as e:
+                mylastname = me.last_name
+                await app.update_profile(last_name=f"{mylastname} | Флудвейт")
+                await asyncio.sleep(e.x)
+                await app.update_profile(last_name=f"{mylastname}")
     except:
-        pass
-
+    	pass
 
 # Пурдж
 @app.on_message(filters.command("purge", prefix) & filters.me)
 async def purge(client: Client, message: Message):
     try:
         if message.reply_to_message:
-            now = datetime.datetime.now()
-            timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-            log = logi + timnow + "\n╰ Удаление всех сообщений"
-            await app.send_message("ClipUSERBOT_LOGGERbot", log)
+            logging.info("CLIP: Удаление сообщений [purge]")
 
             r = message.reply_to_message.message_id
             m = message.message_id
@@ -1028,23 +1155,30 @@ async def purge(client: Client, message: Message):
             await app.send_message(message.chat.id, f"<b>✅ | Удалено > {v} сообщений!</b>")
         else:
             await message.edit("<i>❗️ | Не могу найти реплай.</i>")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Удаление всех сообщений"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
+        logging.error(erryr)
         await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
-
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # Команда type
 @app.on_message(filters.command("type", prefix) & filters.me)
 async def type(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Коммада type"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Команда type")
 
         orig_text = message.text.split(prefix + "type ", maxsplit=1)[1]
         text = orig_text
@@ -1059,22 +1193,30 @@ async def type(client: Client, message: Message):
             await message.edit(str(tbp))
             await asyncio.sleep(0.10)
 
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Команда type"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # Лестница
 @app.on_message(filters.command("ladder", prefix) & filters.me)
 async def ladder(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Команда ladder"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Текст лестницей")
 
         orig_text = message.text.split(prefix + "ladder ", maxsplit=1)[1]
         text = orig_text
@@ -1083,13 +1225,24 @@ async def ladder(client: Client, message: Message):
             output.append(text[:i])
         ot = "\n".join(output)
         await message.edit(ot)
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Команда ladder"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # Quotes
 @app.on_message(filters.command("q", prefix) & filters.me)
@@ -1097,10 +1250,8 @@ async def quotly(client: Client, message: Message):
     if not message.reply_to_message:
         await message.edit("Ответь на сообщение")
         return
-    now = datetime.datetime.now()
-    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-    log = logi + timnow + "\n╰ Создана цитата"
-    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+    
+    logging.info("CLIP: Цитата")
 
     await app.unblock_user("QuotLyBot")
     await message.edit("⌛️ | Создаю цитату. На это может потребоваться немного вашего драгоценного времени.")
@@ -1118,15 +1269,12 @@ async def mnotes(client: Client, message: Message):
         if not message.reply_to_message:
             await message.edit("Ответь на сообщение")
             return
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Сохранение в Notes"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        
+        logging.info("CLIP: Сохранение цитаты")
 
         await message.edit("Сохранение...")
         await app.unblock_user("ClipUSERBOT_NOTESbot")
         await message.reply_to_message.forward("ClipUSERBOT_NOTESbot")
-        await asyncio.sleep(1)
         iii = await app.get_history("ClipUSERBOT_NOTESbot")
 
         with open("notes.txt", "r+") as f:
@@ -1141,63 +1289,88 @@ async def mnotes(client: Client, message: Message):
 
         await message.edit(
             f"✅ | Сообщение сохранено!\nДля вывода сообщения напишите <code>{prefix}notes {iii[0].message_id}</code>\nПолный список <code>.mynotes</code>")
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Сохранение в Notes"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 @app.on_message(filters.command("notes", prefix) & filters.me)
 async def notes(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Команда notes"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Вывод цитаты")
+
         numbermess = int(message.command[1])
         await message.edit("Вывод сообщения...")
         await app.unblock_user("ClipUSERBOT_NOTESbot")
         await app.forward_messages(message.chat.id, "ClipUSERBOT_NOTESbot", numbermess)
         await message.delete()
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Сохранение в Notes"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 @app.on_message(filters.command("mynotes", prefix) & filters.me)
 async def notes(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Команда mynotes"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Вывод списка цитат")
 
         with open("notes.txt", "r+") as f:
             notesi = f.read()
             notesssssss = str(notesi)
             await message.edit(notesssssss)
             f.close()
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Команда mynotes"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # Ограничения
 @app.on_message(filters.command("spamban", prefix) & filters.me)
 async def spamban(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Проверка нарушений"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Проверка на ограничения")
 
         await message.edit("⏳ | Проверяю твой аккаунт на наличие спам-бана. Это может занять некоторое время...")
         await app.unblock_user("spambot")
@@ -1206,21 +1379,30 @@ async def spamban(client: Client, message: Message):
         iii = await app.get_history("spambot")
         await message.delete()
         await app.forward_messages(message.chat.id, "spamBot", iii[0].message_id)
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
+
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Проверка ограничений"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
+        logging.error(erryr)
         await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # Удаление всех с группы (200 уч лимит)
 @app.on_message(filters.command('kickall', prefix) & filters.me)
 def kickall(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Удалены участники"
-        app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Удаление всех участников")
 
         message.edit("‼️ | Начинаю удалять пользователей с чата. Это может занять некоторое время.)")
         num = 0
@@ -1240,10 +1422,7 @@ def kickall(client: Client, message: Message):
 @app.on_message(filters.command('kickall hide', prefix) & filters.me)
 def kickall(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Удалены участники"
-        app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Удаление всех участников [Скрыто]")
 
         message.delete()
         num = 0
@@ -1259,6 +1438,7 @@ def kickall(client: Client, message: Message):
         log = logi + timnow + "\n╰ Удаление всех участников (Скрытно)"
         app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
         message.edit("Ошибка!\nПодробнее: @ClipUSERBOT_LOGGERbot")
+
 
 # Инфа
 @app.on_message(filters.command("infofull", prefix) & filters.me)
@@ -1282,7 +1462,7 @@ async def info(client: Client, message: Message):
             first_name = message.from_user.first_name
             user_link = message.from_user.mention
             last_name = message.from_user.last_name
-            number = message.from_user.phone_number
+            number = "Скрыто [CLIP]"
         text = f"""
 ╭ <b>Информация</b>:
 ┃ Айди: <code>{id}</code>
@@ -1293,20 +1473,29 @@ async def info(client: Client, message: Message):
 ╰ Ссылка: {user_link}
 """
         await message.edit(text, parse_mode="HTML")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
+
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Полная информация"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
+        logging.error(erryr)
         await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 @app.on_message(filters.command("info", prefix) & filters.me)
 async def info(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Информация"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Вывод информации")
 
         if message.reply_to_message:
             username = message.reply_to_message.from_user.username
@@ -1325,27 +1514,45 @@ async def info(client: Client, message: Message):
 ┃ Юзернейм: @{username}
 ╰ Ссылка: {user_link}"""
         await message.edit(text, parse_mode="HTML")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
+
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Информация"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
+        logging.error(erryr)
         await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # Пинг
 @app.on_message(filters.command("ping", prefix) & filters.me)
 async def ping(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Пинг"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Пингование")
 
         start = perf_counter()
         await message.edit("Pong")
         end = perf_counter()
-        ping2 = end - start
-        ping = ping2 * 1000
+
+        start1 = perf_counter()
+        await message.edit("ping")
+        end1 = perf_counter()
+
+        start2 = perf_counter()
+        await message.edit("CLIP USERBOT Топ")
+        end2 = perf_counter()
+
+        pinges = ((end + end1 + end2) / 3) - ((start + start1 + start2) / 3)
+        ping = pinges * 1000
 
         if 0 <= ping <= 199:
             await message.edit(
@@ -1363,30 +1570,30 @@ async def ping(client: Client, message: Message):
             await message.edit(
                 f"<b>🏓 Понг\n📶</b> {round(ping)} мс\n⚠ Перепады связи"
             )
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Пинг"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # Сократитель ссылок
-linkToken = "6c2ac1846a1c1A2d5f88A3E5fbf0e14fcf96d7d0"
-
-async def link_short(link: str):
-    async with ClientSession(headers={"Authorization": f"API-Key {linkToken}"}) as ses:
-        async with ses.post("https://api.waa.ai/v2/links", json={"url": link}) as resp:
-            return await resp.json()
-
-
 @app.on_message(filters.command("short", prefix) & filters.me)
 async def shorten_link_command(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Сокращенна ссылка"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Сокращение ссылки")
 
         if message.reply_to_message:
             link = message.reply_to_message.text
@@ -1395,65 +1602,58 @@ async def shorten_link_command(client: Client, message: Message):
                 link = message.command[1]
             except IndexError:
                 return await message.delete()
-        output = (await link_short(link))["data"]
-        await message.edit(f'Сокращенная ссылка: {output["link"]}')
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Сокращение ссылки"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        api_key = "985cc63aaf6d4ac5f0d06bcb2d9c1d5b7a379"
+        url = link
+        api_url = f"https://cutt.ly/api/api.php?key={api_key}&short={url}"
+        data = requests.get(api_url).json()["url"]
+        if data["status"] == 7:
+            shortened_url = data["shortLink"]
+            await message.edit(f"Сокращённая ссылка: {shortened_url}")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # QR-code
-content_filter = filters.create(lambda _, __, msg: bool(get_cmd_content(msg)))
-
-
-def get_cmd_content(message: Message):
-    if message.reply_to_message:
-        content = message.reply_to_message.text
-    elif len(message.text.split(maxsplit=1)) == 2:
-        content = message.text.split(maxsplit=1)[1]
-    else:
-        content = ""
-    return content
-
-
-@app.on_message(filters.command("qr", prefix) & filters.me & content_filter)
-async def qr_cmd(client: Client, message: Message):
+@app.on_message(filters.command("qr", prefix) & filters.me)
+async def webshot(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Создан qr-code"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Скриншот сайта")
 
-        text = get_cmd_content(message)
+        if message.reply_to_message:
+            text = message.reply_to_message.text
+        elif len(message.text.split(maxsplit=1)) == 2:
+            text = message.text.split(maxsplit=1)[1]
+        text = text.replace(' ','%20')
+        QRcode = f"https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={text}"
+
         await message.delete()
-        async with ClientSession() as session:
-            async with session.head(
-                    "https://api.qrserver.com/v1/create-qr-code/", params={"data": text}
-            ) as resp:
-                await app.send_photo(
-                    chat_id=message.chat.id,
-                    photo=str(resp.url),
-                    parse_mode=None,
-                )
+        await app.send_photo(message.chat.id, QRcode)
     except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ QR-CODE"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
+        logging.error(erryr)
         await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 
 # Википедия
 @app.on_message(filters.command("wiki", prefix) & filters.me)
 async def wiki(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Поиск в википедии"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Поиск информации в Википедии")
 
         lang = message.command[1]
         user_request = " ".join(message.command[2:])
@@ -1480,22 +1680,30 @@ async def wiki(client: Client, message: Message):
 <b>Result:</b>
 <code>{exc}</code>"""
             )
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Википедия"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # Переключение раскладки
 @app.on_message(filters.command("sw", prefix) & filters.me)
 async def switch(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Команда sw"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Команда SW")
 
         text = " ".join(message.command[1:])
         ru_keys = """ёйцукенгшщзхъфывапролджэячсмитьбю.Ё"№;%:?ЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭ/ЯЧСМИТЬБЮ,"""
@@ -1514,22 +1722,30 @@ async def switch(client: Client, message: Message):
             change = str.maketrans(ru_keys + en_keys, en_keys + ru_keys)
             text = str.translate(text, change)
             await message.edit(text)
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Команда sw"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # Шифровка сообщений
 @app.on_message(filters.command("cl", prefix) & filters.me)
 async def switch(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Команда cl"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Команда CL")
 
         text = " ".join(message.command[1:])
         ru_keys = """ёйцукенгшщзхъфывапролджэячсмитьбю.Ё"№;%:?ЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭ/ЯЧСМИТЬБЮ,"""
@@ -1548,13 +1764,24 @@ async def switch(client: Client, message: Message):
             change = str.maketrans(ru_keys + en_keys, en_keys + ru_keys)
             text = str.translate(text, change)
             await message.edit(text)
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Команда cl"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # Погода
 def get_pic(city):
@@ -1577,10 +1804,7 @@ def get_pic(city):
 @app.on_message(filters.command("weather", prefix) & filters.me)
 async def weather(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Погода"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Вывод погоды")
 
         city = message.command[1]
         await message.edit("🕑 Просматриваю погоду в вашей стране")
@@ -1592,23 +1816,31 @@ async def weather(client: Client, message: Message):
             reply_to_message_id=message.message_id,
         )
         os.remove(f"{city}.png")
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Погода"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # Вечный онлайн
 @app.on_message(filters.command("online", prefix) & filters.me)
 async def online(client: Client, message: Message):
     try:
         online = True
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Вечный онлайн"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Включён вечный онлайн")
 
         await message.edit("✅ | Включён вечный онлайн")
         while online == True:
@@ -1619,40 +1851,56 @@ async def online(client: Client, message: Message):
             await asyncio.sleep(60)
         else:
             await app.block_user("mafia_statistics_bot")
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Вечный онлайн"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 @app.on_message(filters.command("offline", prefix) & filters.me)
 async def offline(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Отключение вечного онлайна"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Отключение вечного онлайна")
 
         await message.edit("❎ | Вечный онлайн отключён")
         await restart(message, restart_type="restart")
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Вечный онлайн"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # Деанон - глаз бога
 @app.on_message(filters.command("eye", prefix) & filters.me)
 async def eye(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Команда eye | Деанон"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Команда Eye | Деанон")
 
         await app.unblock_user("AnonymousEUEBot")
         number = message.command[1]
@@ -1663,22 +1911,30 @@ async def eye(client: Client, message: Message):
         iii = await app.get_history("AnonymousEUEBot")
         await message.edit("Вот что удалось найти...")
         await app.forward_messages(message.chat.id, "AnonymousEUEBot", iii[0].message_id)
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Деанон"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # Поиск музыки
 @app.on_message(filters.command("m", prefix) & filters.me)
 async def send_music(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Поиск музыки"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Поиск музыки")
 
         cmd = message.command
 
@@ -1725,6 +1981,20 @@ async def send_music(client: Client, message: Message):
             await message.edit("That didn't work out")
             await asyncio.sleep(2)
         await message.delete()
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
+
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -1740,10 +2010,8 @@ async def send_music(client: Client, message: Message):
 @app.on_message(filters.command("voice", prefix) & filters.me)
 async def voice(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Текст в голосовое"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Текст в ГС")
+
         lang_code = os.environ.get("lang_code", "ru")
         cust_lang = None
         await message.delete()
@@ -1761,13 +2029,24 @@ async def voice(client: Client, message: Message):
             await app.send_voice(message.chat.id, voice="voice.mp3")
         await app.send_chat_action(message.chat.id, action="cancel")
         os.remove("voice.mp3")
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Текст в голосовое сообщение"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # AFK
 async def afk_handler(client: Client, message: Message):
@@ -1775,10 +2054,10 @@ async def afk_handler(client: Client, message: Message):
         global start, end
         end = datetime.datetime.now().replace(microsecond=0)
         afk_time = end - start
+
         if message.from_user.is_bot is False:
-            await message.reply_text(
-                f"❕ Данный пользователь <b>AFK</b>.\n" f"<b>💬 Причина:</b> {reason}.\n" f"<b>⏳Длительность</b>: {afk_time}."
-            )
+            await message.reply_text(f"❕ Данный пользователь <b>AFK</b>.\n" f"<b>💬 Причина:</b> {reason}.\n" f"<b>⏳Длительность</b>: {afk_time}.")
+
     except NameError:
         pass
 
@@ -1786,37 +2065,41 @@ async def afk_handler(client: Client, message: Message):
 @app.on_message(filters.command("afk", prefix) & filters.me)
 async def afk(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Вход в АФК режим"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Вход в АФК")
 
         global start, end, handler, reason
         start = datetime.datetime.now().replace(microsecond=0)
-        handler = app.add_handler(
-            MessageHandler(afk_handler, (filters.private & ~filters.me))
-        )
+        handler = app.add_handler( 
+            MessageHandler(afk_handler, (filters.private & ~filters.me | filters.group & filters.mentioned & ~filters.me)))
         if len(message.text.split()) >= 2:
             reason = message.text.split(" ", maxsplit=1)[1]
         else:
             reason = "Неизвестно"
         await message.edit(f"❕ Вход в <b>AFK режим</b>.\n<b>💬 Причина:</b> {reason}.\n")
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Вход в АФК режим"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # No AFK
 @app.on_message(filters.command("unafk", prefix) & filters.me)
 async def unafk(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Выход с АФК режима"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Выход с АФК")
 
         global start, end
         end = datetime.datetime.now().replace(microsecond=0)
@@ -1826,6 +2109,20 @@ async def unafk(client: Client, message: Message):
         )
         app.remove_handler(*handler)
 
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
+
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -1839,10 +2136,7 @@ async def unafk(client: Client, message: Message):
 # Автоудаление сообщений
 @app.on_message(filters.command("hide", prefix) & filters.me)
 async def hide(client: Client, message: Message):
-    now = datetime.datetime.now()
-    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-    log = logi + timnow + "\n╰ Скрытие текста"
-    await app.send_message("ClipUSERBOT_LOGGERbot", log)
+    logging.info("CLIP: Скрытие сообщения")
 
     orig_text = message.text.split(prefix + "hide ", maxsplit=1)[1]
     await message.edit(orig_text)
@@ -1852,10 +2146,10 @@ async def hide(client: Client, message: Message):
 
 # Авточтение
 the_regex = r"^r\/([^\s\/])+"
-f = filters.chat([])
+i = filters.chat([])
 
 
-@app.on_message(f)
+@app.on_message(i)
 async def auto_read(client: Client, message: Message):
     await app.read_history(message.chat.id)
     message.continue_propagation()
@@ -1864,24 +2158,32 @@ async def auto_read(client: Client, message: Message):
 @app.on_message(filters.command("autoread", prefix) & filters.me)
 async def add_to_auto_read(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Авточтение"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+        logging.info("CLIP: Авточтение сообщений (в чате)")
 
-        if message.chat.id in f:
-            f.remove(message.chat.id)
+        if message.chat.id in i:
+            i.remove(message.chat.id)
             await message.edit("❎ | Авточтение отключено")
         else:
-            f.add(message.chat.id)
+            i.add(message.chat.id)
             await message.edit("✅ | Авточтение включено")
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Авточтение"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # Админ комманды
 def get_arg(message):
@@ -1937,59 +2239,30 @@ async def CheckAdmin(message: Message):
 @app.on_message(filters.command("leave", prefix) & filters.me)
 async def leave(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Выход с чата"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
-
         m = await message.edit("<code>Всем пока... [Пользователь вышел с чата]</code>")
         await asyncio.sleep(2)
         await app.leave_chat(chat_id=message.chat.id)
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
+
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Выход с группы"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
+        logging.error(erryr)
         await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
-
-
-@app.on_message(filters.command("ban", prefix) & filters.me)
-async def ban_hammer(client: Client, message: Message):
-    now = datetime.datetime.now()
-    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-    log = logi + timnow + "\n╰ Запрос на бан в беседе"
-    await app.send_message("ClipUSERBOT_LOGGERbot", log)
-
-    if await CheckAdmin(message) is True:
-        reply = message.reply_to_message
-        if reply:
-            user = reply.from_user["id"]
-        else:
-            user = get_arg(message)
-            if not user:
-                await message.edit("👀 | Не вижу пользователя, которого требуется **заблокировать.**")
-                return
-        try:
-            reply = message.reply_to_message
-            await app.kick_chat_member(
-                message.chat.id, reply.from_user.id, int(time.time() + 31536000)
-            )
-            await message.edit(
-                f'📢 | Пользователь <a href="tg://user?id={reply.from_user.id}">{reply.from_user.first_name}</a> был <b>заблокирован в данном чате.</b>'
-            )
-        except:
-            await message.edit("⚠️ | Я не могу **заблокировать этого пользователя.**")
-    else:
-        await message.edit("⚠️ | Права администратора **отсутствуют.**")
-
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 @app.on_message(filters.command("unban", prefix) & filters.me)
 async def unban(client: Client, message: Message):
-    now = datetime.datetime.now()
-    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-    log = logi + timnow + "\n╰ Запрос на разбан в беседе"
-    await app.send_message("ClipUSERBOT_LOGGERbot", log)
-
     if await CheckAdmin(message) is True:
         reply = message.reply_to_message
         if reply:
@@ -2026,10 +2299,6 @@ mute_permission = ChatPermissions(
 
 @app.on_message(filters.command("mute", prefix) & filters.me)
 async def mute_hammer(client: Client, message: Message):
-    now = datetime.datetime.now()
-    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-    log = logi + timnow + "\n╰ Запрос на мут"
-    await app.send_message("ClipUSERBOT_LOGGERbot", log)
 
     if await CheckAdmin(message) is True:
         reply = message.reply_to_message
@@ -2071,11 +2340,6 @@ unmute_permissions = ChatPermissions(
 
 @app.on_message(filters.command("unmute", prefix) & filters.me)
 async def unmute(client: Client, message: Message):
-    now = datetime.datetime.now()
-    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-    log = logi + timnow + "\n╰ Запрос на размут"
-    await app.send_message("ClipUSERBOT_LOGGERbot", log)
-
     if await CheckAdmin(message) is True:
         reply = message.reply_to_message
         if reply:
@@ -2101,11 +2365,6 @@ async def unmute(client: Client, message: Message):
 
 @app.on_message(filters.command("kick", prefix) & filters.me)
 async def kick_user(client: Client, message: Message):
-    now = datetime.datetime.now()
-    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-    log = logi + timnow + "\n╰ Запрос на кик участника"
-    await app.send_message("ClipUSERBOT_LOGGERbot", log)
-
     if await CheckAdmin(message) is True:
         reply = message.reply_to_message
         if reply:
@@ -2130,17 +2389,11 @@ async def kick_user(client: Client, message: Message):
 
 @app.on_message(filters.command("pin", prefix) & filters.me)
 async def pin_message(client: Client, message: Message):
-    now = datetime.datetime.now()
-    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-    log = logi + timnow + "\n╰ Запрос на закрепление сообщения"
-    await app.send_message("ClipUSERBOT_LOGGERbot", log)
-
     if message.chat.type in ["group", "supergroup"]:
         admins = await app.get_chat_members(
             message.chat.id, filter=ChatMemberFilters.ADMINISTRATORS
         )
         admin_ids = [user.user.id for user in admins]
-        me = await app.get_me()
 
         if me.id in admin_ids:
             if message.reply_to_message:
@@ -2172,32 +2425,33 @@ async def pin_message(client: Client, message: Message):
 @app.on_message(filters.command("unpin", prefix) & filters.me)
 async def pin(client: Client, message: Message):
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Сообщение закрепленно"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
-
         try:
             message_id = message.reply_to_message.message_id
             await app.unpin_chat_message(message.chat.id, message_id)
             await message.edit("✅ | Сообщение откреплено!")
         except:
             await message.edit("❕ | Не вижу сообщение,которое требуется открепить")
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Откреп"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 @app.on_message(filters.command("aprefix", prefix) & filters.me)
 async def promote(client, message: Message):
-    now = datetime.datetime.now()
-    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-    log = logi + timnow + "\n Выдан статус админа одному из участников"
-    await app.send_message("ClipUSERBOT_LOGGERbot", log)
-
     if await CheckAdmin(message) is False:
         await message.edit("**Я не админ.**")
         return
@@ -2222,6 +2476,20 @@ async def promote(client, message: Message):
         await message.edit(
             f"✅ | Пользователь {get_user.first_name} получил префикс администратора с текстом: **[{title}]**"
         )
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
+
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -2237,11 +2505,6 @@ async def promote(client, message: Message):
 
 @app.on_message(filters.command("admin", prefix) & filters.me)
 async def promote(client, message: Message):
-    now = datetime.datetime.now()
-    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-    log = logi + timnow + "\n╰ Выдана админка одному из участников"
-    await app.send_message("ClipUSERBOT_LOGGERbot", log)
-
     if await CheckAdmin(message) is False:
         await message.edit("**Я не админ.**")
         return
@@ -2278,6 +2541,20 @@ async def promote(client, message: Message):
         await message.edit(
             f"✅ | Пользователь {get_user.first_name} получил полного администратора с префиксом **[{title}]**"
         )
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
+
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -2293,11 +2570,6 @@ async def promote(client, message: Message):
 
 @app.on_message(filters.command("unadmin", prefix) & filters.me)
 async def demote(client, message: Message):
-    now = datetime.datetime.now()
-    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-    log = logi + timnow + "\n╰ Отобран статус админа одному из участников"
-    await app.send_message("ClipUSERBOT_LOGGERbot", log)
-
     if await CheckAdmin(message) is False:
         await message.edit("**Я не админ**")
         return
@@ -2325,6 +2597,20 @@ async def demote(client, message: Message):
             can_post_messages=False,
         )
         await message.edit(f"❎ | Пользователь {get_user.first_name} больше не **администратор!**")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
+
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
         now = datetime.datetime.now()
         timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
@@ -2335,11 +2621,6 @@ async def demote(client, message: Message):
 
 @app.on_message(filters.command("invite", prefix) & filters.me)
 async def invite(client: Client, message: Message):
-    now = datetime.datetime.now()
-    timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-    log = logi + timnow + "\n╰ Участник приглашён"
-    await app.send_message("ClipUSERBOT_LOGGERbot", log)
-
     reply = message.reply_to_message
     if reply:
         user = reply.from_user["id"]
@@ -2349,28 +2630,37 @@ async def invite(client: Client, message: Message):
             await message.edit("**Я должен кого то пригласить?**")
             return
     get_user = await app.get_users(user)
+    logging.info("CLIP: Приглашение пользователя в чат")
     try:
         await app.add_chat_members(message.chat.id, get_user.id)
         await message.edit(
             f"✅ | Пользователь {get_user.first_name} **приглашён в этот чат!**"
         )
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Приглашение участника"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # Команда взлома пентагона
 @app.on_message(filters.command("hack", prefix) & filters.me)
 async def hack(client: Client, message: Message):
-    try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Команда hack"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+    logging.info("CLIP: Команда Hack")
 
+    try:
         perc = 0
         while perc < 100:
             text = "👮 Взлом пентагона в процессе ..." + str(perc) + "%"
@@ -2389,23 +2679,31 @@ async def hack(client: Client, message: Message):
         await asyncio.sleep(1)
         text = "🐓Нашли файты что ты петух!"
         await message.edit(text)
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Команда hack"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # Команда Взлома жопы
 @app.on_message(filters.command("jopa", prefix) & filters.me)
 async def jopa(client: Client, message: Message):
-    try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Команда jopa"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+    logging.info("CLIP: Команда Jopa")
 
+    try:
         perc = 0
         while perc < 100:
             text = "🍑 Взлом жопы в процессе ..." + str(perc) + "%"
@@ -2433,30 +2731,38 @@ async def jopa(client: Client, message: Message):
             await message.edit(str(text))
             perc += random.randint(1, 5)
             await asyncio.sleep(0.15)
-
         text = "✅ Проданно"
         await message.edit(str(text))
         await asyncio.sleep(2)
-        rand = +random.randint(100, 5000)
+        rand = random.randint(100, 5000)
         bal = rand
         text = "💸 Вы заработали " + str(bal) + " ₽"
         await message.edit(text)
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Команда jopa"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 # Наркота
 @app.on_message(filters.command("drugs", prefix) & filters.me)
 async def drugs(client: Client, message: Message):
+    logging.info("CLIP: Команда Drugs")
     try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Команда drugs"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
         perc = 0
         result = 0
         while perc < 100:
@@ -2476,23 +2782,31 @@ async def drugs(client: Client, message: Message):
                    '😌Вы оформили вкид, Вам понравилось)😌']
         drug = random.choice(drugsss)
         await message.edit(drug)
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
+
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
     except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Команда drugs"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
+        logging.error(erryr)
         await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
-
-
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
+    
 # Оскорбление мамки
 @app.on_message(filters.command("mum", prefix) & filters.me)
 async def mum(client: Client, message: Message):
-    try:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Команда mum"
-        await app.send_message("ClipUSERBOT_LOGGERbot", log)
+    logging.info("CLIP: Команда Mum")
 
+    try:
         text = "🔍 Поиск твоей мамки начался..."
         await message.edit(str(text))
         await asyncio.sleep(3.0)
@@ -2522,12 +2836,23 @@ async def mum(client: Client, message: Message):
             await asyncio.sleep(0.75)
         text = "✅ Мамка найдена... Она в канаве"
         await message.edit(str(text))
-    except Exception as erryr:
-        now = datetime.datetime.now()
-        timnow = now.strftime("Дата %d.%m.%Y • Время %H:%M:%S")
-        log = logi + timnow + "\n╰ Команда mum"
-        await app.send_message("ClipUSERBOT_LOGGERbot", f"{log}\n\nОШИБКА!\n{erryr}")
-        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+    except FloodWait as e:
+        with open("floodwait.txt", "w+") as f:
 
+            if me.last_name == None:
+                f.write("᠋")
+            else:
+                f.write(me.last_name)
+            f.close()
+        with open("floodwait.txt", "r+") as f:
+            opisanie = f.read()
+            await app.update_profile(last_name=f"{opisanie} | Флудвейт")
+            await asyncio.sleep(e.x)
+            await app.update_profile(last_name=f"{opisanie}")
+            f.close()
+    except Exception as erryr:
+        logging.error(erryr)
+        await message.edit(f"⚠️ | Что-то пошло не так...\n💬 | Просмотреть ошибку можно здесь: @ClipUSERBOT_LOGGERbot")
+        await app.send_document("ClipUSERBOT_LOGGERbot", "clip.log")
 
 app.run()
