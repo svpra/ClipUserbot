@@ -3,126 +3,107 @@
 import os
 import sys
 import logging
+import time
  
 # Логирование
 logging.basicConfig(filename="clip.log", filemode='w', format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', level=logging.INFO)
 
 # Проверка библиотек
 try:
-    os.system("termux-wake-lock")
-    import alive_progress
     import wget
-except ModuleNotFoundError:
-    os.system("pip3 install alive_progress")
+    from rich.console import Console
+    from rich.text import Text
+    from rich.progress import Progress
+except:
+    os.system("pip3 install rich")
     os.system("pip3 install wget")
+    import wget
+    from rich.console import Console
+    from rich.text import Text
+    from rich.progress import Progress
 
-os.system("cls" if os.name == "nt" else "clear")
-import wget
-from alive_progress import alive_bar
+console = Console()
 
-with alive_bar(18, bar='classic', title='Подготовка', length=18) as bar:
-    bar()
-    try:
-        import datetime
-    except ModuleNotFoundError:
-        os.system("pip3 install datetime")
+requirements = os.path.exists("requirements.txt")
+if not requirements:
+    wget.download("https://raw.githubusercontent.com/A9FM/filesUB/main/requirements.txt", "requirements.txt", bar=False)
+else:
+    os.remove("requirements.txt")
+    wget.download("https://raw.githubusercontent.com/A9FM/filesUB/main/requirements.txt", "requirements.txt", bar=False)
 
-    bar()
-    try:
-        import wikipedia
-    except ModuleNotFoundError:
-        os.system("pip3 install wikipedia")
+with Progress() as progress:
+    requirements = progress.add_task("[red] Проверка зависимостей", total=10, refresh_per_second=1)
+    filescheck = progress.add_task("[green] Проверка файлов", total=8, refresh_per_second=1)
+    while not progress.finished:
+        try:
+            import telegraph
+            progress.update(requirements, advance=1)
+            import datetime
+            progress.update(requirements, advance=1)
+            import pyrogram
+            progress.update(requirements, advance=1)
+            import wikipedia
+            progress.update(requirements, advance=1)
+            import requests
+            progress.update(requirements, advance=1)
+            import gtts
+            progress.update(requirements, advance=1)
+            import youtube_dl
+            progress.update(requirements, advance=1)
+            import db0mb3r
+            progress.update(requirements, advance=1)
+            import configparser
+            progress.update(requirements, advance=1)
+            import wget
+            progress.update(requirements, advance=1)
+        except ModuleNotFoundError:
+            os.system("pip install -q -r requirements.txt")
+            os.system("cls" if os.name == "nt" else "clear")
+            progress.update(requirements, advance=10)
 
-    bar()
-    try:
-        import pyrogram
-    except ModuleNotFoundError:
-        os.system("pip3 install pyrogram")
+        # Файлы
+        import wget
+        progress.update(filescheck, advance=1)
+        configuration = os.path.exists("config.ini")
+        if not configuration:
+            wget.download("https://raw.githubusercontent.com/A9FM/filesUB/main/config.ini", "config.ini", bar=False)
 
-    bar()
-    try:
-        import requests
-    except ModuleNotFoundError:
-        os.system("pip3 install requests")
+        news = os.path.exists("news.txt")
+        if not news:
+            wget.download("https://raw.githubusercontent.com/A9FM/filesUB/main/news.txt", "news.txt", bar=False)
+        else:
+            os.remove("news.txt")
+            wget.download("https://raw.githubusercontent.com/A9FM/filesUB/main/news.txt", "news.txt", bar=False)
 
-    bar()
-    try:
-        import gtts
-    except ModuleNotFoundError:
-        os.system("pip3 install gtts")
+        progress.update(filescheck, advance=1)
+        stop = os.path.exists('stop.ogg')
+        if not stop:
+            wget.download('https://github.com/A9FM/filesUB/blob/main/stop.ogg?raw=true', "stop.ogg", bar=False)
 
-    bar()
-    try:
-        import colorama
-    except ModuleNotFoundError:
-        os.system("pip3 install colorama")
+        progress.update(filescheck, advance=1)
+        update = os.path.exists("update.ogg")
+        if not update:
+            wget.download("https://github.com/A9FM/filesUB/blob/main/update.ogg?raw=true", "update.ogg", bar=False)
 
-    bar()
-    try:
-        import youtube_dl
-    except ModuleNotFoundError:
-        os.system("pip3 install youtube_dl")
+        progress.update(filescheck, advance=1)
+        start = os.path.exists('start.ogg')
+        if not start:
+            wget.download('https://github.com/A9FM/filesUB/blob/main/start.ogg?raw=true', "start.ogg", bar=False)
 
-    bar()
-    try:
-        import db0mb3r
-    except ModuleNotFoundError:
-        os.system("pip3 install db0mb3r")
+        progress.update(filescheck, advance=1)
+        reput = os.path.exists('rep.txt')
+        if not reput:
+            wget.download('https://raw.githubusercontent.com/A9FM/filesUB/main/rep.txt', "rep.txt", bar=False)
 
-    bar()
-    try:
-        import configparser
-    except ModuleNotFoundError:
-        os.system("pip3 install configparser")
+        progress.update(filescheck, advance=1)
+        notes = os.path.exists('notes.txt')
+        if not notes:
+            wget.download('https://raw.githubusercontent.com/A9FM/filesUB/main/notes.txt', "notes.txt", bar=False)
 
-    bar()
-    try:
-        import telegraph
-    except ModuleNotFoundError:
-        os.system("pip3 install telegraph")
-
-    bar()
-    configuration = os.path.exists("config.ini")
-    if not configuration:
-        wget.download("https://raw.githubusercontent.com/A9FM/filesUB/main/config.ini", "config.ini", bar=False)
-
-    bar()
-    news = os.path.exists("news.txt")
-    if news:
-        os.remove("news.txt")
-        wget.download("https://raw.githubusercontent.com/A9FM/filesUB/main/news.txt", "news.txt", bar=False)
-    else:
-        wget.download("https://raw.githubusercontent.com/A9FM/filesUB/main/news.txt", "news.txt", bar=False)
-
-    bar()
-    stop = os.path.exists('stop.ogg')
-    if not stop:
-        wget.download('https://github.com/A9FM/filesUB/blob/main/stop.ogg?raw=true', "stop.ogg", bar=False)
-
-    bar()
-    update = os.path.exists("update.ogg")
-    if not update:
-        wget.download("https://github.com/A9FM/filesUB/blob/main/update.ogg?raw=true", "update.ogg", bar=False)
-
-    bar()
-    start = os.path.exists('start.ogg')
-    if not start:
-        wget.download('https://github.com/A9FM/filesUB/blob/main/start.ogg?raw=true', "start.ogg", bar=False)
-
-    bar()
-    reput = os.path.exists('rep.txt')
-    if not reput:
-        wget.download('https://raw.githubusercontent.com/A9FM/filesUB/main/rep.txt', "rep.txt", bar=False)
-
-    bar()
-    reput = os.path.exists('notes.txt')
-    if not reput:
-        wget.download('https://raw.githubusercontent.com/A9FM/filesUB/main/notes.txt', "notes.txt", bar=False)
-
-    bar()
-    floodw = os.path.exists('floodwait.txt')
-    if not floodw:
-        wget.download('https://raw.githubusercontent.com/A9FM/filesUB/main/floodwait.txt', "floodwait.txt", bar=False)
+        progress.update(filescheck, advance=1)
+        floodw = os.path.exists('floodwait.txt')
+        if not floodw:
+            wget.download('https://raw.githubusercontent.com/A9FM/filesUB/main/floodwait.txt', "floodwait.txt", bar=False)
 
 from pyrogram import Client, filters
 from pyrogram.types import Message, ChatPermissions
@@ -141,10 +122,9 @@ import subprocess
 import configparser
 import shlex
 from gtts import gTTS
-import colorama
 from telegraph import Telegraph
 
-version = "1.9.5"  # Версия юзербота
+version = "1.9.6 (Бета)"  # Версия юзербота
 
 # Префиксы доп
 config_path = os.path.join(sys.path[0], "config.ini")
@@ -200,23 +180,23 @@ with app:
 os.system("cls" if os.name == "nt" else "clear")
 
 with open("news.txt", "r+", encoding="utf-8") as f:
-    data = f.read()
-    news = str(data)
-    print(f"""\033[32m
+    news = str(f.read())
+    console.print(f"""[green]
 ╔═╗╦  ╦╔═╗
 ║  ║  ║╠═╝
-╚═╝╩═╝╩╩
-\033[91m╦ ╦╔═╗╔═╗╦═╗╔╗ ╔═╗╔╦╗
-\033[91m║ ║╚═╗║╣ ╠╦╝╠╩╗║ ║ ║ 
-\033[91m╚═╝╚═╝╚═╝╩╚═╚═╝╚═╝ ╩
-\033[91mTelegram Канал - @ArturDestroyerBot
+╚═╝╩═╝╩╩  [/green] [red]
+╦ ╦╔═╗╔═╗╦═╗╔╗ ╔═╗╔╦╗
+║ ║╚═╗║╣ ╠╦╝╠╩╗║ ║ ║ 
+╚═╝╚═╝╚═╝╩╚═╚═╝╚═╝ ╩
+Telegram Канал - @ArturDestroyerBot
 Помощь - @Artur_destroyer
-Версия {version}
-\033[32m
-[√] {me.first_name} - ({me.id}) Запущен
+Версия {version} [/red]
 
-\033[34mСобытия:
-{news}
+
+[green] [√] {me.first_name} - ({me.id}) Запущен [/green]
+
+[blue] События:
+{news} [/blue]
 """)
     f.close()
 
