@@ -32,6 +32,7 @@ else:
     wget.download("https://raw.githubusercontent.com/A9FM/filesUB/main/requirements.txt", "requirements.txt", bar=False)
 
 with Progress() as progress:
+    os.system("cls" if os.name == "nt" else "clear")
     requirements = progress.add_task("[red] Проверка зависимостей", total=10, refresh_per_second=1)
     filescheck = progress.add_task("[green] Проверка файлов", total=8, refresh_per_second=1)
     while not progress.finished:
@@ -57,9 +58,10 @@ with Progress() as progress:
             import wget
             progress.update(requirements, advance=1)
         except ModuleNotFoundError:
+            progress.update(requirements, advance=1)
             os.system("pip install -q -r requirements.txt")
             os.system("cls" if os.name == "nt" else "clear")
-            progress.update(requirements, advance=10)
+            progress.update(requirements, advance=9)
 
         # Файлы
         import wget
@@ -177,12 +179,10 @@ with app:
         except:
             pass
 
-os.system("cls" if os.name == "nt" else "clear")
-
 with open("news.txt", "r+", encoding="utf-8") as f:
     news = str(f.read())
-    console.print(f"""[green]
-╔═╗╦  ╦╔═╗
+    os.system("cls" if os.name == "nt" else "clear")
+    console.print(f"""[green]╔═╗╦  ╦╔═╗
 ║  ║  ║╠═╝
 ╚═╝╩═╝╩╩  [/green] [red]
 ╦ ╦╔═╗╔═╗╦═╗╔╗ ╔═╗╔╦╗
@@ -192,10 +192,9 @@ Telegram Канал - @ArturDestroyerBot
 Помощь - @Artur_destroyer
 Версия {version} [/red]
 
+[green][√] {me.first_name} - ({me.id}) Запущен[/green]
 
-[green] [√] {me.first_name} - ({me.id}) Запущен [/green]
-
-[blue] События:
+[blue]События:
 {news} [/blue]
 """)
     f.close()
