@@ -8,7 +8,7 @@
 <a href="https://t.me/ClipUserbot"><img src="https://github.com/A9FM/filesUB/blob/main/chat.png"></a>
 
 ## Создатель
-* [Telegram](https://t.me/artur_destroyer)
+* [Telegram](https://t.me/a9_fm)
 * [Github](https://github.com/A9FM)
 
 [![Хероку](https://www.herokucdn.com/deploy/button.svg)](https://dashboard.heroku.com/new?template=https://github.com/A9FM/ClipUserbotHeroku)
