@@ -11,12 +11,7 @@
 * [Telegram](https://t.me/a9_fm)
 * [Github](https://github.com/A9FM)
 
-[![Хероку](https://www.herokucdn.com/deploy/button.svg)](https://dashboard.heroku.com/new?template=https://github.com/A9FM/ClipUserbotHeroku)
-
-### Самый простой юзербот в мире
-
 ## Для Termux (Android)
-
 ### Установка
 ```
 pkg update -y ; pkg install python -y ; pkg install git -y ; curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py ; python3 get-pip.py ; rm get-pip.py ; git clone https://github.com/A9FM/ClipUserbot ; cd ClipUserbot ; termux-wake-lock ; python3 bot.py
@@ -30,7 +25,6 @@ cd ClipUserbot ; termux-wake-lock ; python bot.py
 ---
 
 ## Для Windows
-
 ### Установка
 
 Для установки скачиваем с оффициального сайта [Python](https://www.python.org/downloads/) самой новой версии (текущая 3.9.6)
@@ -52,7 +46,6 @@ cd ClipUserbot ; termux-wake-lock ; python bot.py
 ---
 
 ## Для Linux [Debian/Kali]
-
 ### Установка
 Открываем терминал, и устанавливаем Python и также Git
 ```
